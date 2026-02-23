@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rangschik de Vraag — Vraagstelling Leren</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === Innovatieradar Stylebook tokens === */
+    :root {
+      --primary:        #1e3a5f;
+      --primary-light:  #2d5a8e;
+      --primary-50:     #f0f5fa;
+      --primary-100:    #dae5f2;
+      --border:         #e2e8f0;
+      --surface:        #f8fafc;
+      --success:        #16a34a;
+      --success-light:  #dcfce7;
+      --warning:        #d97706;
+      --warning-light:  #fef3c7;
+      --danger:         #dc2626;
+      --danger-light:   #fee2e2;
+      --text-secondary: #64748b;
+      --text-dark:      #1e293b;
+    }
+
+    .sortable-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      user-select: none;
+      position: relative;
+      transition: border-color 150ms, box-shadow 150ms;
+    }
+
+    .sortable-card.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+
+    .sortable-card.incorrect {
+      border-color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    .drag-handle {
+      font-size: 1.4rem;
+      color: #94a3b8;
+      cursor: grab;
+      line-height: 1;
+      padding-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .card-body { flex: 1; }
+
+    .position-badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.8rem;
+      background: var(--primary);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .card-check {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.8rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .card-check.pass { color: var(--success); }
+    .card-check.fail { color: var(--danger); }
+
+    .success-banner {
+      background: var(--success-light);
+      border: 1px solid var(--success);
+      color: var(--success);
+      padding: 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .partial-banner {
+      background: var(--warning-light);
+      border: 1px solid var(--warning);
+      color: var(--warning);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .fail-banner {
+      background: var(--danger-light);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .reveal-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .reveal-card .step-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .reveal-card .niveau-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .reveal-card .verbeterd-badge {
+      display: inline-block;
+      background: var(--success-light);
+      color: var(--success);
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .reveal-card .uitleg {
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+    }
+
+    .reveal-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    .confetti-burst {
+      font-size: 2rem;
+      text-align: center;
+      animation: confettiFade 2s ease-out forwards;
+    }
+
+    @keyframes confettiFade {
+      0%   { opacity: 1; transform: scale(1); }
+      50%  { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.7; transform: scale(1); }
+    }
+
+    .check-result {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .check-result .icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .check-pass { color: var(--success); }
+    .check-fail { color: var(--danger); }
+
+    .attempts-counter {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <span class="navbar-brand">Vraagstelling Leren</span>
+    <ul class="navbar-links">
+      <li><a href="index.html" class="nav-link">&larr; Overzicht</a></li>
+      <li><a href="vraagkliniek.html" class="nav-link">De Vraagkliniek</a></li>
+      <li><a href="vraagbouwer.html" class="nav-link">De Vraagbouwer</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+
+    <!-- ===== Phase 1: Sorteren ===== -->
+    <section id="phase-sort">
+      <div class="page-header" style="border-radius:8px; margin-bottom:1.5rem;">
+        <h1>&#x1F0CF; Rangschik de Vraag</h1>
+        <p>Sleep de vier versies van dezelfde onderzoeksvraag in volgorde:<br>
+          <strong>1 = slechtste</strong>, <strong>4 = beste</strong>. Klik daarna op 'Controleer volgorde'.</p>
+      </div>
+
+      <p class="text-muted mb-2" style="text-align:center;">
+        Alle vier vragen gaan over dezelfde casus: de employee journey bij HR.
+      </p>
+
+      <div id="sort-list"></div>
+
+      <div id="feedback-area" class="mt-2 mb-2"></div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem;" class="mt-2">
+        <button id="btn-check" class="btn btn-primary" onclick="checkVolgorde()">Controleer volgorde</button>
+        <span id="attempts-display" class="attempts-counter"></span>
+        <button id="btn-reveal" class="btn btn-secondary hidden" onclick="toonOnthulling()">Toon uitleg</button>
+      </div>
+    </section>
+
+    <!-- ===== Phase 2: Onthulling ===== -->
+    <section id="phase-reveal" class="hidden mt-4">
+      <h2 class="mb-2">De juiste volgorde — stap voor stap</h2>
+      <div id="reveal-cards"></div>
+      <div class="text-center mt-3">
+        <a href="vraagkliniek.html" class="btn btn-primary">Ga verder: De Vraagkliniek &rarr;</a>
+      </div>
+    </section>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="data.js"></script>
+  <script>
+    // --- State ---
+    let attempts = 0;
+    const MAX_ATTEMPTS = 2;
+    const SHUFFLE_ORDER = [1, 3, 0, 2];
+    const NIVEAUS = [
+      { sterren: 1, label: "Onvoldoende" },
+      { sterren: 2, label: "Zwak" },
+      { sterren: 3, label: "Goed (eindig)" },
+      { sterren: 5, label: "Excellent (oneindig)" }
+    ];
+
+    // --- Helpers ---
+    function renderStars(filled, total) {
+      total = total || 5;
+      return "\u2605".repeat(filled) + "\u2606".repeat(total - filled);
+    }
+
+    function updatePositionBadges() {
+      var cards = document.querySelectorAll("#sort-list .sortable-card");
+      cards.forEach(function(card, i) {
+        card.querySelector(".position-badge").textContent = i + 1;
+      });
+    }
+
+    // --- Phase 1: Build sort list ---
+    function buildSortList() {
+      var container = document.getElementById("sort-list");
+      container.innerHTML = "";
+      SHUFFLE_ORDER.forEach(function(stapIdx) {
+        var stap = CASUS_STAPPEN[stapIdx];
+        var card = document.createElement("div");
+        card.className = "sortable-card";
+        card.setAttribute("data-stap", stap.id);
+        card.innerHTML =
+          '<span class="drag-handle">\u2807</span>' +
+          '<div class="card-body">' +
+            '<p style="margin:0;padding-right:2.5rem;">' + stap.vraag + '</p>' +
+          '</div>' +
+          '<span class="position-badge"></span>';
+        container.appendChild(card);
+      });
+      updatePositionBadges();
+
+      Sortable.create(container, {
+        handle: ".drag-handle",
+        ghostClass: "sortable-ghost",
+        animation: 200,
+        onEnd: function() {
+          updatePositionBadges();
+          // Clear previous feedback marks
+          document.querySelectorAll("#sort-list .card-check").forEach(function(el) { el.remove(); });
+          document.querySelectorAll("#sort-list .sortable-card").forEach(function(el) {
+            el.classList.remove("correct", "incorrect");
+          });
+          document.getElementById("feedback-area").innerHTML = "";
+        }
+      });
+    }
+
+    // --- Phase 1: Check order ---
+    function checkVolgorde() {
+      var cards = document.querySelectorAll("#sort-list .sortable-card");
+      var currentOrder = [];
+      cards.forEach(function(c) { currentOrder.push(parseInt(c.getAttribute("data-stap"))); });
+
+      var correctCount = 0;
+      cards.forEach(function(card, i) {
+        // Remove previous marks
+        var old = card.querySelector(".card-check");
+        if (old) old.remove();
+        card.classList.remove("correct", "incorrect");
+
+        var isCorrect = currentOrder[i] === i;
+        if (isCorrect) correctCount++;
+
+        var mark = document.createElement("span");
+        mark.className = "card-check " + (isCorrect ? "pass" : "fail");
+        mark.textContent = isCorrect ? "\u2713" : "\u2717";
+        card.appendChild(mark);
+        card.classList.add(isCorrect ? "correct" : "incorrect");
+      });
+
+      attempts++;
+      var fb = document.getElementById("feedback-area");
+
+      if (correctCount === 4) {
+        fb.innerHTML =
+          '<div class="success-banner">\u2713 Uitstekend! Je hebt de juiste volgorde gevonden.</div>' +
+          '<div class="confetti-burst mt-1">\uD83C\uDF89 \uD83C\uDF8A \u2728 \uD83C\uDF1F \uD83C\uDF89</div>';
+        document.getElementById("btn-check").classList.add("hidden");
+        document.getElementById("btn-reveal").classList.remove("hidden");
+        document.getElementById("btn-reveal").textContent = "Bekijk de uitleg";
+      } else if (attempts >= MAX_ATTEMPTS) {
+        fb.innerHTML =
+          '<div class="fail-banner">Bekijk de juiste volgorde hieronder &rarr;</div>';
+        document.getElementById("btn-check").classList.add("hidden");
+        toonOnthulling();
+      } else {
+        fb.innerHTML =
+          '<div class="partial-banner">' + correctCount + ' van 4 staan op de juiste plek. Probeer het nog eens!</div>';
+      }
+
+      document.getElementById("attempts-display").textContent = "Poging " + attempts + " van " + MAX_ATTEMPTS;
+    }
+
+    // --- Phase 2: Reveal ---
+    function toonOnthulling() {
+      var revealSection = document.getElementById("phase-reveal");
+      revealSection.classList.remove("hidden");
+      document.getElementById("btn-reveal").classList.add("hidden");
+
+      var container = document.getElementById("reveal-cards");
+      container.innerHTML = "";
+
+      CASUS_STAPPEN.forEach(function(stap, i) {
+        var niveau = NIVEAUS[i];
+        var stars = renderStars(niveau.sterren);
+
+        var html = '<div class="reveal-card">';
+        html += '<span class="step-badge">Stap ' + stap.id + '</span>';
+        html += ' <span class="star-rating">' + stars + '</span>';
+        html += '<div class="niveau-label">' + niveau.label + '</div>';
+
+        if (stap.verbeterd) {
+          html += '<span class="verbeterd-badge">\u2714 ' + stap.verbeterd + '</span>';
+        }
+
+        html += '<div class="question-box">' + stap.vraag + '</div>';
+        html += '<p class="uitleg">' + stap.uitleg + '</p>';
+        html += '</div>';
+
+        if (i < CASUS_STAPPEN.length - 1) {
+          html += '<hr class="reveal-divider">';
+        }
+
+        container.innerHTML += html;
+      });
+
+      // Smooth scroll to reveal
+      revealSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // --- Init ---
+    buildSortList();
+
+  </script>
+</body>
+</html>

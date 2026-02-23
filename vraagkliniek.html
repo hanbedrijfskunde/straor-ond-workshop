@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De Vraagkliniek — Vraagstelling Leren</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === Innovatieradar Stylebook tokens === */
+    :root {
+      --primary:        #1e3a5f;
+      --primary-light:  #2d5a8e;
+      --primary-50:     #f0f5fa;
+      --primary-100:    #dae5f2;
+      --border:         #e2e8f0;
+      --surface:        #f8fafc;
+      --success:        #16a34a;
+      --success-light:  #dcfce7;
+      --warning:        #d97706;
+      --warning-light:  #fef3c7;
+      --danger:         #dc2626;
+      --danger-light:   #fee2e2;
+      --text-secondary: #64748b;
+      --text-dark:      #1e293b;
+    }
+
+    .highlight-actor {
+      background-color: #fef9c3;
+      padding: 2px 4px;
+      border-radius: 3px;
+      transition: background-color 0.5s ease;
+    }
+    .highlight-verb {
+      background-color: var(--primary-100);
+      padding: 2px 4px;
+      border-radius: 3px;
+      transition: background-color 0.5s ease;
+    }
+    .highlight-value {
+      background-color: var(--success-light);
+      padding: 2px 4px;
+      border-radius: 3px;
+      transition: background-color 0.5s ease;
+    }
+    .question-box {
+      background: var(--primary-50);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      transition: all 0.3s ease;
+      color: var(--text-dark);
+    }
+    .progress-bar-container {
+      background: var(--border);
+      border-radius: 10px;
+      height: 8px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      background: var(--primary);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    .dimensions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .dimension-tile {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: border-color 150ms, box-shadow 150ms;
+      text-align: center;
+    }
+    .dimension-tile .tile-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .dimension-tile .tile-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+    .status-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .status-dot.rood   { background-color: var(--danger); }
+    .status-dot.oranje { background-color: var(--warning); }
+    .status-dot.groen  { background-color: var(--success); }
+    .tile-status {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .completion-panel {
+      background: #fff;
+      border: 2px solid var(--success);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      animation: fadeIn 0.3s ease;
+    }
+    .completion-header {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: var(--text-dark);
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 600px) {
+      .comparison { grid-template-columns: 1fr; }
+    }
+    .comparison-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .comparison-card h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .comparison-card .vraag-text {
+      font-style: italic;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+    .sterren {
+      color: #f59e0b;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+    .badge-rood  { background: var(--danger-light);  color: var(--danger); }
+    .badge-groen { background: var(--success-light); color: var(--success); }
+    .verbeteringen-lijst {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.5rem 0;
+    }
+    .verbeteringen-lijst li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+    }
+    .verbeteringen-lijst li::before {
+      content: "\2714";
+      color: var(--success);
+      position: absolute;
+      left: 0;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms;
+      font-family: 'Inter', inherit;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn-secondary:hover { background: var(--primary-50); }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+    .btn-success:hover { background: #15803d; }
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .page-header p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .stap-label {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+    .stap-indicator {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .completion-actions {
+      text-align: center;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .navbar {
+      background: var(--primary);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .navbar-brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+    }
+    .navbar-nav {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 1rem;
+    }
+    .navbar-nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 150ms;
+    }
+    .navbar-nav a:hover, .navbar-nav a.active {
+      color: #fff;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* Keuze-panel */
+    .keuze-panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      animation: fadeIn 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .keuze-prompt {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text-dark);
+    }
+    .keuze-dimensie-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    .keuze-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) {
+      .keuze-grid { grid-template-columns: 1fr; }
+    }
+    .keuze-optie {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 150ms, box-shadow 150ms, transform 150ms;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .keuze-optie:hover:not(.gekozen-juist):not(.gekozen-fout) {
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(30, 58, 95, 0.1);
+      transform: translateY(-1px);
+    }
+    .keuze-optie.gekozen-juist {
+      border-color: var(--success);
+      background: var(--success-light);
+      cursor: default;
+    }
+    .keuze-optie.gekozen-fout {
+      border-color: var(--danger);
+      background: var(--danger-light);
+      cursor: default;
+    }
+    .keuze-optie.niet-gekozen {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .keuze-optie-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .keuze-feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      animation: fadeIn 0.3s ease;
+    }
+    .keuze-feedback.juist {
+      background: var(--success-light);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+    .keuze-feedback.fout {
+      background: var(--danger-light);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+    .keuze-volgende {
+      margin-top: 1rem;
+      text-align: right;
+    }
+    .dimension-tile.actief {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="index.html">Vraagstelling Leren</a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">&larr; Overzicht</a></li>
+      <li><a href="rangschik.html">Rangschik de Vraag</a></li>
+      <li><a href="vraagkliniek.html" class="active">De Vraagkliniek</a></li>
+      <li><a href="vraagbouwer.html">De Vraagbouwer</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- 1. Page header -->
+    <div class="page-header">
+      <h1>De Vraagkliniek</h1>
+      <p>Jij bent de dokter. Diagnostiseer de vier dimensies van de vraag en herstel ze een voor een.</p>
+    </div>
+
+    <!-- 2. Current question panel -->
+    <div id="vraag-panel">
+      <div>
+        <span class="stap-label">Huidige vraag:</span>
+        <span class="stap-indicator" id="stap-indicator"></span>
+      </div>
+      <div class="question-box" id="vraag-tekst"></div>
+      <div class="progress-label" id="progress-label">0 van 4 iteraties</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- 3. Dimensions grid (read-only status) -->
+    <div class="dimensions-grid" id="dimensions-grid"></div>
+
+    <!-- 4. Keuze panel (dynamically inserted) -->
+    <div id="keuze-container"></div>
+
+    <!-- 5. Completion panel (dynamically inserted) -->
+    <div id="completion-container"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    // ===== State =====
+    var huidigeCasus = CASUSSEN[1]; // Sales & Operations casus
+    var huidigeStap = 0;
+    var keuzeGemaakt = false;
+
+    // ===== Helpers =====
+    function renderSterren(n) {
+      return '\u2605'.repeat(n) + '\u2606'.repeat(5 - n);
+    }
+
+    function laatsteStap() {
+      return huidigeCasus.stappen.length - 1;
+    }
+
+    // Shuffle array (Fisher-Yates) — returns new array
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+      }
+      return a;
+    }
+
+    // ===== Dimension status =====
+    function getDimensieStatus(dimensie) {
+      var stappen = huidigeCasus.dimensies[dimensie].stappen;
+      var huidige = stappen[0];
+      for (var i = stappen.length - 1; i >= 0; i--) {
+        if (huidigeStap >= stappen[i].stap) {
+          huidige = stappen[i];
+          break;
+        }
+      }
+      return huidige;
+    }
+
+    // ===== Highlighted question (generic) =====
+    function buildVraagHTML() {
+      var vraag = huidigeCasus.stappen[huidigeStap].vraag;
+      var highlights = huidigeCasus.highlights[huidigeStap];
+      if (!highlights || highlights.length === 0) return vraag;
+
+      var html = vraag;
+      for (var i = 0; i < highlights.length; i++) {
+        var h = highlights[i];
+        html = html.replace(h.tekst, '<span class="' + h.klasse + '">' + h.tekst + '</span>');
+      }
+      return html;
+    }
+
+    // ===== Update displays =====
+    function updateVraagDisplay() {
+      document.getElementById('vraag-tekst').innerHTML = buildVraagHTML();
+      document.getElementById('stap-indicator').textContent = '(Iteratie ' + huidigeStap + ' van ' + laatsteStap() + ')';
+    }
+
+    function updateProgress() {
+      document.getElementById('progress-bar').style.width = (huidigeStap / laatsteStap() * 100) + '%';
+      document.getElementById('progress-label').textContent = huidigeStap + ' van ' + laatsteStap() + ' iteraties';
+    }
+
+    // ===== Dimension tiles (read-only status indicators) =====
+    function buildDimensionTiles() {
+      var grid = document.getElementById('dimensions-grid');
+      grid.innerHTML = '';
+      var dims = ['actor', 'werkwoord', 'waardecreatie', 'eindigOneindig'];
+
+      // Find which dimension is active for the next step
+      var volgendeStap = huidigeCasus.stappen[huidigeStap + 1];
+      var actiefDim = volgendeStap && volgendeStap.keuzes ? volgendeStap.keuzes.dimensie : null;
+
+      dims.forEach(function(dim) {
+        var info = huidigeCasus.dimensies[dim];
+        var status = getDimensieStatus(dim);
+        var tile = document.createElement('div');
+        tile.className = 'dimension-tile' + (dim === actiefDim && !keuzeGemaakt ? ' actief' : '');
+        tile.innerHTML =
+          '<div class="tile-icon">' + info.icon + '</div>' +
+          '<div class="tile-label">' + info.label + '</div>' +
+          '<div class="tile-status">' +
+            '<span class="status-dot ' + status.status + '"></span>' +
+            '<span>' + status.tekst + '</span>' +
+          '</div>';
+        grid.appendChild(tile);
+      });
+    }
+
+    // ===== Keuze panel =====
+    function toonKeuze() {
+      var volgendeStapNr = huidigeStap + 1;
+      if (volgendeStapNr > laatsteStap()) return;
+
+      var stap = huidigeCasus.stappen[volgendeStapNr];
+      if (!stap.keuzes) return;
+
+      var keuzes = stap.keuzes;
+      var dimInfo = huidigeCasus.dimensies[keuzes.dimensie];
+      var container = document.getElementById('keuze-container');
+
+      // Shuffle opties but remember original indices
+      var optiesMetIdx = keuzes.opties.map(function(o, i) { return { optie: o, origIdx: i }; });
+      optiesMetIdx = shuffle(optiesMetIdx);
+
+      var html = '<div class="keuze-panel">';
+      html += '<div class="keuze-prompt">' + keuzes.prompt + '</div>';
+      html += '<div class="keuze-dimensie-label">' + dimInfo.icon + ' Dimensie: ' + dimInfo.label + '</div>';
+      html += '<div class="keuze-grid">';
+
+      optiesMetIdx.forEach(function(item, displayIdx) {
+        var label = String.fromCharCode(65 + displayIdx); // A, B
+        html += '<div class="keuze-optie" id="keuze-' + displayIdx + '" onclick="kiesOptie(' + volgendeStapNr + ', ' + displayIdx + ', ' + item.origIdx + ')">';
+        html += '<div class="keuze-optie-label">Optie ' + label + '</div>';
+        html += '"' + item.optie.tekst + '"';
+        html += '</div>';
+      });
+
+      html += '</div>';
+      html += '<div id="keuze-feedback-area"></div>';
+      html += '</div>';
+
+      container.innerHTML = html;
+
+      // Store shuffled order for later reference
+      container._optiesMetIdx = optiesMetIdx;
+
+      keuzeGemaakt = false;
+    }
+
+    function kiesOptie(stapNr, displayIdx, origIdx) {
+      if (keuzeGemaakt) return;
+      keuzeGemaakt = true;
+
+      var stap = huidigeCasus.stappen[stapNr];
+      var container = document.getElementById('keuze-container');
+      var optiesMetIdx = container._optiesMetIdx;
+      var gekozenOptie = stap.keuzes.opties[origIdx];
+      var isJuist = gekozenOptie.juist;
+
+      // Mark all options
+      optiesMetIdx.forEach(function(item, i) {
+        var el = document.getElementById('keuze-' + i);
+        el.style.cursor = 'default';
+        el.onclick = null;
+        if (i === displayIdx) {
+          el.className = 'keuze-optie ' + (isJuist ? 'gekozen-juist' : 'gekozen-fout');
+        } else {
+          if (!isJuist && item.optie.juist) {
+            // Highlight the correct one when wrong was chosen
+            el.className = 'keuze-optie gekozen-juist';
+          } else {
+            el.className = 'keuze-optie niet-gekozen';
+          }
+        }
+      });
+
+      // Show feedback
+      var feedbackArea = document.getElementById('keuze-feedback-area');
+      var feedbackHtml = '<div class="keuze-feedback ' + (isJuist ? 'juist' : 'fout') + '">';
+      feedbackHtml += '<strong>' + (isJuist ? '\u2713 Juist!' : '\u2717 Niet helemaal...') + '</strong> ';
+      feedbackHtml += gekozenOptie.feedback;
+      if (!isJuist) {
+        // Also show the correct answer's feedback
+        var juisteOptie = stap.keuzes.opties.filter(function(o) { return o.juist; })[0];
+        feedbackHtml += '<br><br><strong>Het juiste antwoord:</strong> ' + juisteOptie.feedback;
+      }
+      feedbackHtml += '</div>';
+      feedbackHtml += '<div class="keuze-volgende">';
+      feedbackHtml += '<button class="btn btn-primary" onclick="volgendeIteratie(' + stapNr + ')">Volgende &rarr;</button>';
+      feedbackHtml += '</div>';
+      feedbackArea.innerHTML = feedbackHtml;
+    }
+
+    function volgendeIteratie(stapNr) {
+      huidigeStap = stapNr;
+      updateVraagDisplay();
+      buildDimensionTiles();
+      updateProgress();
+
+      if (huidigeStap === laatsteStap()) {
+        document.getElementById('keuze-container').innerHTML = '';
+        checkVoltooid();
+      } else {
+        toonKeuze();
+      }
+    }
+
+    // ===== Completion panel =====
+    function checkVoltooid() {
+      var stappen = huidigeCasus.stappen;
+      var eerste = stappen[0];
+      var laatste = stappen[stappen.length - 1];
+
+      var container = document.getElementById('completion-container');
+
+      var html = '<div class="completion-panel">';
+      html += '<div class="completion-header">Diagnose voltooid! De vraag is hersteld.</div>';
+
+      html += '<div class="comparison">';
+      html += '<div class="comparison-card">';
+      html += '<h4>Beginvraag (Startpunt)</h4>';
+      html += '<div class="vraag-text">"' + eerste.vraag + '"</div>';
+      html += '<div class="sterren">' + renderSterren(eerste.sterren) + '</div>';
+      html += '<span class="badge badge-rood">' + eerste.niveau + '</span>';
+      html += '</div>';
+      html += '<div class="comparison-card">';
+      html += '<h4>Verbeterde vraag (Iteratie ' + laatsteStap() + ')</h4>';
+      html += '<div class="vraag-text">"' + laatste.vraag + '"</div>';
+      html += '<div class="sterren">' + renderSterren(laatste.sterren) + '</div>';
+      html += '<span class="badge badge-groen">' + laatste.niveau + '</span>';
+      html += '</div>';
+      html += '</div>';
+
+      html += '<h4>Wat werd verbeterd?</h4>';
+      html += '<ul class="verbeteringen-lijst">';
+      huidigeCasus.verbeteringen.forEach(function(v) {
+        html += '<li>' + v + '</li>';
+      });
+      html += '</ul>';
+
+      html += '<div class="completion-actions">';
+      html += '<a href="vraagbouwer.html" class="btn btn-success">Ga verder: De Vraagbouwer &rarr;</a>';
+      html += '<button class="btn btn-secondary" onclick="opnieuwBeginnen()">Opnieuw beginnen</button>';
+      html += '</div>';
+
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // ===== Reset =====
+    function opnieuwBeginnen() {
+      huidigeStap = 0;
+      keuzeGemaakt = false;
+      document.getElementById('keuze-container').innerHTML = '';
+      document.getElementById('completion-container').innerHTML = '';
+      updateVraagDisplay();
+      buildDimensionTiles();
+      updateProgress();
+      toonKeuze();
+    }
+
+    // ===== Initialize =====
+    updateVraagDisplay();
+    buildDimensionTiles();
+    updateProgress();
+    toonKeuze();
+  </script>
+</body>
+</html>
