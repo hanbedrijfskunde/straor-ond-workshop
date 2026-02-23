@@ -203,6 +203,225 @@
         <a href="https://businessdatasolutions.github.io/emergent-strategy-tutorial/" target="_blank" rel="noopener">Van Klassieke naar Organische Strategie</a>
         voor de achtergrond bij dit onderscheid.
       </p>
+
+      <!-- ===== Trigger button for slide modal ===== -->
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <button onclick="document.getElementById('slide-modal').style.display='flex'; slideGoTo(0);" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+          Bekijk voorbeeld: de vraag achter de vraag &rarr;
+        </button>
+      </div>
+
+      <!-- ===== Modal Slidedeck: De vraag achter de vraag ===== -->
+      <style>
+        .slide-modal-backdrop {
+          display: none; position: fixed; inset: 0; z-index: 9999;
+          background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+        }
+        /* 16:9 slide frame */
+        .slide-frame {
+          position: relative; width: 92vw; max-width: 1400px;
+          aspect-ratio: 16 / 9; background: #fff; border-radius: 12px;
+          overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+          display: flex; flex-direction: column;
+        }
+        .slide-header {
+          background: var(--primary); color: #fff;
+          padding: 0.8rem 2rem; display: flex;
+          justify-content: space-between; align-items: center; flex-shrink: 0;
+        }
+        .slide-header .slide-title { font-weight: 700; font-size: 1.15rem; }
+        .slide-close {
+          background: none; border: none; color: #fff;
+          font-size: 1.8rem; cursor: pointer; line-height: 1; padding: 0 0.25rem; opacity: 0.8;
+        }
+        .slide-close:hover { opacity: 1; }
+        .slide-body {
+          flex: 1; position: relative; overflow: hidden;
+        }
+        .slide {
+          position: absolute; inset: 0;
+          padding: 5% 8%; display: flex; flex-direction: column; justify-content: center;
+        }
+        .slide[data-active="false"] { display: none; }
+        .slide h2 {
+          color: var(--primary); font-size: 2.2rem; font-weight: 700;
+          margin-bottom: 1.5rem; letter-spacing: -0.02em;
+        }
+        .slide .slide-quote {
+          background: var(--primary-50); border-left: 6px solid var(--warning);
+          padding: 1.5rem 2rem; border-radius: 0 12px 12px 0;
+          font-size: 1.6rem; line-height: 1.6; color: var(--text-dark); font-style: italic;
+        }
+        .slide .slide-quote-green {
+          background: var(--success-light); border-left: 6px solid var(--success);
+          padding: 1.5rem 2rem; border-radius: 0 12px 12px 0;
+          font-size: 1.6rem; line-height: 1.6; color: var(--text-dark); font-style: italic;
+        }
+        .slide .slide-subtitle {
+          color: var(--text-secondary); font-size: 1.2rem; line-height: 1.7; margin-top: 1.5rem;
+        }
+        .slide .slide-subtitle strong { color: var(--text-dark); }
+        .slide .dig-card {
+          background: var(--primary-50); padding: 1.5rem 2rem; border-radius: 12px;
+        }
+        .slide .dig-card strong {
+          color: var(--primary); font-size: 1.3rem; display: block; margin-bottom: 0.4rem;
+        }
+        .slide .dig-card p {
+          color: var(--text-dark); font-size: 1.15rem; line-height: 1.6;
+        }
+        .slide-nav {
+          background: var(--surface); border-top: 1px solid var(--border);
+          padding: 0.75rem 2rem; display: flex;
+          justify-content: space-between; align-items: center; flex-shrink: 0;
+        }
+        .slide-nav .slide-dots { display: flex; gap: 0.6rem; }
+        .slide-nav .slide-dot {
+          width: 12px; height: 12px; border-radius: 50%; cursor: pointer;
+          transition: background 150ms, transform 150ms;
+        }
+        .slide-nav .slide-dot:hover { transform: scale(1.2); }
+        /* Table slide */
+        .slide-table { width: 100%; border-collapse: collapse; color: var(--text-dark); font-size: 1.15rem; line-height: 1.6; }
+        .slide-table th {
+          text-align: left; padding: 0.75rem 1.25rem; font-size: 1rem;
+          text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;
+        }
+        .slide-table td { padding: 1rem 1.25rem; vertical-align: top; }
+        .slide-table tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+      </style>
+
+      <div id="slide-modal" class="slide-modal-backdrop">
+        <div class="slide-frame">
+
+          <!-- Header -->
+          <div class="slide-header">
+            <span class="slide-title">De vraag achter de vraag</span>
+            <div style="display:flex; align-items:center; gap:1.25rem;">
+              <span id="slide-counter" style="font-size:0.9rem; opacity:0.8;">1 / 4</span>
+              <button class="slide-close" onclick="document.getElementById('slide-modal').style.display='none';" title="Sluiten">&times;</button>
+            </div>
+          </div>
+
+          <!-- Slides -->
+          <div class="slide-body">
+
+            <!-- Slide 1 -->
+            <div class="slide" data-slide="0" data-active="true">
+              <h2>Oppervlakkige opdracht (eindig)</h2>
+              <div class="slide-quote">
+                &ldquo;Ontwerp een onboardingprogramma voor nieuwe medewerkers bij bedrijf&nbsp;X.&rdquo;
+              </div>
+              <p class="slide-subtitle">Dit klinkt concreet, maar levert alleen een document op. Wat is de <strong>vraag achter de vraag</strong>?</p>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide" data-slide="1" data-active="false">
+              <h2>Graaf dieper met twee vragen</h2>
+              <div style="display:flex; flex-direction:column; gap:1.25rem;">
+                <div class="dig-card">
+                  <strong>Wie ervaart het probleem eigenlijk?</strong>
+                  <p>Niet HR, maar de <em>teamleiders</em> die steeds opnieuw mensen inwerken terwijl het verloop hoog is.</p>
+                </div>
+                <div class="dig-card">
+                  <strong>Wat verandert er concreet in de organisatie?</strong>
+                  <p>Niet alleen een programma, maar ook hoe teams samenwerken, kennis delen en nieuwe collega&rsquo;s integreren.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide" data-slide="2" data-active="false">
+              <h2>Diepere onderzoeksvraag (oneindig)</h2>
+              <div class="slide-quote-green">
+                &ldquo;Hoe kan organisatie X haar teamleiders ondersteunen bij het cre&euml;ren van een leeromgeving waarin nieuwe medewerkers sneller zelfstandig bijdragen?&rdquo;
+              </div>
+              <p class="slide-subtitle">
+                Dit verschuift van <strong>ontwerp</strong> (een document of schema opleveren)
+                naar <strong>inrichting</strong> (het geheel van aanpassingen aan structuren, systemen, cultuur en menselijk kapitaal).
+              </p>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide" data-slide="3" data-active="false">
+              <h2>Meer voorbeelden</h2>
+              <table class="slide-table">
+                <thead>
+                  <tr>
+                    <th style="border-bottom:3px solid var(--warning); color:var(--warning); width:45%;">Oppervlakkig (ontwerp)</th>
+                    <th style="border-bottom:3px solid var(--success); color:var(--success);">Dieper (inrichting)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>&ldquo;Maak een communicatieplan voor de verandering&rdquo;</td>
+                    <td>&ldquo;Hoe kan afdeling Y betrokkenheid cre&euml;ren bij medewerkers die weerstand ervaren tegen de digitalisering?&rdquo;</td>
+                  </tr>
+                  <tr>
+                    <td>&ldquo;Schrijf een adviesrapport over duurzaamheid&rdquo;</td>
+                    <td>&ldquo;Welke organisatorische condities stellen MKB-bedrijf Z in staat om duurzame praktijken structureel te verankeren in de dagelijkse operatie?&rdquo;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          <!-- Navigation -->
+          <div class="slide-nav">
+            <button id="slide-prev" onclick="slideNav(-1)" class="btn btn-secondary" style="padding:0.5rem 1.25rem;" disabled>&larr; Vorige</button>
+            <div id="slide-dots" class="slide-dots"></div>
+            <button id="slide-next" onclick="slideNav(1)" class="btn btn-primary" style="padding:0.5rem 1.25rem;">Volgende &rarr;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        var current = 0;
+        var slides = document.querySelectorAll('#slide-modal .slide');
+        var total = slides.length;
+        var dotsEl = document.getElementById('slide-dots');
+
+        for (var i = 0; i < total; i++) {
+          var dot = document.createElement('span');
+          dot.className = 'slide-dot';
+          dot.dataset.index = i;
+          dot.addEventListener('click', function() { slideGoTo(parseInt(this.dataset.index)); });
+          dotsEl.appendChild(dot);
+        }
+
+        window.slideGoTo = function(n) {
+          slides[current].setAttribute('data-active', 'false');
+          current = n;
+          slides[current].setAttribute('data-active', 'true');
+          document.getElementById('slide-counter').textContent = (current + 1) + ' / ' + total;
+          document.getElementById('slide-prev').disabled = current === 0;
+          document.getElementById('slide-next').disabled = current === total - 1;
+          var dots = dotsEl.children;
+          for (var i = 0; i < dots.length; i++) {
+            dots[i].style.background = i === current ? 'var(--primary)' : 'var(--border)';
+          }
+        };
+
+        window.slideNav = function(dir) { slideGoTo(current + dir); };
+
+        document.getElementById('slide-modal').addEventListener('click', function(e) {
+          if (e.target === this) this.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', function(e) {
+          var modal = document.getElementById('slide-modal');
+          if (modal.style.display === 'none' || modal.style.display === '') return;
+          if (e.key === 'Escape') modal.style.display = 'none';
+          if (e.key === 'ArrowRight' && current < total - 1) slideGoTo(current + 1);
+          if (e.key === 'ArrowLeft' && current > 0) slideGoTo(current - 1);
+        });
+
+        slideGoTo(0);
+      })();
+      </script>
     </div>
 
     <!-- ===== Poster template ===== -->
