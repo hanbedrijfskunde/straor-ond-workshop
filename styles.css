@@ -47,6 +47,12 @@ a {
   text-decoration: none;
 }
 
+.card a[href]:not(.btn) {
+  color: var(--primary-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ===== Navbar ===== */
 .navbar {
   background: var(--primary);
