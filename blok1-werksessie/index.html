@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blok 1 — Werksessie | Workshop Onderzoekend Vermogen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ===== Accordeon tegels ===== */
+    .bron-tegel {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      transition: border-color 150ms, box-shadow 150ms, transform 150ms;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .bron-tegel:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-1px);
+    }
+    .bron-tegel.actief {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(30,58,95,0.12);
+    }
+    .bron-tegel-icon {
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .bron-tegel-info { flex: 1; }
+    .bron-tegel-info h4 {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .bron-tegel-info p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .bron-tegel-chevron {
+      font-size: 1.2rem;
+      color: var(--text-tertiary);
+      transition: transform 200ms;
+      flex-shrink: 0;
+    }
+    .bron-tegel.actief .bron-tegel-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* ===== Werkvorm panelen ===== */
+    .werkvorm-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0 0 12px 12px;
+      padding: 1.5rem;
+      margin-top: -4px;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== Formulier layout ===== */
+    .scan-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .scan-form label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+    .scan-form .hint {
+      font-weight: 400;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    .scan-form textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: 'Inter', inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+      min-height: 60px;
+      color: var(--text-primary);
+      transition: border-color 150ms, box-shadow 150ms;
+    }
+    .scan-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+    .scan-form input[type="text"] {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: 'Inter', inherit;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      transition: border-color 150ms, box-shadow 150ms;
+    }
+    .scan-form input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+
+    /* ===== Live preview ===== */
+    .preview-box {
+      background: var(--primary-50);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-dark);
+    }
+    .preview-box .placeholder {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+    .preview-box strong {
+      color: var(--primary);
+    }
+    .preview-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ===== Artikel-structuur diagram ===== */
+    .artikel-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .artikel-row {
+      display: flex;
+      align-items: stretch;
+      min-height: 80px;
+      margin: 6px 0;
+    }
+    .artikel-shape {
+      width: 140px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .artikel-shape-label {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-align: center;
+      line-height: 1.3;
+      z-index: 1;
+      position: relative;
+      padding: 0.5rem 0.25rem;
+    }
+    .artikel-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+    }
+    .artikel-content ul {
+      list-style: disc;
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .artikel-label {
+      width: 100px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+    .artikel-bracket {
+      border: 2px solid var(--warning);
+      border-radius: 8px;
+      padding: 0.75rem 0.5rem;
+      margin: 1rem 0;
+    }
+    .artikel-shape svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .shape-titel { fill: #152a45; }
+    .shape-introductie { fill: #1e3a5f; }
+    .shape-methode { fill: #2d5a8e; }
+    .shape-resultaten { fill: #2d5a8e; }
+    .shape-discussie { fill: #1e3a5f; }
+    .shape-referenties { fill: #152a45; }
+
+    /* ===== Tool cards ===== */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .tool-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 150ms, transform 150ms;
+      display: block;
+    }
+    .tool-card:hover {
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-1px);
+    }
+    .tool-card h5 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+    .tool-card .tool-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      background: var(--success-light);
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+    .tool-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ===== Prompt suggesties ===== */
+    .prompt-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: border-color 150ms;
+      margin-bottom: 0.5rem;
+    }
+    .prompt-card:hover {
+      border-color: var(--primary);
+    }
+    .prompt-card code {
+      flex: 1;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      font-family: 'Inter', inherit;
+      line-height: 1.5;
+    }
+    .prompt-card .copy-icon {
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ===== Video embed ===== */
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .video-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .artikel-shape { width: 100px; }
+      .artikel-shape-label { font-size: 0.7rem; }
+      .artikel-label { width: 70px; font-size: 0.85rem; }
+      .artikel-content { padding: 0.5rem 0.75rem; }
+      .artikel-content ul { font-size: 0.8rem; }
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
+    <ul class="navbar-links">
+      <li><a href="../index.html" class="nav-link">&larr; Workshop</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Blok 1 — Werksessie: bronverkenning</h1>
+    <p>30 minuten | Pijler: houding + kennis | Autonomy + Mastery</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Purpose card -->
+    <div class="card mt-3 mb-3" style="border-left: 4px solid var(--warning); background: linear-gradient(135deg, #fffbeb 0%, #fff 100%);">
+      <h3 class="mb-1" style="color: var(--primary);">Waarom bronverkenning?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Een goede onderzoeksvraag staat niet op zichzelf. Door bronnen te raadplegen ontdek je
+        welke perspectieven al bestaan, welke begrippen je kunt gebruiken en hoe je je vraag
+        scherper kunt formuleren. Bronverkenning maakt het verschil tussen een
+        oppervlakkige en een onderbouwde vraag.
+      </p>
+    </div>
+
+    <!-- Instructie card -->
+    <div class="card mb-3" style="border-left: 4px solid var(--primary);">
+      <h3 class="mb-1" style="color: var(--primary);">Wat doe je in dit blok?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        <strong>Korte check:</strong> Is je hoofdvraag uit blok 0 af? Wil je nog iets kleins aanpassen?
+        Neem een paar minuten om je vraag af te ronden.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.75rem;">
+        <strong>Bronverkenning:</strong> elk teamlid gaat <em>individueel</em> op zoek.
+        Raadpleeg minimaal twee van de drie brontypen hieronder. Klik op een tegel om de werkvorm te openen.
+      </p>
+    </div>
+
+    <!-- ========== ACCORDEON TEGELS ========== -->
+
+    <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 800px; margin: 0 auto;" class="mb-3">
+
+      <!-- TEGEL 1: Literatuur -->
+      <div class="bron-tegel" onclick="togglePanel('lit')">
+        <span class="bron-tegel-icon">&#x1F4DA;</span>
+        <div class="bron-tegel-info">
+          <h4>Literatuur — Bron-scanner</h4>
+          <p>Scan een wetenschappelijk artikel en noteer de kernpunten.</p>
+        </div>
+        <span class="bron-tegel-chevron">&#x25BC;</span>
+      </div>
+
+      <div id="panel-lit" class="werkvorm-panel hidden">
+        <h3 class="mb-1" style="color: var(--primary);">Opbouw van een wetenschappelijk artikel</h3>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">Gebruik dit diagram als gids bij het scannen van je bron.</p>
+
+        <div class="artikel-flow mb-3">
+          <!-- Titel / Auteur / Abstract -->
+          <div class="artikel-row">
+            <div class="artikel-shape">
+              <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+                <ellipse cx="70" cy="35" rx="65" ry="32" class="shape-titel"/>
+              </svg>
+              <span class="artikel-shape-label">Titel, Auteur,<br>Abstract,<br>Trefwoorden</span>
+            </div>
+            <div class="artikel-content">
+              <ul><li>Beschrijvende informatie waarmee je een artikel kunt vinden en beoordelen</li></ul>
+            </div>
+            <div class="artikel-label"></div>
+          </div>
+
+          <!-- Bracket: core sections -->
+          <div class="artikel-bracket">
+            <!-- Introductie -->
+            <div class="artikel-row">
+              <div class="artikel-shape">
+                <svg viewBox="0 0 140 90" preserveAspectRatio="none">
+                  <polygon points="0,0 140,0 120,90 20,90" class="shape-introductie"/>
+                </svg>
+                <span class="artikel-shape-label">Introductie</span>
+              </div>
+              <div class="artikel-content">
+                <ul>
+                  <li>Wat is de context van dit onderzoek?</li>
+                  <li>Hoe past het bij ander onderzoek?</li>
+                  <li><em>Wat is de onderzoeksvraag?</em></li>
+                </ul>
+              </div>
+              <div class="artikel-label">WAAROM?</div>
+            </div>
+
+            <!-- Methode -->
+            <div class="artikel-row">
+              <div class="artikel-shape">
+                <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+                  <rect x="20" y="0" width="100" height="70" class="shape-methode"/>
+                </svg>
+                <span class="artikel-shape-label">Methode</span>
+              </div>
+              <div class="artikel-content">
+                <ul><li>Wat heeft de onderzoeker gedaan om de vraag te beantwoorden?</li></ul>
+              </div>
+              <div class="artikel-label">HOE?</div>
+            </div>
+
+            <!-- Resultaten -->
+            <div class="artikel-row">
+              <div class="artikel-shape">
+                <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+                  <rect x="20" y="0" width="100" height="70" class="shape-resultaten"/>
+                </svg>
+                <span class="artikel-shape-label">Resultaten</span>
+              </div>
+              <div class="artikel-content">
+                <ul>
+                  <li>Wat was het antwoord op de vraag?</li>
+                  <li>Vaak gepresenteerd in tabellen en figuren</li>
+                </ul>
+              </div>
+              <div class="artikel-label">WAT?</div>
+            </div>
+
+            <!-- Discussie / Conclusie -->
+            <div class="artikel-row">
+              <div class="artikel-shape">
+                <svg viewBox="0 0 140 90" preserveAspectRatio="none">
+                  <polygon points="20,0 120,0 140,90 0,90" class="shape-discussie"/>
+                </svg>
+                <span class="artikel-shape-label">Discussie /<br>Conclusie</span>
+              </div>
+              <div class="artikel-content">
+                <ul>
+                  <li>Wat is de betekenis van dit onderzoek?</li>
+                  <li>Hoe past het in wat al bekend is over het onderwerp?</li>
+                </ul>
+              </div>
+              <div class="artikel-label">EN DAN?</div>
+            </div>
+          </div><!-- /bracket -->
+
+          <!-- Referenties -->
+          <div class="artikel-row">
+            <div class="artikel-shape">
+              <svg viewBox="0 0 140 60" preserveAspectRatio="none">
+                <ellipse cx="70" cy="30" rx="60" ry="28" class="shape-referenties"/>
+              </svg>
+              <span class="artikel-shape-label">Referenties</span>
+            </div>
+            <div class="artikel-content">
+              <ul><li>Bronnen die de auteur heeft gebruikt — jouw startpunt voor verder zoeken</li></ul>
+            </div>
+            <div class="artikel-label"></div>
+          </div>
+        </div>
+
+        <div class="scan-form" data-form="lit">
+          <div>
+            <label>Titel + Auteur</label>
+            <input type="text" class="scan-input" data-field="titel" placeholder="Bijv. 'Van Dam, R. (2023). Employee engagement in SMEs'">
+          </div>
+          <div>
+            <label>Kernvraag <span class="hint">— Wat onderzochten de auteurs?</span></label>
+            <textarea class="scan-input" data-field="kernvraag" rows="2" placeholder="Welke onderzoeksvraag staat centraal in dit artikel?"></textarea>
+          </div>
+          <div>
+            <label>Methode <span class="hint">— Wat deden ze?</span></label>
+            <textarea class="scan-input" data-field="methode" rows="2" placeholder="Bijv. interviews, enquête, casestudy..."></textarea>
+          </div>
+          <div>
+            <label>Belangrijkste conclusie</label>
+            <textarea class="scan-input" data-field="conclusie" rows="2" placeholder="Wat is het hoofdresultaat?"></textarea>
+          </div>
+          <div>
+            <label>Link met jouw vraag <span class="hint">— Welk inzicht helpt bij jouw onderzoeksvraag?</span></label>
+            <textarea class="scan-input" data-field="link" rows="2" placeholder="Hoe beïnvloedt dit artikel je eigen vraag?"></textarea>
+          </div>
+
+          <div class="preview-box" id="preview-lit">
+            <span class="placeholder">Vul de velden hierboven in om je bronnotitie te zien...</span>
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-primary" onclick="kopieer('lit')">Kopieer bronnotitie</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEGEL 2: Video -->
+      <div class="bron-tegel" onclick="togglePanel('video')">
+        <span class="bron-tegel-icon">&#x1F3AC;</span>
+        <div class="bron-tegel-info">
+          <h4>Video — Perspectief-vinder</h4>
+          <p>Bekijk een expert talk en noteer welke nieuwe invalshoek het biedt.</p>
+        </div>
+        <span class="bron-tegel-chevron">&#x25BC;</span>
+      </div>
+
+      <div id="panel-video" class="werkvorm-panel hidden">
+        <div class="scan-form" data-form="video">
+          <div>
+            <label>Video-titel + bron</label>
+            <input type="text" class="scan-input" data-field="titel" placeholder="Bijv. 'Simon Sinek — Start With Why (TED Talk)'">
+          </div>
+          <div>
+            <label>Kernboodschap <span class="hint">— Wat is het hoofdargument van de spreker?</span></label>
+            <textarea class="scan-input" data-field="kernboodschap" rows="2" placeholder="Wat is de centrale these?"></textarea>
+          </div>
+          <div>
+            <label>Nieuw perspectief <span class="hint">— Welke invalshoek had je zelf niet bedacht?</span></label>
+            <textarea class="scan-input" data-field="perspectief" rows="2" placeholder="Welk idee was nieuw voor je?"></textarea>
+          </div>
+          <div>
+            <label>Link met jouw vraag <span class="hint">— Hoe beïnvloedt dit je onderzoeksvraag?</span></label>
+            <textarea class="scan-input" data-field="link" rows="2" placeholder="Welk inzicht neem je mee?"></textarea>
+          </div>
+
+          <div class="preview-box" id="preview-video">
+            <span class="placeholder">Vul de velden hierboven in om je bronnotitie te zien...</span>
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-primary" onclick="kopieer('video')">Kopieer bronnotitie</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEGEL 3: AI -->
+      <div class="bron-tegel" onclick="togglePanel('ai')">
+        <span class="bron-tegel-icon">&#x1F916;</span>
+        <div class="bron-tegel-info">
+          <h4>AI — AI-verkenner</h4>
+          <p>Gebruik AI-tools voor onderzoek om je vraag te verkennen en bronnen te synthetiseren.</p>
+        </div>
+        <span class="bron-tegel-chevron">&#x25BC;</span>
+      </div>
+
+      <div id="panel-ai" class="werkvorm-panel hidden">
+
+        <!-- Onderdeel A: Tools -->
+        <h4 class="mb-1" style="color: var(--primary);">AI-tools voor onderzoek</h4>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+          Generieke chatbots zijn een startpunt, maar gespecialiseerde tools leveren brongerichte output.
+          Bekijk de video voor een overzicht, of probeer een van de tools hieronder.
+        </p>
+
+        <div class="video-embed mb-2">
+          <iframe src="https://www.youtube.com/embed/fJO-q7tV0zE?si=cPuyIkljqAqeM3EM"
+                  title="Best AI Tools for Research 2026"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+
+        <div class="tool-grid mb-3">
+          <a href="https://notebooklm.google/" target="_blank" rel="noopener" class="tool-card">
+            <span class="tool-badge">Gratis</span>
+            <h5>NotebookLM</h5>
+            <p>Upload artikelen of video's, stel vragen, genereer mindmaps. Ideaal om bronnen te synthetiseren.</p>
+          </a>
+          <a href="https://consensus.app/" target="_blank" rel="noopener" class="tool-card">
+            <h5>Consensus</h5>
+            <p>Stel een onderzoeksvraag, krijg antwoorden onderbouwd met wetenschappelijke papers.</p>
+          </a>
+          <a href="https://www.researchrabbit.ai/" target="_blank" rel="noopener" class="tool-card">
+            <span class="tool-badge">Gratis</span>
+            <h5>Research Rabbit</h5>
+            <p>Upload één paper, ontdek verwante artikelen via een visueel netwerk. Goed aan het begin van een project.</p>
+          </a>
+        </div>
+
+        <!-- Onderdeel B: Slimmer prompten -->
+        <div class="card mb-2" style="border-left: 4px solid var(--warning); background: linear-gradient(135deg, #fffbeb 0%, #fff 100%);">
+          <h4 class="mb-1" style="color: var(--primary);">Slimmer prompten met context</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+            Een AI-tool geeft betere antwoorden als je <strong>context</strong> meegeeft. Upload een artikel
+            of plak een video-transcript in je prompt. Vraag de AI om te synthetiseren: wat zijn de rode draden,
+            welke tegenstrijdigheden zie je, welke nieuwe invalshoeken komen hieruit?
+          </p>
+        </div>
+
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Klik om een voorbeeldprompt te kopiëren:</p>
+
+        <div class="prompt-card" onclick="kopieerPrompt(this)">
+          <code>Hier is een artikel over [onderwerp]. Welke kernconcepten en variabelen zijn relevant voor mijn onderzoeksvraag: [vraag]?</code>
+          <span class="copy-icon">&#x1F4CB;</span>
+        </div>
+        <div class="prompt-card" onclick="kopieerPrompt(this)">
+          <code>Ik heb twee bronnen bijgevoegd. Wat zijn de overeenkomsten en verschillen in hun conclusies? Welke nieuwe inzichten levert de synthese op?</code>
+          <span class="copy-icon">&#x1F4CB;</span>
+        </div>
+        <div class="prompt-card" onclick="kopieerPrompt(this)" style="margin-bottom: 1.5rem;">
+          <code>Op basis van deze context: welke onderzoeksmethoden passen het best bij mijn vraag?</code>
+          <span class="copy-icon">&#x1F4CB;</span>
+        </div>
+
+        <!-- Onderdeel C: Vastleggen -->
+        <h4 class="mb-1" style="color: var(--primary);">Vastleggen</h4>
+
+        <div class="scan-form" data-form="ai">
+          <div>
+            <label>Gebruikte tool + prompt</label>
+            <textarea class="scan-input" data-field="prompt" rows="3" placeholder="Bijv. 'NotebookLM — ik heb twee artikelen geüpload en gevraagd naar de rode draad'"></textarea>
+          </div>
+          <div>
+            <label>Bruikbaarste inzicht</label>
+            <textarea class="scan-input" data-field="inzicht" rows="2" placeholder="Wat was het meest waardevolle dat de AI opleverde?"></textarea>
+          </div>
+          <div>
+            <label>Kritische noot <span class="hint">— Wat klopt mogelijk niet of mist context?</span></label>
+            <textarea class="scan-input" data-field="kritisch" rows="2" placeholder="Waar moet je voorzichtig mee zijn?"></textarea>
+          </div>
+          <div>
+            <label>Link met jouw vraag <span class="hint">— Hoe beïnvloedt dit je onderzoeksvraag?</span></label>
+            <textarea class="scan-input" data-field="link" rows="2" placeholder="Welk inzicht neem je mee?"></textarea>
+          </div>
+
+          <div class="preview-box" id="preview-ai">
+            <span class="placeholder">Vul de velden hierboven in om je bronnotitie te zien...</span>
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-primary" onclick="kopieer('ai')">Kopieer bronnotitie</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /accordeon container -->
+
+    <!-- Oplevering -->
+    <div class="card mb-3" style="border-left: 4px solid var(--success);">
+      <h3 class="mb-1" style="color: var(--primary);">Wat lever je op?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Concept-hoofdvraag per duo + bronnennotitie (welke bronnen geraadpleegd, welke inzichten
+        hebben de vraag beïnvloed).
+      </p>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../blok0/" class="btn btn-secondary">&larr; Blok 0: Check-in</a>
+      <a href="../blok2-peer-toetsing/" class="btn btn-primary">Blok 2: Peer-toetsing &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    STRA0R23-OND &mdash; Workshop Onderzoekend Vermogen | HBO Bedrijfskunde
+  </footer>
+
+  <script>
+    // ===== Accordeon toggle =====
+    function togglePanel(id) {
+      var panels = ['lit', 'video', 'ai'];
+      var targetPanel = document.getElementById('panel-' + id);
+      var isOpen = !targetPanel.classList.contains('hidden');
+
+      // Sluit alle panelen en deactiveer alle tegels
+      panels.forEach(function(p) {
+        document.getElementById('panel-' + p).classList.add('hidden');
+      });
+      document.querySelectorAll('.bron-tegel').forEach(function(t) {
+        t.classList.remove('actief');
+      });
+
+      // Open het aangeklikte paneel (tenzij het al open was)
+      if (!isOpen) {
+        targetPanel.classList.remove('hidden');
+        // Markeer de bijbehorende tegel als actief
+        var tegels = document.querySelectorAll('.bron-tegel');
+        var index = panels.indexOf(id);
+        if (index >= 0 && tegels[index]) {
+          tegels[index].classList.add('actief');
+        }
+        // Smooth scroll naar het paneel
+        setTimeout(function() {
+          targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+    }
+
+    // ===== Live preview =====
+    var PREVIEW_CONFIG = {
+      lit: {
+        fields: ['titel', 'kernvraag', 'methode', 'conclusie', 'link'],
+        labels: ['Bron', 'Kernvraag', 'Methode', 'Conclusie', 'Link met mijn vraag'],
+        empty: 'Vul de velden hierboven in om je bronnotitie te zien...'
+      },
+      video: {
+        fields: ['titel', 'kernboodschap', 'perspectief', 'link'],
+        labels: ['Bron', 'Kernboodschap', 'Nieuw perspectief', 'Link met mijn vraag'],
+        empty: 'Vul de velden hierboven in om je bronnotitie te zien...'
+      },
+      ai: {
+        fields: ['prompt', 'inzicht', 'kritisch', 'link'],
+        labels: ['Tool + prompt', 'Bruikbaarste inzicht', 'Kritische noot', 'Link met mijn vraag'],
+        empty: 'Vul de velden hierboven in om je bronnotitie te zien...'
+      }
+    };
+
+    function getFormValues(formId) {
+      var form = document.querySelector('[data-form="' + formId + '"]');
+      var values = {};
+      form.querySelectorAll('.scan-input').forEach(function(el) {
+        values[el.dataset.field] = el.value.trim();
+      });
+      return values;
+    }
+
+    function updatePreview(formId) {
+      var config = PREVIEW_CONFIG[formId];
+      var values = getFormValues(formId);
+      var box = document.getElementById('preview-' + formId);
+      var hasContent = false;
+
+      var html = '';
+      config.fields.forEach(function(field, i) {
+        var val = values[field];
+        if (val) {
+          hasContent = true;
+          html += '<strong>' + config.labels[i] + ':</strong> ' + escapeHtml(val) + '<br>';
+        } else {
+          html += '<strong>' + config.labels[i] + ':</strong> <span class="placeholder">[nog invullen]</span><br>';
+        }
+      });
+
+      if (!hasContent) {
+        box.innerHTML = '<span class="placeholder">' + config.empty + '</span>';
+      } else {
+        box.innerHTML = html;
+      }
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Attach input listeners to all forms
+    document.querySelectorAll('.scan-input').forEach(function(input) {
+      var formId = input.closest('[data-form]').dataset.form;
+      var timeout;
+      input.addEventListener('input', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+          updatePreview(formId);
+        }, 200);
+      });
+    });
+
+    // ===== Kopieer bronnotitie =====
+    function kopieer(formId) {
+      var config = PREVIEW_CONFIG[formId];
+      var values = getFormValues(formId);
+      var lines = [];
+
+      config.fields.forEach(function(field, i) {
+        var val = values[field];
+        if (val) {
+          lines.push(config.labels[i] + ': ' + val);
+        }
+      });
+
+      var text = lines.join('\n');
+      if (!text) {
+        text = '(Nog geen velden ingevuld)';
+      }
+
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target;
+        var original = btn.textContent;
+        btn.textContent = 'Gekopieerd!';
+        setTimeout(function() {
+          btn.textContent = original;
+        }, 2000);
+      });
+    }
+
+    // ===== Kopieer prompt =====
+    function kopieerPrompt(card) {
+      var text = card.querySelector('code').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        var icon = card.querySelector('.copy-icon');
+        icon.textContent = '\u2705';
+        setTimeout(function() {
+          icon.textContent = '\uD83D\uDCCB';
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
