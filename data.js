@@ -5,7 +5,7 @@ const CASUS_STAPPEN = [
     id: 0,
     label: "Stap 0 — Beginvraag",
     vraag: "Hoe kan organisatie X de kwaliteit van haar employee journey verbeteren, zodat medewerkers meer tevreden zijn?",
-    sterren: 1,
+    sterren: 0,
     niveau: "Onvoldoende",
     problemen: [
       "Actor te vaag: 'organisatie X' heeft geen specifiek mandaat",
@@ -18,7 +18,7 @@ const CASUS_STAPPEN = [
     id: 1,
     label: "Stap 1 — Actor aangescherpt",
     vraag: "Hoe kan de HR-afdeling van organisatie X de kwaliteit van haar employee journey verbeteren, zodat medewerkers meer tevreden zijn?",
-    sterren: 2,
+    sterren: 1,
     niveau: "Zwak",
     verbeterd: "Actor aangescherpt: HR-afdeling heeft het mandaat",
     problemen: [
@@ -31,7 +31,7 @@ const CASUS_STAPPEN = [
     id: 2,
     label: "Stap 2 — Werkwoord verbeterd",
     vraag: "Welke maatregelen moet de HR-afdeling van organisatie X nemen om de employee journey in te richten, zodat medewerkers meer tevreden zijn?",
-    sterren: 3,
+    sterren: 2,
     niveau: "Goed (eindig)",
     verbeterd: "Werkwoord 'inrichten' vervangt 'verbeteren'; standaard ontwerpende formulering",
     problemen: [
@@ -43,11 +43,11 @@ const CASUS_STAPPEN = [
     id: 3,
     label: "Stap 3 — Waardecreatie oneindig",
     vraag: "Welke maatregelen moet de HR-afdeling van organisatie X nemen om de employee journey in te richten, zodat de organisatie een adaptieve capaciteit opbouwt voor blijvende medewerkerbetrokkenheid?",
-    sterren: 5,
+    sterren: 4,
     niveau: "Excellent (oneindig)",
     verbeterd: "Waardecreatie oneindig: 'adaptieve capaciteit' en 'blijvende betrokkenheid'",
     problemen: [],
-    uitleg: "De waardecreatie is nu oneindig: 'adaptieve capaciteit' en 'blijvende betrokkenheid' zijn geen meetbare eindpunten maar continue vermogens. Dit is een excellente, oneindige onderzoeksvraag (★★★★★)."
+    uitleg: "De waardecreatie is nu oneindig: 'adaptieve capaciteit' en 'blijvende betrokkenheid' zijn geen meetbare eindpunten maar continue vermogens. Dit is een excellente, oneindige onderzoeksvraag (★★★★)."
   }
 ];
 
@@ -76,8 +76,8 @@ const DIMENSIES = {
     beschrijving: "Wat is het effect? Eindig (KPI) of oneindig (vermogen)?",
     stappen: [
       { stap: 0, status: "rood", tekst: "Vaag & eindig", feedback: "'Meer tevreden zijn' is vaag en eindig: het is een subjectieve eindtoestand zonder richting voor blijvende waarde.", aanpassing: "Maak de waardecreatie concreter en overweeg of het oneindig gemaakt kan worden." },
-      { stap: 2, status: "oranje", tekst: "Eindig eindpunt", feedback: "'Meer tevreden zijn' is nog steeds een eindig meetpunt. De vraag is goed (★★★), maar de waardecreatie kan oneindig gemaakt worden voor een excellent niveau.", aanpassing: "Vervang door een blijvend vermogen: 'adaptieve capaciteit', 'duurzame betrokkenheid'." },
-      { stap: 3, status: "groen", tekst: "Oneindig", feedback: "'Adaptieve capaciteit voor blijvende medewerkerbetrokkenheid' is oneindig: het is een vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★★)." }
+      { stap: 2, status: "oranje", tekst: "Eindig eindpunt", feedback: "'Meer tevreden zijn' is nog steeds een eindig meetpunt. De vraag is goed (★★), maar de waardecreatie kan oneindig gemaakt worden voor een excellent niveau.", aanpassing: "Vervang door een blijvend vermogen: 'adaptieve capaciteit', 'duurzame betrokkenheid'." },
+      { stap: 3, status: "groen", tekst: "Oneindig", feedback: "'Adaptieve capaciteit voor blijvende medewerkerbetrokkenheid' is oneindig: het is een vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★)." }
     ]
   },
   eindigOneindig: {
@@ -85,9 +85,9 @@ const DIMENSIES = {
     icon: "♾️",
     beschrijving: "Stuurt de vraag op een eindpunt (KPI) of op blijvend vermogen?",
     stappen: [
-      { stap: 0, status: "rood", tekst: "Alles eindig", feedback: "De vraag is eindig op alle fronten: vage actor, eindig werkwoord, eindige waardecreatie. Niveau: ★ Onvoldoende." },
-      { stap: 2, status: "oranje", tekst: "Gedeeltelijk oneindig", feedback: "Het werkwoord is nu ontwerpend, maar de waardecreatie is nog eindig. Niveau: ★★★ Goed (eindig)." },
-      { stap: 3, status: "groen", tekst: "Oneindig ★★★★★", feedback: "De vraag stuurt op blijvend aanpassingsvermogen, niet op een meetbare eindtoestand. Niveau: ★★★★★ Excellent (oneindig)." }
+      { stap: 0, status: "rood", tekst: "Alles eindig", feedback: "De vraag is eindig op alle fronten: vage actor, eindig werkwoord, eindige waardecreatie. Niveau: Onvoldoende." },
+      { stap: 2, status: "oranje", tekst: "Gedeeltelijk oneindig", feedback: "Het werkwoord is nu ontwerpend, maar de waardecreatie is nog eindig. Niveau: ★★ Goed (eindig)." },
+      { stap: 3, status: "groen", tekst: "Oneindig ★★★★", feedback: "De vraag stuurt op blijvend aanpassingsvermogen, niet op een meetbare eindtoestand. Niveau: ★★★★ Excellent (oneindig)." }
     ]
   }
 };
@@ -126,7 +126,7 @@ const CASUS_2_STAPPEN = [
     id: 0,
     label: "Startpunt",
     vraag: "Hoe kan organisatie Y meer samenwerken?",
-    sterren: 1,
+    sterren: 0,
     niveau: "Onvoldoende",
     problemen: [
       "Actor ontbreekt: wie is de aanwijsbare eigenaar van dit vraagstuk?",
@@ -139,7 +139,7 @@ const CASUS_2_STAPPEN = [
     id: 1,
     label: "Iteratie 1 — Actor aangescherpt",
     vraag: "Hoe kan het MT van de afdelingen Sales en Operations van organisatie Y ervoor zorgen dat ze meer samenwerken?",
-    sterren: 2,
+    sterren: 1,
     niveau: "Zwak",
     verbeterd: "Actor aangescherpt: het MT als eigenaar met mandaat",
     problemen: [
@@ -160,7 +160,7 @@ const CASUS_2_STAPPEN = [
     id: 2,
     label: "Iteratie 2 — Werkwoord verbeterd",
     vraag: "Welke maatregelen moet het MT van de afdelingen Sales en Operations van organisatie Y nemen om duurzame cross-departementale verbindingen te ontwikkelen?",
-    sterren: 3,
+    sterren: 2,
     niveau: "Goed",
     verbeterd: "Werkwoord 'ontwikkelen' vervangt 'samenwerken'; standaard ontwerpende formulering",
     problemen: [
@@ -180,17 +180,17 @@ const CASUS_2_STAPPEN = [
     id: 3,
     label: "Iteratie 3 — Waardecreatie oneindig",
     vraag: "Welke maatregelen moet het MT van de afdelingen Sales en Operations van organisatie Y nemen om duurzame cross-departementale verbindingen te ontwikkelen, zodat de organisatie continue unieke en innovatieve producten en services kan aanbieden die aansluiten bij de behoeften van de klant?",
-    sterren: 5,
+    sterren: 4,
     niveau: "Excellent (oneindig)",
     verbeterd: "Waardecreatie oneindig: 'continue' producten en services die 'aansluiten bij de behoeften'",
     problemen: [],
-    uitleg: "De waardecreatie is nu oneindig: 'continue unieke en innovatieve producten en services die aansluiten bij de behoeften van de klant' beschrijft een blijvend vermogen, geen meetbaar eindpunt. Dit is een excellente, oneindige onderzoeksvraag (★★★★★).",
+    uitleg: "De waardecreatie is nu oneindig: 'continue unieke en innovatieve producten en services die aansluiten bij de behoeften van de klant' beschrijft een blijvend vermogen, geen meetbaar eindpunt. Dit is een excellente, oneindige onderzoeksvraag (★★★★).",
     keuzes: {
       prompt: "Welke waardecreatie voeg je toe aan de vraag?",
       dimensie: "waardecreatie",
       opties: [
         { tekst: "zodat de klanttevredenheid stijgt en de time-to-market van gezamenlijke producten verkort wordt", juist: false, feedback: "'Klanttevredenheid stijgt' en 'time-to-market verkort' zijn eindige KPI's — meetbare eindpunten die je kunt afvinken. Dit stuurt op een eindresultaat, niet op een blijvend vermogen." },
-        { tekst: "zodat de organisatie continue unieke en innovatieve producten en services kan aanbieden die aansluiten bij de behoeften van de klant", juist: true, feedback: "Dit is oneindig: 'continue' en 'aansluiten bij de behoeften' beschrijven een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★★)." }
+        { tekst: "zodat de organisatie continue unieke en innovatieve producten en services kan aanbieden die aansluiten bij de behoeften van de klant", juist: true, feedback: "Dit is oneindig: 'continue' en 'aansluiten bij de behoeften' beschrijven een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★)." }
       ]
     }
   }
@@ -221,7 +221,7 @@ const DIMENSIES_2 = {
     beschrijving: "Wat is het effect? Voor wie? Eindig (KPI) of oneindig (vermogen)?",
     stappen: [
       { stap: 0, status: "rood", tekst: "Ontbreekt", feedback: "Er is geen waardecreatie geformuleerd. De vraag zegt niet voor wie of waartoe de samenwerking moet leiden." },
-      { stap: 3, status: "groen", tekst: "Oneindig", feedback: "'Continue unieke en innovatieve producten en services die aansluiten bij de behoeften van de klant' is oneindig: het beschrijft een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★★)." }
+      { stap: 3, status: "groen", tekst: "Oneindig", feedback: "'Continue unieke en innovatieve producten en services die aansluiten bij de behoeften van de klant' is oneindig: het beschrijft een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★)." }
     ]
   },
   eindigOneindig: {
@@ -229,8 +229,8 @@ const DIMENSIES_2 = {
     icon: "♾️",
     beschrijving: "Stuurt de vraag op een eindpunt (KPI) of op blijvend vermogen?",
     stappen: [
-      { stap: 0, status: "rood", tekst: "Geen richting", feedback: "De vraag heeft geen waardecreatie en stuurt nergens op. Niveau: ★ Onvoldoende." },
-      { stap: 3, status: "groen", tekst: "Oneindig ★★★★★", feedback: "De vraag stuurt op een blijvend vermogen: continue waardecreatie voor de klant. Niveau: ★★★★★ Excellent (oneindig)." }
+      { stap: 0, status: "rood", tekst: "Geen richting", feedback: "De vraag heeft geen waardecreatie en stuurt nergens op. Niveau: Onvoldoende." },
+      { stap: 3, status: "groen", tekst: "Oneindig ★★★★", feedback: "De vraag stuurt op een blijvend vermogen: continue waardecreatie voor de klant. Niveau: ★★★★ Excellent (oneindig)." }
     ]
   }
 };

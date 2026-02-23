@@ -272,15 +272,15 @@
     const MAX_ATTEMPTS = 2;
     const SHUFFLE_ORDER = [1, 3, 0, 2];
     const NIVEAUS = [
-      { sterren: 1, label: "Onvoldoende" },
-      { sterren: 2, label: "Zwak" },
-      { sterren: 3, label: "Goed (eindig)" },
-      { sterren: 5, label: "Excellent (oneindig)" }
+      { sterren: 0, label: "Onvoldoende" },
+      { sterren: 1, label: "Zwak" },
+      { sterren: 2, label: "Goed (eindig)" },
+      { sterren: 4, label: "Excellent (oneindig)" }
     ];
 
     // --- Helpers ---
     function renderStars(filled, total) {
-      total = total || 5;
+      total = total || 4;
       return "\u2605".repeat(filled) + "\u2606".repeat(total - filled);
     }
 
