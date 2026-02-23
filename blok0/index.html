@@ -8,6 +8,163 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ===== Poster template ===== */
+    .poster {
+      aspect-ratio: 1.414 / 1;
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fdf8ef;
+      border: 3px solid #c4a96a;
+      border-radius: 6px;
+      padding: 1.75rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      box-shadow: 2px 3px 12px rgba(120,100,60,0.12);
+      font-size: 0.95rem;
+    }
+    .poster-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .poster-field {
+      font-size: 0.85rem;
+      color: #6b5c3e;
+      font-weight: 600;
+    }
+    .poster-field .dots {
+      color: #c4a96a;
+      letter-spacing: 2px;
+    }
+
+    /* Onderzoeksvraag */
+    .poster-vraag {
+      border: 2.5px dashed #1e3a5f;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      min-height: 70px;
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+    }
+    .poster-vraag-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1e3a5f;
+      margin-bottom: 0.4rem;
+    }
+    .poster-vraag-hint {
+      color: #94a3b8;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    /* Sectie-labels */
+    .poster-sectie-label {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #6b5c3e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .poster-sectie-label .blok-tag {
+      background: #1e3a5f;
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Bronnen grid */
+    .poster-bronnen {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .poster-bron {
+      border: 2px dashed #c4a96a;
+      border-radius: 8px;
+      padding: 0.75rem 0.85rem;
+      background: rgba(255,255,255,0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .poster-bron-nr {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1e3a5f;
+    }
+    .poster-regel {
+      border-bottom: 1.5px dotted #c4a96a;
+      padding-bottom: 0.35rem;
+      font-size: 0.8rem;
+      color: #6b5c3e;
+      font-weight: 500;
+      flex: 1;
+      min-height: 1.4em;
+    }
+    .poster-regel:last-child {
+      border-bottom: none;
+    }
+    .poster-regel em {
+      font-style: normal;
+      color: #94a3b8;
+    }
+
+    /* Onderste rij: inzichten + reflectie */
+    .poster-bottom {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .poster-box {
+      border: 2px dashed #c4a96a;
+      border-radius: 8px;
+      padding: 0.75rem 0.85rem;
+      background: rgba(255,255,255,0.4);
+      min-height: 60px;
+    }
+    .poster-box-label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #1e3a5f;
+      margin-bottom: 0.3rem;
+    }
+    .poster-box-hint {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 700px) {
+      .poster {
+        aspect-ratio: auto;
+        padding: 1rem;
+        font-size: 0.85rem;
+      }
+      .poster-bronnen {
+        grid-template-columns: 1fr;
+      }
+      .poster-bottom {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -44,6 +201,69 @@
         het verband <strong>probleemstelling &rarr; doelstelling &rarr; hoofdvraag</strong>,
         en het contrast tussen <strong>eindig</strong> en <strong>oneindig</strong> denken.
       </p>
+    </div>
+
+    <!-- ===== Poster template ===== -->
+    <h2 class="text-center mb-1">Onderzoeksposter</h2>
+    <p class="text-center text-muted mb-3">Maak deze indeling na op jullie flipoverpapier (liggend). Vul het in tijdens de workshop.</p>
+
+    <div class="poster mb-6" style="margin-bottom: 3rem;">
+
+      <div class="poster-header">
+        <span class="poster-field">Duo: <span class="dots">..............................</span></span>
+        <span class="poster-field">Datum: <span class="dots">..................</span></span>
+      </div>
+
+      <div class="poster-sectie-label">
+        <span class="blok-tag">Blok 0</span>
+        Onderzoeksvraag
+      </div>
+      <div class="poster-vraag">
+        <div class="poster-vraag-hint">Schrijf hier jullie hoofdvraag. Pas deze aan als bronnen nieuwe inzichten opleveren.</div>
+      </div>
+
+      <div class="poster-sectie-label">
+        <span class="blok-tag">Blok 1</span>
+        Bronverkenning &mdash; plak hier je drie belangrijkste bronnen
+      </div>
+      <div class="poster-bronnen">
+        <div class="poster-bron">
+          <div class="poster-bron-nr">Bron 1</div>
+          <div class="poster-regel">Titel: <em>............................................</em></div>
+          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
+          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
+        </div>
+        <div class="poster-bron">
+          <div class="poster-bron-nr">Bron 2</div>
+          <div class="poster-regel">Titel: <em>............................................</em></div>
+          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
+          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
+        </div>
+        <div class="poster-bron">
+          <div class="poster-bron-nr">Bron 3</div>
+          <div class="poster-regel">Titel: <em>............................................</em></div>
+          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
+          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
+        </div>
+      </div>
+
+      <div class="poster-bottom">
+        <div class="poster-box">
+          <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
+            <span class="blok-tag">Blok 1</span>
+            Inzichten
+          </div>
+          <div class="poster-box-hint">Wat verandert er aan je vraag na bronverkenning?</div>
+        </div>
+        <div class="poster-box">
+          <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
+            <span class="blok-tag">Blok 3</span>
+            Reflectie
+          </div>
+          <div class="poster-box-hint">Welke pijler groeide het meest? Volgende stap richting PvA?</div>
+        </div>
+      </div>
+
     </div>
 
     <h2 class="text-center mb-1">Check-in: De Vraagbouwer</h2>
