@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>De Vraagkliniek — Vraagstelling Leren</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../../styles.css">
   <style>
     /* === Innovatieradar Stylebook tokens === */
     :root {
@@ -386,12 +386,13 @@
 </head>
 <body>
   <nav class="navbar">
-    <a class="navbar-brand" href="index.html">Vraagstelling Leren</a>
+    <a class="navbar-brand" href="../../index.html">Workshop Onderzoekend Vermogen</a>
     <ul class="navbar-nav">
-      <li><a href="index.html">&larr; Overzicht</a></li>
-      <li><a href="rangschik.html">Rangschik de Vraag</a></li>
-      <li><a href="vraagkliniek.html" class="active">De Vraagkliniek</a></li>
-      <li><a href="vraagbouwer.html">De Vraagbouwer</a></li>
+      <li><a href="../../index.html">&larr; Workshop</a></li>
+      <li><a href="../index.html">Overzicht</a></li>
+      <li><a href="../rangschik/">Rangschik de Vraag</a></li>
+      <li><a href="../vraagkliniek/" class="active">De Vraagkliniek</a></li>
+      <li><a href="../vraagbouwer/">De Vraagbouwer</a></li>
     </ul>
   </nav>
 
@@ -425,7 +426,7 @@
     <div id="completion-container"></div>
   </div>
 
-  <script src="data.js"></script>
+  <script src="../../data.js"></script>
   <script>
     // ===== State =====
     var huidigeCasus = CASUSSEN[1]; // Sales & Operations casus
@@ -655,7 +656,7 @@
       html += '</div>';
 
       html += '<div class="completion-actions">';
-      html += '<a href="vraagbouwer.html" class="btn btn-success">Ga verder: De Vraagbouwer &rarr;</a>';
+      html += '<a href="../vraagbouwer/" class="btn btn-success">Ga verder: De Vraagbouwer &rarr;</a>';
       html += '<button class="btn btn-secondary" onclick="opnieuwBeginnen()">Opnieuw beginnen</button>';
       html += '</div>';
 
