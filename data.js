@@ -189,8 +189,18 @@ const CASUS_2_STAPPEN = [
       prompt: "Welke waardecreatie voeg je toe aan de vraag?",
       dimensie: "waardecreatie",
       opties: [
-        { tekst: "zodat de klanttevredenheid stijgt en de time-to-market van gezamenlijke producten verkort wordt", juist: false, feedback: "'Klanttevredenheid stijgt' en 'time-to-market verkort' zijn eindige KPI's — meetbare eindpunten die je kunt afvinken. Dit stuurt op een eindresultaat, niet op een blijvend vermogen." },
-        { tekst: "zodat de organisatie continue unieke en innovatieve producten en services kan aanbieden die aansluiten bij de behoeften van de klant", juist: true, feedback: "Dit is oneindig: 'continue' en 'aansluiten bij de behoeften' beschrijven een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★)." }
+        { tekst: "zodat de klanttevredenheid stijgt en de time-to-market van gezamenlijke producten verkort wordt", juist: false, feedback: "'Klanttevredenheid stijgt' en 'time-to-market verkort' zijn eindige KPI's — meetbare eindpunten die je kunt afvinken. Dit stuurt op een eindresultaat, niet op een blijvend vermogen.",
+          dimensieEffecten: {
+            waardecreatie: { status: "groen", tekst: "Goed" },
+            eindigOneindig: { status: "rood", tekst: "Eindig doel" }
+          }
+        },
+        { tekst: "zodat de organisatie continue unieke en innovatieve producten en services kan aanbieden die aansluiten bij de behoeften van de klant", juist: true, feedback: "Dit is oneindig: 'continue' en 'aansluiten bij de behoeften' beschrijven een blijvend vermogen, geen meetbaar eindpunt. Dit is excellent (★★★★).",
+          dimensieEffecten: {
+            waardecreatie: { status: "groen", tekst: "Oneindig" },
+            eindigOneindig: { status: "groen", tekst: "Oneindig ★★★★" }
+          }
+        }
       ]
     }
   }

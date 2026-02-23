@@ -432,6 +432,7 @@
     var huidigeCasus = CASUSSEN[1]; // Sales & Operations casus
     var huidigeStap = 0;
     var keuzeGemaakt = false;
+    var dimensieOverrides = {};
 
     // ===== Helpers =====
     function renderSterren(n) {
@@ -502,7 +503,7 @@
 
       dims.forEach(function(dim) {
         var info = huidigeCasus.dimensies[dim];
-        var status = getDimensieStatus(dim);
+        var status = dimensieOverrides[dim] || getDimensieStatus(dim);
         var tile = document.createElement('div');
         tile.className = 'dimension-tile' + (dim === actiefDim && !keuzeGemaakt ? ' actief' : '');
         tile.innerHTML =
@@ -599,10 +600,17 @@
       feedbackHtml += '<button class="btn btn-primary" onclick="volgendeIteratie(' + stapNr + ')">Volgende &rarr;</button>';
       feedbackHtml += '</div>';
       feedbackArea.innerHTML = feedbackHtml;
+
+      // Update dimension tiles to reflect the choice
+      if (gekozenOptie.dimensieEffecten) {
+        dimensieOverrides = gekozenOptie.dimensieEffecten;
+      }
+      buildDimensionTiles();
     }
 
     function volgendeIteratie(stapNr) {
       huidigeStap = stapNr;
+      dimensieOverrides = {};
       updateVraagDisplay();
       buildDimensionTiles();
       updateProgress();
