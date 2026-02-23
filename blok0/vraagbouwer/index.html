@@ -428,11 +428,11 @@ function updateSterren() {
 
 // ===== Variants =====
     function updateVarianten() {
-      var a = fieldActor.value.trim() || '[actor]';
-      var d = fieldDoel.value.trim() || '[doel + werkwoord]';
+      var a = lowercaseFirst(fieldActor.value.trim()) || '[actor]';
+      var d = lowercaseFirst(fieldDoel.value.trim()) || '[doel + werkwoord]';
 
       variantEindig.textContent = 'Welke maatregelen moet ' + a + ' nemen om ' + d + ', zodat ' + EINDIG_WAARDE + '?';
-      var w = fieldWaarde.value.trim() || '[waardecreatie]';
+      var w = lowercaseFirst(fieldWaarde.value.trim()) || '[waardecreatie]';
       variantOneindig.textContent = 'Welke maatregelen moet ' + a + ' nemen om ' + d + ', zodat ' + w + '?';
     }
 
