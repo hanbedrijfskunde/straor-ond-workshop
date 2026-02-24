@@ -164,6 +164,115 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ===== Poster modal ===== */
+    .poster-modal-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+    }
+    .poster-modal-frame {
+      position: relative; width: 96vw; max-width: 1400px;
+      max-height: 96vh; background: #fff; border-radius: 12px;
+      overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column;
+    }
+    .poster-modal-header {
+      background: var(--primary); color: #fff;
+      padding: 0.6rem 1.5rem; display: flex;
+      justify-content: space-between; align-items: center; flex-shrink: 0;
+      gap: 0.75rem; flex-wrap: wrap;
+    }
+    .poster-modal-header .poster-modal-title { font-weight: 700; font-size: 1.1rem; }
+    .poster-modal-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .poster-modal-actions button {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      color: #fff; padding: 0.4rem 0.9rem; border-radius: 6px;
+      font-size: 0.85rem; cursor: pointer; font-weight: 500;
+      transition: background 150ms;
+    }
+    .poster-modal-actions button:hover { background: rgba(255,255,255,0.25); }
+    .poster-modal-close {
+      background: none !important; border: none !important;
+      font-size: 1.8rem; cursor: pointer; line-height: 1;
+      padding: 0 0.25rem !important; opacity: 0.8;
+    }
+    .poster-modal-close:hover { opacity: 1; }
+    .poster-modal-body {
+      flex: 1; overflow-y: auto; padding: 1.5rem;
+      display: flex; justify-content: center;
+    }
+
+    /* Editable poster inside modal */
+    .poster-modal-body .poster {
+      aspect-ratio: 4 / 3;
+      max-width: 1200px; width: 100%;
+      position: relative;
+    }
+    .poster-input {
+      width: 100%; padding: 0.4rem 0.6rem;
+      border: 1px solid #cbd5e1; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      transition: border-color 150ms, box-shadow 150ms;
+      background: rgba(255,255,255,0.7);
+    }
+    .poster-input:focus {
+      outline: none; border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+    .poster-input::placeholder { color: #94a3b8; font-style: italic; }
+    textarea.poster-input { resize: vertical; min-height: 48px; }
+    .poster-vraag textarea.poster-input { min-height: 60px; font-size: 0.95rem; }
+
+    /* Post-its */
+    .postit {
+      position: absolute; min-width: 100px; max-width: 200px;
+      padding: 0.6rem 0.75rem; border-radius: 3px;
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.18);
+      font-family: 'Inter', sans-serif; font-size: 0.8rem;
+      cursor: grab; user-select: none; z-index: 10;
+      line-height: 1.4;
+    }
+    .postit:active { cursor: grabbing; }
+    .postit-text {
+      outline: none; min-height: 1.2em;
+      cursor: text; user-select: text;
+    }
+    .postit-text:empty::before {
+      content: 'Typ hier...'; color: rgba(0,0,0,0.3); font-style: italic;
+    }
+    .postit-delete {
+      position: absolute; top: 2px; right: 4px;
+      background: none; border: none; font-size: 1rem;
+      cursor: pointer; opacity: 0; transition: opacity 150ms;
+      color: rgba(0,0,0,0.4); line-height: 1; padding: 0;
+    }
+    .postit:hover .postit-delete { opacity: 1; }
+    .postit-delete:hover { color: rgba(0,0,0,0.7); }
+
+    /* Post-it color picker */
+    .postit-colors { display: flex; gap: 0.35rem; align-items: center; }
+    .postit-color-dot {
+      width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+      border: 2px solid rgba(255,255,255,0.5); transition: transform 150ms;
+    }
+    .postit-color-dot:hover { transform: scale(1.2); }
+
+    /* Preview card */
+    .poster-preview-card {
+      max-width: 800px; margin: 0 auto;
+      background: #fdf8ef; border: 2px solid #c4a96a; border-radius: 12px;
+      padding: 2rem; text-align: center;
+      cursor: pointer; transition: box-shadow 150ms, transform 150ms;
+    }
+    .poster-preview-card:hover {
+      box-shadow: 0 4px 16px rgba(120,100,60,0.18);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 700px) {
+      .poster-modal-body .poster { aspect-ratio: auto; }
+      .poster-modal-frame { width: 100vw; max-height: 100vh; border-radius: 0; }
+    }
   </style>
 </head>
 <body>
@@ -424,67 +533,184 @@
       </script>
     </div>
 
-    <!-- ===== Poster template ===== -->
+    <!-- ===== Poster preview + modal ===== -->
     <h2 class="text-center mb-1">Onderzoeksposter</h2>
-    <p class="text-center text-muted mb-3">Maak deze indeling na op jullie flipoverpapier (liggend). Vul het in tijdens de workshop.</p>
+    <p class="text-center text-muted mb-3">Vul de poster digitaal in en download als afbeelding.</p>
 
-    <div class="poster mb-6" style="margin-bottom: 3rem;">
-
-      <div class="poster-header">
-        <span class="poster-field">Duo: <span class="dots">..............................</span></span>
-      </div>
-
-      <div class="poster-sectie-label">
-        <span class="blok-tag">Blok 0</span>
-        Onderzoeksvraag
-      </div>
-      <div class="poster-vraag">
-        <div class="poster-vraag-hint">Schrijf hier jullie hoofdvraag. Pas deze aan als bronnen nieuwe inzichten opleveren.</div>
-      </div>
-
-      <div class="poster-sectie-label">
-        <span class="blok-tag">Blok 1</span>
-        Bronverkenning &mdash; plak hier je drie belangrijkste bronnen
-      </div>
-      <div class="poster-bronnen">
-        <div class="poster-bron">
-          <div class="poster-bron-nr">Bron 1</div>
-          <div class="poster-regel">Titel: <em>............................................</em></div>
-          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
-          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
-        </div>
-        <div class="poster-bron">
-          <div class="poster-bron-nr">Bron 2</div>
-          <div class="poster-regel">Titel: <em>............................................</em></div>
-          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
-          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
-        </div>
-        <div class="poster-bron">
-          <div class="poster-bron-nr">Bron 3</div>
-          <div class="poster-regel">Titel: <em>............................................</em></div>
-          <div class="poster-regel">Kerninzicht: <em>.....................................</em></div>
-          <div class="poster-regel">&rarr; Link met mijn vraag: <em>........................</em></div>
-        </div>
-      </div>
-
-      <div class="poster-bottom">
-        <div class="poster-box">
-          <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
-            <span class="blok-tag">Blok 1</span>
-            Inzichten
-          </div>
-          <div class="poster-box-hint">Wat verandert er aan je vraag na bronverkenning?</div>
-        </div>
-        <div class="poster-box">
-          <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
-            <span class="blok-tag">Blok 3</span>
-            Reflectie
-          </div>
-          <div class="poster-box-hint">Welke pijler groeide het meest: onderzoek doen of kennis toepassen? Volgende stap richting PvA?</div>
-        </div>
-      </div>
-
+    <div class="poster-preview-card mb-6" style="margin-bottom: 3rem;" onclick="document.getElementById('poster-modal').style.display='flex';">
+      <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">&#x1F4CB;</div>
+      <h3 style="color: #1e3a5f; margin-bottom: 0.5rem;">Open de onderzoeksposter</h3>
+      <p style="color: #6b5c3e; font-size: 0.9rem; margin-bottom: 1rem;">Klik om de poster te openen, in te vullen en te downloaden als PNG.</p>
+      <span class="btn btn-primary" style="pointer-events: none;">Open poster &rarr;</span>
     </div>
+
+    <!-- ===== Poster Modal ===== -->
+    <div id="poster-modal" class="poster-modal-backdrop">
+      <div class="poster-modal-frame">
+
+        <!-- Header -->
+        <div class="poster-modal-header">
+          <span class="poster-modal-title">Onderzoeksposter</span>
+          <div class="poster-modal-actions">
+            <div class="postit-colors" id="postit-colors">
+              <button onclick="addPostit('#fef08a')" title="Gele post-it">&#43; Post-it</button>
+              <span class="postit-color-dot" style="background:#fef08a;" onclick="addPostit('#fef08a')" title="Geel"></span>
+              <span class="postit-color-dot" style="background:#fda4af;" onclick="addPostit('#fda4af')" title="Roze"></span>
+              <span class="postit-color-dot" style="background:#86efac;" onclick="addPostit('#86efac')" title="Groen"></span>
+              <span class="postit-color-dot" style="background:#93c5fd;" onclick="addPostit('#93c5fd')" title="Blauw"></span>
+            </div>
+            <button onclick="downloadPoster()" title="Download als PNG">&#x2B73; Download PNG</button>
+            <button class="poster-modal-close" onclick="document.getElementById('poster-modal').style.display='none';" title="Sluiten">&times;</button>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="poster-modal-body">
+          <div class="poster" id="poster-canvas">
+
+            <div class="poster-header">
+              <span class="poster-field">Duo: <input type="text" class="poster-input" placeholder="Jullie namen" style="width: 250px; display: inline-block;"></span>
+            </div>
+
+            <div class="poster-sectie-label">
+              <span class="blok-tag">Blok 0</span>
+              Onderzoeksvraag
+            </div>
+            <div class="poster-vraag">
+              <textarea class="poster-input" placeholder="Schrijf hier jullie hoofdvraag. Pas deze aan als bronnen nieuwe inzichten opleveren." rows="2"></textarea>
+            </div>
+
+            <div class="poster-sectie-label">
+              <span class="blok-tag">Blok 1</span>
+              Bronverkenning &mdash; plak hier je drie belangrijkste bronnen
+            </div>
+            <div class="poster-bronnen">
+              <div class="poster-bron">
+                <div class="poster-bron-nr">Bron 1</div>
+                <input type="text" class="poster-input" placeholder="Titel">
+                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+              </div>
+              <div class="poster-bron">
+                <div class="poster-bron-nr">Bron 2</div>
+                <input type="text" class="poster-input" placeholder="Titel">
+                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+              </div>
+              <div class="poster-bron">
+                <div class="poster-bron-nr">Bron 3</div>
+                <input type="text" class="poster-input" placeholder="Titel">
+                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+              </div>
+            </div>
+
+            <div class="poster-bottom">
+              <div class="poster-box">
+                <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
+                  <span class="blok-tag">Blok 1</span>
+                  Inzichten
+                </div>
+                <textarea class="poster-input" placeholder="Wat verandert er aan je vraag na bronverkenning?" rows="3"></textarea>
+              </div>
+              <div class="poster-box">
+                <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
+                  <span class="blok-tag">Blok 3</span>
+                  Reflectie
+                </div>
+                <textarea class="poster-input" placeholder="Welke pijler groeide het meest: onderzoek doen of kennis toepassen? Volgende stap richting PvA?" rows="3"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+    (function() {
+      // Modal open/close
+      var modal = document.getElementById('poster-modal');
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+      });
+      document.addEventListener('keydown', function(e) {
+        if (modal.style.display === 'none' || modal.style.display === '') return;
+        if (e.key === 'Escape') modal.style.display = 'none';
+      });
+
+      // Post-it functionality
+      var posterCanvas = document.getElementById('poster-canvas');
+      var postitCount = 0;
+
+      window.addPostit = function(color) {
+        postitCount++;
+        var rotation = (Math.random() * 4 - 2).toFixed(1);
+        var postit = document.createElement('div');
+        postit.className = 'postit';
+        postit.style.background = color;
+        postit.style.transform = 'rotate(' + rotation + 'deg)';
+        postit.style.left = (10 + Math.random() * 30) + '%';
+        postit.style.top = (10 + Math.random() * 30) + '%';
+        postit.innerHTML = '<button class="postit-delete" onclick="this.parentElement.remove()">&times;</button>' +
+          '<div class="postit-text" contenteditable="true"></div>';
+
+        // Drag functionality
+        var isDragging = false, startX, startY, origX, origY;
+
+        postit.addEventListener('pointerdown', function(e) {
+          if (e.target.classList.contains('postit-text') || e.target.classList.contains('postit-delete')) return;
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          origX = postit.offsetLeft;
+          origY = postit.offsetTop;
+          postit.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        });
+
+        postit.addEventListener('pointermove', function(e) {
+          if (!isDragging) return;
+          postit.style.left = (origX + e.clientX - startX) + 'px';
+          postit.style.top = (origY + e.clientY - startY) + 'px';
+        });
+
+        postit.addEventListener('pointerup', function() {
+          isDragging = false;
+        });
+
+        posterCanvas.appendChild(postit);
+        postit.querySelector('.postit-text').focus();
+      };
+
+      // PNG Download
+      window.downloadPoster = function() {
+        // Temporarily hide delete buttons
+        var deleteBtns = posterCanvas.querySelectorAll('.postit-delete');
+        deleteBtns.forEach(function(btn) { btn.style.display = 'none'; });
+
+        html2canvas(posterCanvas, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#fdf8ef'
+        }).then(function(canvas) {
+          deleteBtns.forEach(function(btn) { btn.style.display = ''; });
+          canvas.toBlob(function(blob) {
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'onderzoeksposter.png';
+            a.click();
+            URL.revokeObjectURL(url);
+          });
+        }).catch(function() {
+          deleteBtns.forEach(function(btn) { btn.style.display = ''; });
+        });
+      };
+    })();
+    </script>
 
     <h2 class="text-center mb-1">Check-in: De Vraagbouwer</h2>
     <p class="text-center text-muted mb-3">Doorloop de oefeningen om je startpunt te inventariseren</p>
