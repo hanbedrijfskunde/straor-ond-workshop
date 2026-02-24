@@ -602,6 +602,7 @@
               <span class="postit-color-dot" style="background:#93c5fd;" onclick="addPostit('#93c5fd')" title="Blauw"></span>
             </div>
             <button onclick="downloadPoster()" title="Download als PNG">&#x2B73; Download PNG</button>
+            <button onclick="resetPoster()" title="Wis alle velden en post-its">&#x21BB; Reset</button>
             <button class="poster-modal-close" onclick="document.getElementById('poster-modal').style.display='none';" title="Sluiten">&times;</button>
           </div>
         </div>
@@ -611,7 +612,7 @@
           <div class="poster" id="poster-canvas">
 
             <div class="poster-header">
-              <span class="poster-field">Duo: <input type="text" class="poster-input" placeholder="Jullie namen" style="width: 250px; display: inline-block;"></span>
+              <span class="poster-field">Duo: <input type="text" class="poster-input" data-field="duo" placeholder="Jullie namen" style="width: 250px; display: inline-block;"></span>
             </div>
 
             <div class="poster-sectie-label">
@@ -619,7 +620,7 @@
               Onderzoeksvraag
             </div>
             <div class="poster-vraag">
-              <textarea class="poster-input" placeholder="Schrijf hier jullie hoofdvraag. Pas deze aan als bronnen nieuwe inzichten opleveren." rows="2"></textarea>
+              <textarea class="poster-input" data-field="vraag" placeholder="Schrijf hier jullie hoofdvraag. Pas deze aan als bronnen nieuwe inzichten opleveren." rows="2"></textarea>
             </div>
 
             <div class="poster-sectie-label">
@@ -629,21 +630,21 @@
             <div class="poster-bronnen">
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 1</div>
-                <input type="text" class="poster-input" placeholder="Titel">
-                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
-                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+                <input type="text" class="poster-input" data-field="bron1-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron1-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" data-field="bron1-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 2</div>
-                <input type="text" class="poster-input" placeholder="Titel">
-                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
-                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+                <input type="text" class="poster-input" data-field="bron2-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron2-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" data-field="bron2-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 3</div>
-                <input type="text" class="poster-input" placeholder="Titel">
-                <textarea class="poster-input" placeholder="Kerninzicht" rows="2"></textarea>
-                <textarea class="poster-input" placeholder="Link met mijn vraag" rows="2"></textarea>
+                <input type="text" class="poster-input" data-field="bron3-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron3-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
+                <textarea class="poster-input" data-field="bron3-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
             </div>
 
@@ -653,14 +654,14 @@
                   <span class="blok-tag">Blok 1</span>
                   Inzichten
                 </div>
-                <textarea class="poster-input" placeholder="Wat verandert er aan je vraag na bronverkenning?" rows="3"></textarea>
+                <textarea class="poster-input" data-field="inzichten" placeholder="Wat verandert er aan je vraag na bronverkenning?" rows="3"></textarea>
               </div>
               <div class="poster-box">
                 <div class="poster-sectie-label" style="margin-bottom: 0.3rem;">
                   <span class="blok-tag">Blok 3</span>
                   Reflectie
                 </div>
-                <textarea class="poster-input" placeholder="Welke pijler groeide het meest: onderzoek doen of kennis toepassen? Volgende stap richting PvA?" rows="3"></textarea>
+                <textarea class="poster-input" data-field="reflectie" placeholder="Welke pijler groeide het meest: onderzoek doen of kennis toepassen? Volgende stap richting PvA?" rows="3"></textarea>
               </div>
             </div>
 
@@ -673,8 +674,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
     (function() {
-      // Modal open/close
+      var STORAGE_KEY = 'poster-data';
       var modal = document.getElementById('poster-modal');
+      var posterCanvas = document.getElementById('poster-canvas');
+
+      // --- Modal open/close ---
       modal.addEventListener('click', function(e) {
         if (e.target === this) this.style.display = 'none';
       });
@@ -683,21 +687,56 @@
         if (e.key === 'Escape') modal.style.display = 'none';
       });
 
-      // Post-it functionality
-      var posterCanvas = document.getElementById('poster-canvas');
-      var postitCount = 0;
+      // --- localStorage: save ---
+      function getPostits() {
+        return Array.from(posterCanvas.querySelectorAll('.postit')).map(function(p) {
+          return {
+            color: p.style.background,
+            left: p.style.left,
+            top: p.style.top,
+            transform: p.style.transform,
+            text: p.querySelector('.postit-text').textContent
+          };
+        });
+      }
 
-      window.addPostit = function(color) {
-        postitCount++;
-        var rotation = (Math.random() * 4 - 2).toFixed(1);
+      function saveData() {
+        var data = {};
+        posterCanvas.querySelectorAll('.poster-input[data-field]').forEach(function(el) {
+          data[el.dataset.field] = el.value;
+        });
+        data.postits = getPostits();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+
+      var saveTimer;
+      function debouncedSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveData, 500);
+      }
+
+      posterCanvas.addEventListener('input', debouncedSave);
+
+      // --- Post-it functionality ---
+      window.addPostit = function(color, opts) {
+        opts = opts || {};
+        var rotation = opts.transform || ('rotate(' + (Math.random() * 4 - 2).toFixed(1) + 'deg)');
         var postit = document.createElement('div');
         postit.className = 'postit';
         postit.style.background = color;
-        postit.style.transform = 'rotate(' + rotation + 'deg)';
-        postit.style.left = (10 + Math.random() * 30) + '%';
-        postit.style.top = (10 + Math.random() * 30) + '%';
-        postit.innerHTML = '<button class="postit-delete" onclick="this.parentElement.remove()">&times;</button>' +
+        postit.style.transform = rotation;
+        postit.style.left = opts.left || (10 + Math.random() * 30) + '%';
+        postit.style.top = opts.top || (10 + Math.random() * 30) + '%';
+        postit.innerHTML = '<button class="postit-delete">&times;</button>' +
           '<div class="postit-text" contenteditable="true"></div>';
+
+        if (opts.text) postit.querySelector('.postit-text').textContent = opts.text;
+
+        // Delete with save
+        postit.querySelector('.postit-delete').addEventListener('click', function() {
+          postit.remove();
+          saveData();
+        });
 
         // Drag functionality
         var isDragging = false, startX, startY, origX, origY;
@@ -720,16 +759,34 @@
         });
 
         postit.addEventListener('pointerup', function() {
-          isDragging = false;
+          if (isDragging) { isDragging = false; saveData(); }
         });
 
         posterCanvas.appendChild(postit);
-        postit.querySelector('.postit-text').focus();
+        if (!opts.text) postit.querySelector('.postit-text').focus();
+        if (!opts._restoring) debouncedSave();
       };
 
-      // PNG Download
+      // --- localStorage: restore ---
+      function loadData() {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        try {
+          var data = JSON.parse(raw);
+          posterCanvas.querySelectorAll('.poster-input[data-field]').forEach(function(el) {
+            if (data[el.dataset.field] != null) el.value = data[el.dataset.field];
+          });
+          if (data.postits && data.postits.length) {
+            data.postits.forEach(function(p) {
+              addPostit(p.color, { left: p.left, top: p.top, transform: p.transform, text: p.text, _restoring: true });
+            });
+          }
+        } catch(e) {}
+      }
+      loadData();
+
+      // --- PNG Download ---
       window.downloadPoster = function() {
-        // Temporarily hide delete buttons
         var deleteBtns = posterCanvas.querySelectorAll('.postit-delete');
         deleteBtns.forEach(function(btn) { btn.style.display = 'none'; });
 
@@ -750,6 +807,16 @@
         }).catch(function() {
           deleteBtns.forEach(function(btn) { btn.style.display = ''; });
         });
+      };
+
+      // --- Reset ---
+      window.resetPoster = function() {
+        if (!confirm('Weet je zeker dat je alle velden en post-its wilt wissen?')) return;
+        posterCanvas.querySelectorAll('.poster-input[data-field]').forEach(function(el) {
+          el.value = '';
+        });
+        posterCanvas.querySelectorAll('.postit').forEach(function(p) { p.remove(); });
+        localStorage.removeItem(STORAGE_KEY);
       };
     })();
     </script>
