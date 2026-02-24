@@ -11,7 +11,6 @@
   <style>
     /* ===== Poster template ===== */
     .poster {
-      aspect-ratio: 1.414 / 1;
       max-width: 960px;
       margin: 0 auto;
       background: #fdf8ef;
@@ -151,7 +150,6 @@
 
     @media (max-width: 700px) {
       .poster {
-        aspect-ratio: auto;
         padding: 1rem;
         font-size: 0.85rem;
       }
@@ -214,6 +212,7 @@
       font-family: 'Inter', sans-serif; font-size: 0.85rem;
       transition: border-color 150ms, box-shadow 150ms;
       background: rgba(255,255,255,0.7);
+      overflow-wrap: break-word; word-wrap: break-word;
     }
     .poster-input:focus {
       outline: none; border-color: var(--primary);
@@ -630,19 +629,19 @@
             <div class="poster-bronnen">
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 1</div>
-                <input type="text" class="poster-input" data-field="bron1-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron1-titel" placeholder="Titel" rows="1"></textarea>
                 <textarea class="poster-input" data-field="bron1-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
                 <textarea class="poster-input" data-field="bron1-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 2</div>
-                <input type="text" class="poster-input" data-field="bron2-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron2-titel" placeholder="Titel" rows="1"></textarea>
                 <textarea class="poster-input" data-field="bron2-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
                 <textarea class="poster-input" data-field="bron2-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
               <div class="poster-bron">
                 <div class="poster-bron-nr">Bron 3</div>
-                <input type="text" class="poster-input" data-field="bron3-titel" placeholder="Titel">
+                <textarea class="poster-input" data-field="bron3-titel" placeholder="Titel" rows="1"></textarea>
                 <textarea class="poster-input" data-field="bron3-inzicht" placeholder="Kerninzicht" rows="2"></textarea>
                 <textarea class="poster-input" data-field="bron3-link" placeholder="Link met mijn vraag" rows="2"></textarea>
               </div>
@@ -785,17 +784,58 @@
       }
       loadData();
 
+      // --- Auto-resize textareas ---
+      function autoResize(ta) {
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+      }
+      posterCanvas.querySelectorAll('textarea.poster-input').forEach(function(ta) {
+        ta.addEventListener('input', function() { autoResize(this); });
+        // Resize on load if pre-filled from localStorage
+        if (ta.value) autoResize(ta);
+      });
+
       // --- PNG Download ---
       window.downloadPoster = function() {
         var deleteBtns = posterCanvas.querySelectorAll('.postit-delete');
         deleteBtns.forEach(function(btn) { btn.style.display = 'none'; });
+
+        // Swap textareas for divs (html2canvas doesn't wrap textarea text)
+        var swaps = [];
+        posterCanvas.querySelectorAll('textarea.poster-input').forEach(function(ta) {
+          var div = document.createElement('div');
+          var cs = window.getComputedStyle(ta);
+          div.textContent = ta.value;
+          div.style.cssText = [
+            'font:' + cs.font,
+            'padding:' + cs.padding,
+            'width:' + cs.width,
+            'min-height:' + cs.height,
+            'border:' + cs.border,
+            'border-radius:' + cs.borderRadius,
+            'background:' + cs.background,
+            'box-sizing:border-box',
+            'white-space:pre-wrap',
+            'word-wrap:break-word',
+            'overflow-wrap:break-word',
+            'line-height:' + cs.lineHeight
+          ].join(';');
+          ta.parentNode.insertBefore(div, ta);
+          ta.style.display = 'none';
+          swaps.push({ ta: ta, div: div });
+        });
+
+        function restoreSwaps() {
+          swaps.forEach(function(s) { s.div.remove(); s.ta.style.display = ''; });
+          deleteBtns.forEach(function(btn) { btn.style.display = ''; });
+        }
 
         html2canvas(posterCanvas, {
           scale: 2,
           useCORS: true,
           backgroundColor: '#fdf8ef'
         }).then(function(canvas) {
-          deleteBtns.forEach(function(btn) { btn.style.display = ''; });
+          restoreSwaps();
           canvas.toBlob(function(blob) {
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
@@ -805,7 +845,7 @@
             URL.revokeObjectURL(url);
           });
         }).catch(function() {
-          deleteBtns.forEach(function(btn) { btn.style.display = ''; });
+          restoreSwaps();
         });
       };
 
