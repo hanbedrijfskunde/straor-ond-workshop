@@ -198,6 +198,7 @@
       <h3>Jouw onderzoeksvraag:</h3>
       <div class="question-box" id="assembledBox"></div>
       <button class="btn btn-primary copy-btn" id="copyBtn" onclick="kopieerVraag()">Kopieer vraag</button>
+      <button class="btn btn-secondary" onclick="resetVraag()" style="margin-top:0.5rem">Wis alles</button>
     </div>
 
     <!-- Live feedback panel -->
@@ -303,6 +304,7 @@ const variantSection = document.getElementById('variantSection');
 
     // ===== Main update =====
     function updateAlles() {
+      saveData();
       updateSamengesteldeVraag();
       updateSterren();
       updateSignaalwoorden();
@@ -449,6 +451,7 @@ function updateSterren() {
     // ===== Copy =====
     function kopieerVraag() {
       var text = getVraagText();
+      syncToPoster(text);
       navigator.clipboard.writeText(text).then(function() {
         var btn = document.getElementById('copyBtn');
         btn.textContent = 'Gekopieerd!';
@@ -458,7 +461,62 @@ function updateSterren() {
       });
     }
 
+    // ===== localStorage persistence =====
+    var VRAAG_KEY = 'vraagbouwer-data';
+
+    function saveData() {
+      var data = {
+        actor: fieldActor.value,
+        doel:  fieldDoel.value,
+        waarde: fieldWaarde.value
+      };
+      localStorage.setItem(VRAAG_KEY, JSON.stringify(data));
+    }
+
+    function loadData() {
+      var raw = localStorage.getItem(VRAAG_KEY);
+      if (!raw) return;
+      try {
+        var data = JSON.parse(raw);
+        if (data.actor  != null) fieldActor.value  = data.actor;
+        if (data.doel   != null) fieldDoel.value   = data.doel;
+        if (data.waarde != null) fieldWaarde.value = data.waarde;
+      } catch(e) {}
+    }
+
+    function resetVraag() {
+      if (!confirm('Weet je zeker dat je alle velden wilt wissen?')) return;
+      fieldActor.value = '';
+      fieldDoel.value  = '';
+      fieldWaarde.value = '';
+      localStorage.removeItem(VRAAG_KEY);
+      updateAlles();
+    }
+
+    function syncToPoster(vraagText) {
+      if (!fieldActor.value.trim() || !fieldDoel.value.trim() || !fieldWaarde.value.trim()) return;
+
+      var raw = localStorage.getItem('poster-data');
+      var data = {};
+      try { data = raw ? JSON.parse(raw) : {}; } catch(e) {}
+
+      if (data.vraag && data.vraag.trim() && data.vraag !== vraagText) {
+        if (!data.postits) data.postits = [];
+        data.postits.push({
+          color: '#fda4af',
+          left: '45%',
+          top: '5%',
+          transform: 'rotate(-2deg)',
+          text: data.vraag
+        });
+      }
+
+      data.vraag = vraagText;
+      localStorage.setItem('poster-data', JSON.stringify(data));
+    }
+
     // ===== Init =====
+    loadData();
     updateAlles();
   </script>
 
