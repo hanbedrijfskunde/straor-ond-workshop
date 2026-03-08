@@ -100,7 +100,9 @@ Benoem expliciet het patroon:
 
 **Docentactie:** Projecteer de slide en loop de structuur kort door:
 
-> "Voordat je het veld in gaat, begin je met kennis van buiten. Ik laat jullie zien hoe je snel de kern uit een wetenschappelijk artikel haalt. Elk artikel heeft vier secties:"
+> "Voordat je het veld in gaat, begin je met kennis van buiten. Er zijn allerlei waardevolle bronnen: wetenschappelijke artikelen, maar ook expertvideos, podcasts, best practices van andere organisaties, vakliteratuur. Vandaag oefenen we met wetenschappelijke artikelen via Google Scholar, omdat die de basis vormen van je theoretisch kader. Maar onthoud: inspiratie komt uit veel meer hoeken."
+
+> "Een wetenschappelijk artikel heeft vrijwel altijd vier secties:"
 
 | Sectie | Kernvraag |
 |--------|-----------|
@@ -123,9 +125,9 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 
 **Docentactie:**
 
-> "Zoek nu zelf minimaal één bron die relevant is voor jullie onderzoeksvraag. Dat mag een wetenschappelijk artikel zijn via Google Scholar, maar ook een TED-talk, een YouTube-video van een expert, of een best practice van een andere organisatie. Als je een bron hebt, gebruik dan de scanprompt van de handout. Vul je eigen onderzoeksvraag in. Je hebt 15 minuten."
+> "Zoek via Google Scholar minimaal één wetenschappelijk artikel dat relevant is voor jullie onderzoeksvraag. Gebruik de scanprompt van de handout om het artikel te analyseren. Vul je eigen onderzoeksvraag in. Je hebt 15 minuten."
 
-**Studenten:** Zoeken individueel of in duo's een bron, voeren de scanprompt in bij een AI-tool (ChatGPT, Claude, NotebookLM).
+**Studenten:** Zoeken individueel of in duo's een artikel via Google Scholar, voeren de scanprompt in bij een AI-tool (ChatGPT, Claude, NotebookLM) met het artikel als bijlage of gekopieerde tekst.
 
 **Materiaal:** Laptops/telefoons, handout met scanprompt.
 
@@ -141,8 +143,9 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > 5. Welke zoektermen of referenties uit dit artikel kan ik gebruiken om verder te zoeken?
 
 **Docentrol:** Loop rond. Help met zoekstrategieen en beoordeel kritisch de AI-output. Veelvoorkomende vragen:
-- "Ik vind niets" → Probeer andere zoektermen; gebruik Engelse termen; zoek op het verandermodel uit het managementcollege.
-- "Is deze bron goed genoeg?" → Als het relevant is voor je vraagstuk en betrouwbaar (peer-reviewed, bekende expert), dan ja.
+- "Ik vind niets" → Probeer andere zoektermen; gebruik Engelse termen; zoek op het verandermodel uit het managementcollege; combineer termen (bijv. "organizational change" + "resistance").
+- "Het artikel zit achter een betaalmuur" → Klik op "Alle versies" in Scholar; zoek de titel + "PDF" in Google; check of de HAN-bibliotheek toegang biedt.
+- "Is dit artikel goed genoeg?" → Is het peer-reviewed? Is het relevant voor je vraagstuk? Dan ja. Let op het aantal citaties als kwaliteitsindicatie.
 
 **Tip:** Geef na 10 minuten een tijdwaarschuwing: "Nog 5 minuten. Heb je al een bron gescand?"
 
