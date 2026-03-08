@@ -9,75 +9,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .blok-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-width: 800px;
+    .ws-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
       margin: 0 auto;
     }
-    .blok-card {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
+    .ws-card {
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.25rem 1.5rem;
+      padding: 1.75rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       transition: box-shadow 150ms, transform 150ms;
-    }
-    .blok-card:hover {
-      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
-      transform: translateY(-1px);
-    }
-    .blok-nummer {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.85rem;
-      min-width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      flex-direction: column;
     }
-    .blok-info {
+    .ws-card:hover {
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-2px);
+    }
+    .ws-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: var(--primary-100);
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      align-self: flex-start;
+    }
+    .ws-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .ws-card .ws-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      margin-bottom: 0.75rem;
+    }
+    .ws-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
       flex: 1;
     }
-    .blok-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-    .blok-info p {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-    .blok-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-shrink: 0;
-    }
-    .blok-tijd {
-      font-size: 0.8rem;
-      color: var(--text-tertiary);
-      font-weight: 500;
-      white-space: nowrap;
+    .ws-card .btn {
+      margin-top: 1.25rem;
+      align-self: flex-start;
     }
     @media (max-width: 600px) {
-      .blok-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-      }
-      .blok-meta {
-        width: 100%;
-        justify-content: space-between;
+      .ws-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -86,105 +73,44 @@
 
   <nav class="navbar">
     <a href="index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
-    <ul class="navbar-links">
-      <li><a href="blok0/" class="nav-link">Oefeningen</a></li>
-    </ul>
   </nav>
 
   <header class="page-header">
     <h1>Workshop Onderzoekend Vermogen</h1>
-    <p>Van nieuwsgierigheid naar onderbouwde vraagstelling | 90 minuten | HBO Bedrijfskunde</p>
+    <p>Twee werkcolleges die samen het fundament leggen voor je onderzoek | STRA0R23-OND</p>
     <div style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
       <img src="qr-code.svg" alt="QR-code naar workshop" style="width: 150px; height: 150px; padding: 8px; background: #fff; border: 1px solid var(--border); border-radius: 12px;">
-      <span style="font-size: 0.85rem; color: var(--text-tertiary);">Scan om op je telefoon te openen</span>
+      <span style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Scan om op je telefoon te openen</span>
     </div>
   </header>
 
   <main class="container">
 
-    <div class="card-grid mt-3 mb-4">
+    <h2 class="text-center mt-3 mb-1">Kies een workshop</h2>
+    <p class="text-center text-muted mb-3">Elke sessie duurt 90 minuten en bouwt voort op de vorige.</p>
 
-      <div class="card" style="border-left: 4px solid var(--primary);">
-        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F3AF;</div>
-        <h3 class="mb-1" style="color: var(--primary);">Waarom</h3>
-        <p style="color: var(--text-secondary); line-height: 1.7;">
-          Onderzoekend vermogen is een kerncompetentie van de bedrijfskundige professional.
-          Een goed geformuleerde onderzoeksvraag is je eerste professionele handeling — een slechte
-          vraag leidt tot onderzoek dat niemand nodig heeft.
+    <div class="ws-grid mb-4">
+
+      <div class="ws-card" style="border-top: 4px solid var(--primary);">
+        <span class="ws-badge">Workshop 1</span>
+        <h3>Onderzoekend Vermogen Ontwikkelen</h3>
+        <div class="ws-subtitle">4 blokken &middot; 90 min</div>
+        <p>
+          Formuleer een ontwerpende onderzoeksvraag en onderbouw hem met bronnen.
+          Je verlaat de sessie met een onderzoeksvraag en bronnotities die je meeneemt naar Workshop 2.
         </p>
+        <a href="ws1/" class="btn btn-primary">Workshop 1 openen &rarr;</a>
       </div>
 
-      <div class="card" style="border-left: 4px solid var(--warning);">
-        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F50D;</div>
-        <h3 class="mb-1" style="color: var(--primary);">Hoe</h3>
-        <p style="color: var(--text-secondary); line-height: 1.7;">
-          Twee pijlers: <strong>onderzoek doen</strong> (systematisch formuleren) en
-          <strong>kennis toepassen</strong> (bronnen raadplegen).
+      <div class="ws-card" style="border-top: 4px solid var(--warning);">
+        <span class="ws-badge" style="background: var(--warning-light); color: var(--warning);">Workshop 2</span>
+        <h3>Van vraag naar onderzoeksontwerp</h3>
+        <div class="ws-subtitle">3 blokken + afsluiting &middot; 90 min</div>
+        <p>
+          Maak aannames zichtbaar, scan wetenschappelijke bronnen met AI,
+          en schets een onderzoeksontwerp. Je verlaat de sessie met een verdieping op je Plan van Aanpak.
         </p>
-      </div>
-
-      <div class="card" style="border-left: 4px solid var(--success);">
-        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F6A0;</div>
-        <h3 class="mb-1" style="color: var(--primary);">Wat</h3>
-        <p style="color: var(--text-secondary); line-height: 1.7;">
-          90 minuten, 4 blokken. Van check-in tot reflectie. Je verlaat de workshop met een
-          onderbouwde ontwerpende onderzoeksvraag die direct bruikbaar is voor je Plan van Aanpak.
-        </p>
-      </div>
-
-    </div>
-
-    <h2 class="text-center mb-1">Workshopflow</h2>
-    <p class="text-center text-muted mb-3">4 blokken, 90 minuten</p>
-
-    <div class="blok-list mb-4">
-
-      <div class="blok-card">
-        <div class="blok-nummer">0</div>
-        <div class="blok-info">
-          <h3>Micro-instructie + Interactieve oefeningen</h3>
-          <p>Twee pijlers van onderzoekend vermogen. Inventariseer je startpunt met interactieve oefeningen.</p>
-        </div>
-        <div class="blok-meta">
-          <span class="blok-tijd">20 min</span>
-          <a href="blok0/" class="btn btn-primary">Starten &rarr;</a>
-        </div>
-      </div>
-
-      <div class="blok-card">
-        <div class="blok-nummer">1</div>
-        <div class="blok-info">
-          <h3>Werksessie: bronverkenning</h3>
-          <p>Finaliseer je vraag en onderbouw hem met bronnen. Raadpleeg minimaal twee brontypen.</p>
-        </div>
-        <div class="blok-meta">
-          <span class="blok-tijd">60 min</span>
-          <a href="blok1-werksessie/" class="btn btn-primary">Starten &rarr;</a>
-        </div>
-      </div>
-
-      <div class="blok-card">
-        <div class="blok-nummer">2</div>
-        <div class="blok-info">
-          <h3>Plenaire showcase</h3>
-          <p>2-3 duo's presenteren hun definitieve vraag. De groep geeft per duo 1 concrete tip.</p>
-        </div>
-        <div class="blok-meta">
-          <span class="blok-tijd">5 min</span>
-          <a href="blok5-showcase/" class="btn btn-primary">Starten &rarr;</a>
-        </div>
-      </div>
-
-      <div class="blok-card">
-        <div class="blok-nummer">3</div>
-        <div class="blok-info">
-          <h3>Reflectie op onderzoekend vermogen</h3>
-          <p>Welke pijler is het meest gegroeid? Formuleer je volgende stap richting PvA-deadline.</p>
-        </div>
-        <div class="blok-meta">
-          <span class="blok-tijd">5 min</span>
-          <a href="blok6-reflectie/" class="btn btn-primary">Starten &rarr;</a>
-        </div>
+        <a href="ws2/" class="btn btn-primary">Workshop 2 openen &rarr;</a>
       </div>
 
     </div>

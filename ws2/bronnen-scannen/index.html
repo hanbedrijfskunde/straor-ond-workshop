@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bronnen scannen met AI | Workshop 2 — STRA0R23-OND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    /* ===== Artikel-structuur diagram ===== */
+    .artikel-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .artikel-flow > .artikel-row {
+      padding-left: 1rem;
+    }
+    .artikel-row {
+      display: flex;
+      align-items: stretch;
+      min-height: 80px;
+      margin: 6px 0;
+    }
+    .artikel-shape {
+      width: 140px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .artikel-shape-label {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-align: center;
+      line-height: 1.3;
+      z-index: 1;
+      position: relative;
+      padding: 0.5rem 0.25rem;
+    }
+    .artikel-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+    }
+    .artikel-content ul {
+      list-style: disc;
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .artikel-label {
+      width: 100px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+    .artikel-bracket {
+      border: 2px solid var(--warning);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+    }
+    .artikel-shape svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .shape-titel { fill: #152a45; }
+    .shape-introductie { fill: #1e3a5f; }
+    .shape-methode { fill: #2d5a8e; }
+    .shape-resultaten { fill: #2d5a8e; }
+    .shape-discussie { fill: #1e3a5f; }
+    .shape-referenties { fill: #152a45; }
+
+    /* ===== Prompt card ===== */
+    .scan-prompt {
+      background: #fff;
+      border: 2px solid var(--primary-100);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .scan-prompt pre {
+      font-family: 'Inter', inherit;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-dark);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    /* ===== Voorbeeld card ===== */
+    .voorbeeld-card {
+      background: linear-gradient(135deg, #f0f5fa 0%, #fff 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .voorbeeld-card dt {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+    }
+    .voorbeeld-card dt:first-child {
+      margin-top: 0;
+    }
+    .voorbeeld-card dd {
+      margin: 0.25rem 0 0 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .artikel-shape { width: 100px; }
+      .artikel-shape-label { font-size: 0.7rem; }
+      .artikel-label { width: 70px; font-size: 0.85rem; }
+      .artikel-content { padding: 0.5rem 0.75rem; }
+      .artikel-content ul { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
+    <ul class="navbar-links">
+      <li><a href="../" class="nav-link">&larr; Workshop 2</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Bronnen scannen met AI</h1>
+    <p>Blok 2 | Workshop 2 &mdash; Van vraag naar onderzoeksontwerp</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card mt-3 mb-3" style="border-left: 4px solid var(--primary);">
+      <h3 class="mb-1" style="color: var(--primary);">Wat doe je in dit blok?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        In Blok 1 heb je aannames ge&iuml;dentificeerd. Nu ga je kijken wat de wetenschap zegt.
+        Er zijn allerlei waardevolle bronnen &mdash; vakliteratuur, expertvideos, best practices &mdash;
+        maar vandaag oefenen we met <strong>wetenschappelijke artikelen via Google Scholar</strong>,
+        omdat die de basis vormen van je theoretisch kader.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 1 &mdash; Artikel zoeken + AI-scan (15 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Zoek via Google Scholar minimaal &eacute;&eacute;n artikel dat relevant is voor jullie onderzoeksvraag.
+        Gebruik de <strong>scanprompt</strong> hieronder om het artikel te analyseren met een AI-tool
+        (ChatGPT, Claude, NotebookLM). Vul je eigen onderzoeksvraag in.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 2 &mdash; Analyseren op flip-over (10 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Laptops dicht. Schrijf op een flip-over in je <strong>eigen woorden</strong>: wat heb je gevonden
+        en &mdash; belangrijk &mdash; <em>wat betekent dit voor jullie onderzoek?</em>
+        Dat laatste kan de AI niet voor je invullen.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 3 &mdash; Carrousel (5 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Loop naar de flip-over van een andere groep. Schrijf op een post-it:
+        <em>&ldquo;Dit inzicht kunnen wij ook gebruiken omdat...&rdquo;</em> of
+        <em>&ldquo;Dit roept bij ons de vraag op...&rdquo;</em>
+      </p>
+    </div>
+
+    <!-- Artikelstructuur -->
+    <h2 class="mb-1 mt-3">Opbouw van een wetenschappelijk artikel</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">Gebruik dit diagram als gids bij het scannen van je bron.</p>
+
+    <div class="artikel-flow mb-3">
+      <!-- Titel / Auteur / Abstract -->
+      <div class="artikel-row">
+        <div class="artikel-shape">
+          <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+            <ellipse cx="70" cy="35" rx="65" ry="32" class="shape-titel"/>
+          </svg>
+          <span class="artikel-shape-label">Titel, Auteur,<br>Abstract,<br>Trefwoorden</span>
+        </div>
+        <div class="artikel-content">
+          <ul><li>Beschrijvende informatie waarmee je een artikel kunt vinden en beoordelen</li></ul>
+        </div>
+        <div class="artikel-label"></div>
+      </div>
+
+      <!-- Bracket: core sections -->
+      <div class="artikel-bracket">
+        <!-- Introductie -->
+        <div class="artikel-row">
+          <div class="artikel-shape">
+            <svg viewBox="0 0 140 90" preserveAspectRatio="none">
+              <polygon points="0,0 140,0 120,90 20,90" class="shape-introductie"/>
+            </svg>
+            <span class="artikel-shape-label">Introductie</span>
+          </div>
+          <div class="artikel-content">
+            <ul>
+              <li>Wat is de context van dit onderzoek?</li>
+              <li>Hoe past het bij ander onderzoek?</li>
+              <li><em>Wat is de onderzoeksvraag?</em></li>
+            </ul>
+          </div>
+          <div class="artikel-label">WAAROM?</div>
+        </div>
+
+        <!-- Methode -->
+        <div class="artikel-row">
+          <div class="artikel-shape">
+            <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+              <rect x="20" y="0" width="100" height="70" class="shape-methode"/>
+            </svg>
+            <span class="artikel-shape-label">Methode</span>
+          </div>
+          <div class="artikel-content">
+            <ul><li>Wat heeft de onderzoeker gedaan om de vraag te beantwoorden?</li></ul>
+          </div>
+          <div class="artikel-label">HOE?</div>
+        </div>
+
+        <!-- Resultaten -->
+        <div class="artikel-row">
+          <div class="artikel-shape">
+            <svg viewBox="0 0 140 70" preserveAspectRatio="none">
+              <rect x="20" y="0" width="100" height="70" class="shape-resultaten"/>
+            </svg>
+            <span class="artikel-shape-label">Resultaten</span>
+          </div>
+          <div class="artikel-content">
+            <ul>
+              <li>Wat was het antwoord op de vraag?</li>
+              <li>Vaak gepresenteerd in tabellen en figuren</li>
+            </ul>
+          </div>
+          <div class="artikel-label">WAT?</div>
+        </div>
+
+        <!-- Discussie / Conclusie -->
+        <div class="artikel-row">
+          <div class="artikel-shape">
+            <svg viewBox="0 0 140 90" preserveAspectRatio="none">
+              <polygon points="20,0 120,0 140,90 0,90" class="shape-discussie"/>
+            </svg>
+            <span class="artikel-shape-label">Discussie /<br>Conclusie</span>
+          </div>
+          <div class="artikel-content">
+            <ul>
+              <li>Wat is de betekenis van dit onderzoek?</li>
+              <li>Hoe past het in wat al bekend is over het onderwerp?</li>
+            </ul>
+          </div>
+          <div class="artikel-label">EN DAN?</div>
+        </div>
+      </div><!-- /bracket -->
+
+      <!-- Referenties -->
+      <div class="artikel-row">
+        <div class="artikel-shape">
+          <svg viewBox="0 0 140 60" preserveAspectRatio="none">
+            <ellipse cx="70" cy="30" rx="60" ry="28" class="shape-referenties"/>
+          </svg>
+          <span class="artikel-shape-label">Referenties</span>
+        </div>
+        <div class="artikel-content">
+          <ul><li>Bronnen die de auteur heeft gebruikt &mdash; jouw startpunt voor verder zoeken</li></ul>
+        </div>
+        <div class="artikel-label"></div>
+      </div>
+    </div>
+
+    <!-- Scanprompt -->
+    <h2 class="mb-1">De scanprompt</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">
+      Kopieer deze prompt en plak hem in ChatGPT, Claude of NotebookLM. Voeg het artikel toe als bijlage of gekopieerde tekst.
+    </p>
+
+    <div class="scan-prompt mb-2">
+      <pre id="prompt-tekst">Ik ben een business consultant en voer een onderzoek uit bij een opdrachtgever met de volgende vraag: "[vul hier je onderzoeksvraag in]"
+
+Scan dit artikel en beantwoord de volgende vragen beknopt:
+1. WAAROM? &mdash; Wat is de context en onderzoeksvraag?
+2. HOE? &mdash; Welke methode is gebruikt?
+3. WAT? &mdash; Wat is het belangrijkste resultaat?
+4. EN DAN? &mdash; Welke zaken zijn relevant voor de onderzoeksvraag?
+5. Welke zoektermen of referenties uit dit artikel kan ik gebruiken om verder te zoeken?</pre>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="kopieerPrompt()">Kopieer prompt</button>
+      </div>
+    </div>
+
+    <!-- Uitgewerkt voorbeeld -->
+    <h2 class="mb-1 mt-3">Uitgewerkt voorbeeld</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">
+      Onderzoeksvraag: <em>&ldquo;Welke maatregelen dient het MT van organisatie X te nemen om technologische
+      innovatie binnen de productie-afdeling te bevorderen, zodat er sneller op de continu veranderende
+      klantbehoeften kan blijven worden ingespeeld?&rdquo;</em>
+      &mdash; Artikel: Gomaa (2025), Lean 4.0.
+    </p>
+
+    <div class="voorbeeld-card mb-3">
+      <dl>
+        <dt>WAAROM?</dt>
+        <dd>Context is de noodzaak voor productiebedrijven om effici&euml;ntie te verhogen en concurrentievoordeel te behouden; focus op de evolutie van Lean Manufacturing naar Lean 4.0 met digitale technologie&euml;n.</dd>
+
+        <dt>HOE?</dt>
+        <dd>Literatuuronderzoek + framework-ontwikkeling op basis van DMAIC-methodologie.</dd>
+
+        <dt>WAT?</dt>
+        <dd>Een Lean 4.0 Framework dat aantoont dat Industrie 4.0-technologie&euml;n Lean-principes versterken (real-time besluitvorming, voorspellend onderhoud, wendbaarheid).</dd>
+
+        <dt>EN DAN?</dt>
+        <dd>Relevant voor het MT: leiderschap en cultuurverandering zijn cruciaal, technologie moet ge&iuml;ntegreerd worden met bestaande methodieken, upskilling van personeel is noodzakelijk, en klantwaarde moet centraal staan via real-time data.</dd>
+
+        <dt>VERDER ZOEKEN</dt>
+        <dd>Zoektermen: &ldquo;Lean 4.0 implementation roadmap&rdquo;, &ldquo;Smart Manufacturing agility&rdquo;; referenties: Buer et al. (2018), Tortorella et al. (2019), Sanders et al. (2016).</dd>
+      </dl>
+    </div>
+
+    <!-- Zoektips -->
+    <div class="card mb-3" style="border-left: 4px solid var(--warning);">
+      <h3 class="mb-1" style="color: var(--primary);">Zoektips voor Google Scholar</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li>Gebruik <strong>Engelse zoektermen</strong> voor meer resultaten</li>
+        <li>Combineer termen, bijv. <em>&ldquo;organizational change&rdquo; + &ldquo;resistance&rdquo;</em></li>
+        <li><strong>Betaalmuur?</strong> Gebruik <a href="https://han.on.worldcat.org/" target="_blank" rel="noopener" style="color: var(--primary-light); text-decoration: underline;">HAN Linker</a> &mdash; als het goed is ingesteld heb je via Scholar direct toegang tot de meeste artikelen</li>
+        <li><strong>HAN Linker niet actief?</strong> Klik op &ldquo;Alle versies&rdquo; in Scholar, of zoek de titel + &ldquo;PDF&rdquo; in Google</li>
+        <li>Let op het <strong>aantal citaties</strong> als kwaliteitsindicatie</li>
+      </ul>
+    </div>
+
+    <!-- Kritisch AI-gebruik -->
+    <div class="card mb-3" style="border-left: 4px solid var(--danger);">
+      <h3 class="mb-1" style="color: var(--primary);">AI vat samen, jij interpreteert</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        De AI kan een artikel samenvatten, maar kan niet beoordelen wat het voor <strong>jouw</strong>
+        specifieke situatie betekent. Vraag jezelf altijd af: <em>&ldquo;Hoe weet ik dat dit klopt?
+        Wat als de AI hallucineert?&rdquo;</em> Vergelijk de AI-output met het originele artikel.
+      </p>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../aannames/" class="btn btn-secondary">&larr; Blok 1: Aannames</a>
+      <a href="../onderzoeksontwerp/" class="btn btn-primary">Blok 3: Onderzoeksontwerp &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    STRA0R23-OND &mdash; Workshop Onderzoekend Vermogen | HBO Bedrijfskunde
+  </footer>
+
+  <script>
+    function kopieerPrompt() {
+      var pre = document.getElementById('prompt-tekst');
+      var text = pre.textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target;
+        var original = btn.textContent;
+        btn.textContent = 'Gekopieerd!';
+        setTimeout(function() {
+          btn.textContent = original;
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

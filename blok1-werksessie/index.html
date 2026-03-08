@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blok 1 — Werksessie | Workshop Onderzoekend Vermogen</title>
+  <title>Blok 2 — Werksessie | Workshop Onderzoekend Vermogen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -141,85 +141,6 @@
       margin-top: 0.75rem;
     }
 
-    /* ===== Artikel-structuur diagram ===== */
-    .artikel-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    .artikel-flow > .artikel-row {
-      padding-left: 1rem;
-    }
-    .artikel-row {
-      display: flex;
-      align-items: stretch;
-      min-height: 80px;
-      margin: 6px 0;
-    }
-    .artikel-shape {
-      width: 140px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .artikel-shape-label {
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.8rem;
-      text-align: center;
-      line-height: 1.3;
-      z-index: 1;
-      position: relative;
-      padding: 0.5rem 0.25rem;
-    }
-    .artikel-content {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1rem;
-    }
-    .artikel-content ul {
-      list-style: disc;
-      margin: 0;
-      padding-left: 1.25rem;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-    .artikel-label {
-      width: 100px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--text-primary);
-    }
-    .artikel-bracket {
-      border: 2px solid var(--warning);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      margin: 1rem 0;
-    }
-    .artikel-shape svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .shape-titel { fill: #152a45; }
-    .shape-introductie { fill: #1e3a5f; }
-    .shape-methode { fill: #2d5a8e; }
-    .shape-resultaten { fill: #2d5a8e; }
-    .shape-discussie { fill: #1e3a5f; }
-    .shape-referenties { fill: #152a45; }
-
     /* ===== Tool cards ===== */
     .tool-grid {
       display: grid;
@@ -312,11 +233,6 @@
 
     /* ===== Responsive ===== */
     @media (max-width: 600px) {
-      .artikel-shape { width: 100px; }
-      .artikel-shape-label { font-size: 0.7rem; }
-      .artikel-label { width: 70px; font-size: 0.85rem; }
-      .artikel-content { padding: 0.5rem 0.75rem; }
-      .artikel-content ul { font-size: 0.8rem; }
       .tool-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -326,12 +242,12 @@
   <nav class="navbar">
     <a href="../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
     <ul class="navbar-links">
-      <li><a href="../index.html" class="nav-link">&larr; Workshop</a></li>
+      <li><a href="../ws1/" class="nav-link">&larr; Workshop 1</a></li>
     </ul>
   </nav>
 
   <header class="page-header">
-    <h1>Blok 1 — Werksessie: bronverkenning</h1>
+    <h1>Blok 2 — Werksessie: bronverkenning</h1>
     <p>60 minuten | Pijler: kennis | Autonomy + Mastery</p>
   </header>
 
@@ -352,7 +268,7 @@
     <div class="card mb-3" style="border-left: 4px solid var(--primary);">
       <h3 class="mb-1" style="color: var(--primary);">Wat doe je in dit blok?</h3>
       <p style="color: var(--text-secondary); line-height: 1.7;">
-        <strong>Korte check:</strong> Is je hoofdvraag uit blok 0 af? Wil je nog iets kleins aanpassen?
+        <strong>Korte check:</strong> Is je hoofdvraag uit Blok 1 af? Wil je nog iets kleins aanpassen?
         Neem een paar minuten om je vraag af te ronden.
       </p>
       <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.75rem;">
@@ -376,107 +292,11 @@
       </div>
 
       <div id="panel-lit" class="werkvorm-panel hidden">
-        <h3 class="mb-1" style="color: var(--primary);">Opbouw van een wetenschappelijk artikel</h3>
-        <p class="text-muted mb-2" style="font-size: 0.9rem;">Gebruik dit diagram als gids bij het scannen van je bron.</p>
-
-        <div class="artikel-flow mb-3">
-          <!-- Titel / Auteur / Abstract -->
-          <div class="artikel-row">
-            <div class="artikel-shape">
-              <svg viewBox="0 0 140 70" preserveAspectRatio="none">
-                <ellipse cx="70" cy="35" rx="65" ry="32" class="shape-titel"/>
-              </svg>
-              <span class="artikel-shape-label">Titel, Auteur,<br>Abstract,<br>Trefwoorden</span>
-            </div>
-            <div class="artikel-content">
-              <ul><li>Beschrijvende informatie waarmee je een artikel kunt vinden en beoordelen</li></ul>
-            </div>
-            <div class="artikel-label"></div>
-          </div>
-
-          <!-- Bracket: core sections -->
-          <div class="artikel-bracket">
-            <!-- Introductie -->
-            <div class="artikel-row">
-              <div class="artikel-shape">
-                <svg viewBox="0 0 140 90" preserveAspectRatio="none">
-                  <polygon points="0,0 140,0 120,90 20,90" class="shape-introductie"/>
-                </svg>
-                <span class="artikel-shape-label">Introductie</span>
-              </div>
-              <div class="artikel-content">
-                <ul>
-                  <li>Wat is de context van dit onderzoek?</li>
-                  <li>Hoe past het bij ander onderzoek?</li>
-                  <li><em>Wat is de onderzoeksvraag?</em></li>
-                </ul>
-              </div>
-              <div class="artikel-label">WAAROM?</div>
-            </div>
-
-            <!-- Methode -->
-            <div class="artikel-row">
-              <div class="artikel-shape">
-                <svg viewBox="0 0 140 70" preserveAspectRatio="none">
-                  <rect x="20" y="0" width="100" height="70" class="shape-methode"/>
-                </svg>
-                <span class="artikel-shape-label">Methode</span>
-              </div>
-              <div class="artikel-content">
-                <ul><li>Wat heeft de onderzoeker gedaan om de vraag te beantwoorden?</li></ul>
-              </div>
-              <div class="artikel-label">HOE?</div>
-            </div>
-
-            <!-- Resultaten -->
-            <div class="artikel-row">
-              <div class="artikel-shape">
-                <svg viewBox="0 0 140 70" preserveAspectRatio="none">
-                  <rect x="20" y="0" width="100" height="70" class="shape-resultaten"/>
-                </svg>
-                <span class="artikel-shape-label">Resultaten</span>
-              </div>
-              <div class="artikel-content">
-                <ul>
-                  <li>Wat was het antwoord op de vraag?</li>
-                  <li>Vaak gepresenteerd in tabellen en figuren</li>
-                </ul>
-              </div>
-              <div class="artikel-label">WAT?</div>
-            </div>
-
-            <!-- Discussie / Conclusie -->
-            <div class="artikel-row">
-              <div class="artikel-shape">
-                <svg viewBox="0 0 140 90" preserveAspectRatio="none">
-                  <polygon points="20,0 120,0 140,90 0,90" class="shape-discussie"/>
-                </svg>
-                <span class="artikel-shape-label">Discussie /<br>Conclusie</span>
-              </div>
-              <div class="artikel-content">
-                <ul>
-                  <li>Wat is de betekenis van dit onderzoek?</li>
-                  <li>Hoe past het in wat al bekend is over het onderwerp?</li>
-                </ul>
-              </div>
-              <div class="artikel-label">EN DAN?</div>
-            </div>
-          </div><!-- /bracket -->
-
-          <!-- Referenties -->
-          <div class="artikel-row">
-            <div class="artikel-shape">
-              <svg viewBox="0 0 140 60" preserveAspectRatio="none">
-                <ellipse cx="70" cy="30" rx="60" ry="28" class="shape-referenties"/>
-              </svg>
-              <span class="artikel-shape-label">Referenties</span>
-            </div>
-            <div class="artikel-content">
-              <ul><li>Bronnen die de auteur heeft gebruikt — jouw startpunt voor verder zoeken</li></ul>
-            </div>
-            <div class="artikel-label"></div>
-          </div>
-        </div>
+        <h3 class="mb-1" style="color: var(--primary);">Literatuur &mdash; Bron-scanner</h3>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">
+          Zoek een wetenschappelijk artikel via <a href="https://scholar.google.com/" target="_blank" rel="noopener" style="color: var(--primary-light); text-decoration: underline;">Google Scholar</a>
+          en noteer de kernpunten hieronder.
+        </p>
 
         <div class="scan-form" data-form="lit">
           <div>
@@ -653,13 +473,18 @@
       <h3 class="mb-1" style="color: var(--primary);">Wat lever je op?</h3>
       <p style="color: var(--text-secondary); line-height: 1.7;">
         Concept-hoofdvraag per duo + bronnennotitie (welke bronnen geraadpleegd, welke inzichten
-        hebben de vraag beïnvloed).
+        hebben de vraag be&iuml;nvloed).
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.75rem;">
+        <strong>Neem je bronnotities mee</strong> &mdash; die gebruik je in
+        <a href="../ws2/" style="color: var(--primary-light); text-decoration: underline;">Workshop 2</a>
+        om je bronnen dieper te analyseren.
       </p>
     </div>
 
     <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
-      <a href="../blok0/" class="btn btn-secondary">&larr; Blok 0: Check-in</a>
-      <a href="../blok5-showcase/" class="btn btn-primary">Blok 2: Showcase &rarr;</a>
+      <a href="../blok0/" class="btn btn-secondary">&larr; Blok 1: Check-in</a>
+      <a href="../blok5-showcase/" class="btn btn-primary">Blok 3: Showcase &rarr;</a>
     </div>
 
   </main>

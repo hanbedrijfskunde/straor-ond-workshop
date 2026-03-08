@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop 2 — Van vraag naar onderzoeksontwerp | STRA0R23-OND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .blok-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .blok-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: box-shadow 150ms, transform 150ms;
+    }
+    .blok-card:hover {
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-1px);
+    }
+    .blok-nummer {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .blok-info {
+      flex: 1;
+    }
+    .blok-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .blok-info p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .blok-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .blok-tijd {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .blok-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      margin-top: 0.35rem;
+    }
+    .blok-badge-analoog {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+    .blok-badge-digitaal {
+      background: var(--primary-100);
+      color: var(--primary);
+    }
+    @media (max-width: 600px) {
+      .blok-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .blok-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
+    <ul class="navbar-links">
+      <li><a href="../index.html" class="nav-link">&larr; Alle workshops</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Workshop 2 &mdash; Van vraag naar onderzoeksontwerp</h1>
+    <p>Van aannames naar een onderzoeksplan | 90 minuten | HBO Bedrijfskunde</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card-grid mt-3 mb-4">
+
+      <div class="card" style="border-left: 4px solid var(--primary);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F4A1;</div>
+        <h3 class="mb-1" style="color: var(--primary);">Waarom</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          Alles wat je &ldquo;weet&rdquo; over je gastorganisatie is een hypothese totdat je het hebt onderzocht.
+          De opdrachtgever heeft vaak al een oplossing in gedachten die in de vraagstelling zit verwerkt.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--warning);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F9EA;</div>
+        <h3 class="mb-1" style="color: var(--primary);">Hoe</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          Drie stappen: <strong>aannames expliciteren</strong>, wetenschappelijke bronnen
+          <strong>scannen met AI</strong>, en een <strong>onderzoeksontwerp schetsen</strong>.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--success);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">&#x1F4CB;</div>
+        <h3 class="mb-1" style="color: var(--primary);">Wat</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          90 minuten, 3 blokken. Je verlaat de workshop met een A3-werkblad waarmee je
+          je Plan van Aanpak verder kunt verdiepen.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Voorkennis -->
+    <div class="card mb-4" style="border-left: 4px solid var(--primary-light); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat neem je mee uit Workshop 1?</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li>Je afgeronde <strong>ontwerpende onderzoeksvraag</strong></li>
+        <li>Je <strong>bronnotities</strong> (literatuur, video, AI)</li>
+        <li>Kennis van <strong>verandermodellen</strong> uit het managementcollege</li>
+      </ul>
+    </div>
+
+    <h2 class="text-center mb-1">Workshopflow</h2>
+    <p class="text-center text-muted mb-3">3 blokken + afsluiting, 90 minuten</p>
+
+    <div class="blok-list mb-4">
+
+      <div class="blok-card">
+        <div class="blok-nummer">1</div>
+        <div class="blok-info">
+          <h3>Wat denk je te weten?</h3>
+          <p>Schrijf aannames op post-its, sorteer op flip-over (feit vs. aanname), markeer je top-3.</p>
+          <span class="blok-badge blok-badge-analoog">Analoog</span>
+        </div>
+        <div class="blok-meta">
+          <span class="blok-tijd">25 min</span>
+          <a href="aannames/" class="btn btn-primary">Materiaal &rarr;</a>
+        </div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2</div>
+        <div class="blok-info">
+          <h3>Wat zegt de wetenschap?</h3>
+          <p>Scan een wetenschappelijk artikel met AI, analyseer op flip-over, bekijk elkaars werk.</p>
+          <span class="blok-badge blok-badge-analoog">Analoog</span>
+          <span class="blok-badge blok-badge-digitaal">Digitaal</span>
+        </div>
+        <div class="blok-meta">
+          <span class="blok-tijd">35 min</span>
+          <a href="bronnen-scannen/" class="btn btn-primary">Materiaal &rarr;</a>
+        </div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">3</div>
+        <div class="blok-info">
+          <h3>Van aannames naar onderzoeksontwerp</h3>
+          <p>Vul het A3-werkblad in per groep: combineer literatuur met veldonderzoek. Quick-review met buurgroep.</p>
+          <span class="blok-badge blok-badge-analoog">Analoog</span>
+        </div>
+        <div class="blok-meta">
+          <span class="blok-tijd">25 min</span>
+          <a href="onderzoeksontwerp/" class="btn btn-primary">Materiaal &rarr;</a>
+        </div>
+      </div>
+
+      <div class="blok-card" style="border-left: 3px solid var(--success);">
+        <div class="blok-nummer" style="background: var(--success);">&#x2713;</div>
+        <div class="blok-info">
+          <h3>Afsluiting &mdash; Oogst en vooruitblik</h3>
+          <p>Elke groep benoemt in &eacute;&eacute;n zin hun onderzoeksvraag en wat er veranderd is in hun denken.</p>
+        </div>
+        <div class="blok-meta">
+          <span class="blok-tijd">5 min</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Producten -->
+    <div class="card mb-4" style="border-left: 4px solid var(--success); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat lever je op?</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li><strong>Flip-over aannames</strong> (feiten vs. hypothesen) &rarr; probleemstelling verdiepen (H2 PvA)</li>
+        <li><strong>Flip-over bronnenanalyse</strong> &rarr; theoretisch kader uitbreiden (H3 PvA)</li>
+        <li><strong>A3-werkblad onderzoeksontwerp</strong> &rarr; onderzoeksontwerp aanscherpen (H4 PvA)</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    STRA0R23-OND &mdash; Workshop Onderzoekend Vermogen | HBO Bedrijfskunde
+  </footer>
+
+</body>
+</html>

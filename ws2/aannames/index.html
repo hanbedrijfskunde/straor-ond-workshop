@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blok 1 — Wat denk je te weten? | Workshop 2 — STRA0R23-OND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    .flip-over {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 640px;
+      margin: 0 auto;
+      border: 3px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .flip-kolom {
+      padding: 1.25rem 1.5rem;
+      min-height: 180px;
+    }
+    .flip-kolom:first-child {
+      border-right: 2px dashed var(--border);
+    }
+    .flip-kolom h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+    .flip-kolom-feit h4 { color: var(--success); }
+    .flip-kolom-aanname h4 { color: var(--warning); }
+    .flip-postit {
+      background: #fef08a;
+      padding: 0.5rem 0.65rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+      transform: rotate(-1deg);
+      line-height: 1.4;
+    }
+    .flip-postit:nth-child(odd) { transform: rotate(0.5deg); }
+    .flip-postit.is-top3 {
+      border-left: 3px solid var(--danger);
+      font-weight: 600;
+    }
+    @media (max-width: 500px) {
+      .flip-over { grid-template-columns: 1fr; }
+      .flip-kolom:first-child { border-right: none; border-bottom: 2px dashed var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
+    <ul class="navbar-links">
+      <li><a href="../" class="nav-link">&larr; Workshop 2</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Blok 1 &mdash; Wat denk je te weten?</h1>
+    <p>25 minuten | Aannames expliciteren | Purpose</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card mt-3 mb-3" style="border-left: 4px solid var(--primary);">
+      <h3 class="mb-1" style="color: var(--primary);">Wat doe je in dit blok?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Alles wat je &ldquo;weet&rdquo; over je gastorganisatie is een hypothese totdat je het hebt onderzocht.
+        In dit blok maak je aannames zichtbaar.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 1 &mdash; Individueel brainstormen (5 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Schrijf op post-its alles wat je denkt te weten over het probleem bij je gastorganisatie.
+        <strong>E&eacute;n stelling per post-it.</strong> Niet nadenken, gewoon opschrijven.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 2 &mdash; Sorteren op flip-over (12 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Pak als groep een flip-over. Trek een verticale lijn in het midden:
+      </p>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0.5rem 1.5rem;">
+        <li><strong>Links:</strong> &ldquo;Dit weet ik zeker &mdash; ik heb bewijs&rdquo;</li>
+        <li><strong>Rechts:</strong> &ldquo;Dit denk ik / heb ik gehoord &mdash; aanname&rdquo;</li>
+      </ul>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Wees streng: <em>&ldquo;De opdrachtgever zei het&rdquo;</em> is geen bewijs.
+        Markeer daarna de <strong>drie belangrijkste aannames</strong> met een stift.
+      </p>
+
+      <h4 style="color: var(--primary); margin-top: 1.25rem; font-size: 0.9rem;">Stap 3 &mdash; Plenaire bespreking (8 min)</h4>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Twee groepen hangen hun flip-over op en lichten kort toe. De docent stelt confronterende vragen.
+      </p>
+    </div>
+
+    <!-- Flip-over voorbeeld -->
+    <h2 class="mb-1 mt-3">Voorbeeld flip-over</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">Zo ziet jullie flip-over er straks uit. Post-its met een rode rand zijn de top-3 aannames.</p>
+
+    <div class="flip-over mb-3">
+      <div class="flip-kolom flip-kolom-feit">
+        <h4>Feit &mdash; ik heb bewijs</h4>
+        <div class="flip-postit">&ldquo;Het verloop is 18% per jaar&rdquo; (HR-cijfers)</div>
+        <div class="flip-postit">&ldquo;Er zijn 3 vestigingen&rdquo; (website)</div>
+      </div>
+      <div class="flip-kolom flip-kolom-aanname">
+        <h4>Aanname &mdash; ik denk het</h4>
+        <div class="flip-postit is-top3">&ldquo;Medewerkers vertrekken door slechte onboarding&rdquo;</div>
+        <div class="flip-postit is-top3">&ldquo;Het management staat niet open voor verandering&rdquo;</div>
+        <div class="flip-postit">&ldquo;Teams communiceren niet goed onderling&rdquo;</div>
+        <div class="flip-postit is-top3">&ldquo;Er is geen duidelijke strategie&rdquo;</div>
+        <div class="flip-postit">&ldquo;Klanten zijn ontevreden over de service&rdquo;</div>
+      </div>
+    </div>
+
+    <!-- Kritische vragen -->
+    <div class="card mb-3" style="border-left: 4px solid var(--warning);">
+      <h3 class="mb-1" style="color: var(--primary);">Stel jezelf deze vragen</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li><em>&ldquo;Hoe weet je dat?&rdquo;</em></li>
+        <li><em>&ldquo;Van wie heb je dat gehoord?&rdquo;</em></li>
+        <li><em>&ldquo;Welk belang heeft die persoon?&rdquo;</em></li>
+        <li><em>&ldquo;Zou het kunnen dat de opdrachtgever al een oplossing in gedachten heeft?&rdquo;</em></li>
+      </ul>
+    </div>
+
+    <!-- Wat lever je op? -->
+    <div class="card mb-3" style="border-left: 4px solid var(--success);">
+      <h3 class="mb-1" style="color: var(--primary);">Wat lever je op?</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li><strong>Flip-over</strong> met feiten vs. aannames</li>
+        <li><strong>Top-3 aannames</strong> gemarkeerd &rarr; input voor Blok 3</li>
+      </ul>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../" class="btn btn-secondary">&larr; Workshop 2</a>
+      <a href="../bronnen-scannen/" class="btn btn-primary">Blok 2: Bronnen scannen &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    STRA0R23-OND &mdash; Workshop Onderzoekend Vermogen | HBO Bedrijfskunde
+  </footer>
+
+</body>
+</html>

@@ -144,7 +144,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 
 **Docentrol:** Loop rond. Help met zoekstrategieen en beoordeel kritisch de AI-output. Veelvoorkomende vragen:
 - "Ik vind niets" → Probeer andere zoektermen; gebruik Engelse termen; zoek op het verandermodel uit het managementcollege; combineer termen (bijv. "organizational change" + "resistance").
-- "Het artikel zit achter een betaalmuur" → Klik op "Alle versies" in Scholar; zoek de titel + "PDF" in Google; check of de HAN-bibliotheek toegang biedt.
+- "Het artikel zit achter een betaalmuur" → Gebruik HAN Linker — als het goed is ingesteld heb je via Scholar direct toegang. Anders: klik op "Alle versies" in Scholar of zoek de titel + "PDF" in Google.
 - "Is dit artikel goed genoeg?" → Is het peer-reviewed? Is het relevant voor je vraagstuk? Dan ja. Let op het aantal citaties als kwaliteitsindicatie.
 
 **Tip:** Geef na 10 minuten een tijdwaarschuwing: "Nog 5 minuten. Heb je al een bron gescand?"
@@ -183,7 +183,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 
 **Docentactie:** Deel de A3-werkbladen uit.
 
-> "Dit werkblad wordt jullie eerste concept voor H4 van het Plan van Aanpak. Vul het samen in. Gebruik wat je hebt uit Blok 1 en 2: je aannames, je bronnen, en je onderzoeksvraag. Let op: kies een methode die past bij het type aanname. Een interview is goed om diepte-inzicht te krijgen, een enquete voor breedte, een observatie om gedrag te zien."
+> "Dit werkblad helpt jullie om het onderzoeksontwerp in je Plan van Aanpak te verdiepen. Vul het samen in. Gebruik wat je hebt uit Blok 1 en 2: je aannames, je bronnen, en je onderzoeksvraag. Let op: kies een methode die past bij het type aanname. Een interview is goed om diepte-inzicht te krijgen, een enquete voor breedte, een observatie om gedrag te zien."
 
 **Velden op het werkblad:**
 
@@ -233,7 +233,7 @@ Sluit af:
 
 > "Onthoud dit: eerst objectieve kennis van buiten, dan het veld in. En alles uit de organisatie is een hypothese totdat je het hebt onderzocht."
 
-Geef kort aan hoe het onderzoeksontwerp verder uitgewerkt wordt richting H4 van het PvA en wat de volgende stap is.
+Geef kort aan hoe het onderzoeksontwerp verder uitgewerkt wordt als verdieping op het PvA en wat de volgende stap is.
 
 > "Neem je flip-overs en werkblad mee — die heb je nodig voor het Plan van Aanpak."
 
@@ -243,9 +243,9 @@ Geef kort aan hoe het onderzoeksontwerp verder uitgewerkt wordt richting H4 van 
 
 | Product | Ontstaan in | Gebruikt voor |
 |---------|-------------|---------------|
-| Flip-over aannames (feiten vs. hypothesen) | Blok 1 | Probleemstelling aanscherpen (H2 PvA) |
-| Flip-over bronnenanalyse | Blok 2 | Begin theoretisch kader (H3 PvA) |
-| A3-werkblad onderzoeksontwerp | Blok 3 | Eerste concept H4 PvA |
+| Flip-over aannames (feiten vs. hypothesen) | Blok 1 | Probleemstelling verdiepen (H2 PvA) |
+| Flip-over bronnenanalyse | Blok 2 | Theoretisch kader uitbreiden (H3 PvA) |
+| A3-werkblad onderzoeksontwerp | Blok 3 | Onderzoeksontwerp aanscherpen (H4 PvA) |
 
 ---
 
