@@ -1,9 +1,9 @@
 # Draaiboek Werkcollege Onderzoek #2 — Van vraag naar onderzoeksontwerp
 
-**Module:** STRAOR23 — Strategie en Organisatieontwikkeling
-**Sessie:** Werkcollege Onderzoek #2
-**Duur:** 90 minuten
-**Docent:** Witek ten Hove
+**Module:** STRAOR23 — Strategie en Organisatieontwikkeling\
+**Sessie:** Werkcollege Onderzoek #2\
+**Duur:** 90 minuten\
+**Docent:** Witek ten Hove\
 **Week:** 5 (Veranderstrategie)
 
 ---
@@ -53,7 +53,9 @@
 > "Pak de post-its. Schrijf alles op wat je denkt te weten over het probleem bij je gastorganisatie. Eén stelling per post-it. Niet nadenken, gewoon opschrijven. Je hebt 5 minuten."
 
 **Studenten:** Schrijven individueel op post-its.
+
 **Materiaal:** Post-its, pennen.
+
 **Tip:** Loop rond en moedig aan. Studenten die "klaar" zijn na 2 post-its: "Wat hoor je van collega's? Wat heb je gezien op de werkvloer?"
 
 ### Stap 2 — Groepswerk op flip-over (0:05–0:17)
@@ -63,8 +65,11 @@
 > "Pak nu als groep een flip-over. Trek een verticale lijn in het midden. Links: 'Dit weet ik zeker — ik heb bewijs'. Rechts: 'Dit denk ik / heb ik gehoord — aanname'. Plak elke post-it in de juiste kolom. Wees streng: 'De opdrachtgever zei het' is geen bewijs. Markeer daarna de drie belangrijkste aannames met een stift."
 
 **Studenten:** Sorteren post-its op flip-over, discussieren per post-it, markeren top-3 aannames.
+
 **Materiaal:** Flip-over, post-its, stiften.
+
 **Verwachting:** De meeste post-its belanden rechts (aannames).
+
 **Tip:** Als een groep te snel klaar is: "Zijn jullie echt streng geweest? Hoe weet je dat X een feit is?"
 
 ### Stap 3 — Plenaire bespreking (0:17–0:25)
@@ -82,6 +87,7 @@ Benoem expliciet het patroon:
 > "Merk op: de opdrachtgever heeft vaak al een oplossing in gedachten die in de vraagstelling zit verwerkt. Alles uit de organisatie is een hypothese totdat je het hebt onderzocht."
 
 **Docentrol:** Sokratisch, confronterend — niet belerend. Laat studenten zelf tot het inzicht komen.
+
 **Tip:** Beperk tot 2 groepen om binnen de tijd te blijven. Andere groepen herkennen hun eigen patronen vanzelf.
 
 ---
@@ -110,6 +116,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > "Kijk op de handout. Dit is de prompt die je straks gaat gebruiken, en dit is een voorbeeld van wat je terug kunt krijgen."
 
 **Materiaal:** Beamer/slide, handout (al uitgedeeld).
+
 **Tip:** Hou het kort — max 5 minuten. Het voorbeeld op de handout spreekt voor zich.
 
 ### Stap 2 — Bronnen zoeken + AI-scan (0:30–0:45)
@@ -119,6 +126,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > "Zoek nu zelf minimaal één bron die relevant is voor jullie onderzoeksvraag. Dat mag een wetenschappelijk artikel zijn via Google Scholar, maar ook een TED-talk, een YouTube-video van een expert, of een best practice van een andere organisatie. Als je een bron hebt, gebruik dan de scanprompt van de handout. Vul je eigen onderzoeksvraag in. Je hebt 15 minuten."
 
 **Studenten:** Zoeken individueel of in duo's een bron, voeren de scanprompt in bij een AI-tool (ChatGPT, Claude, NotebookLM).
+
 **Materiaal:** Laptops/telefoons, handout met scanprompt.
 
 **De scanprompt** (staat op de handout):
@@ -145,7 +153,9 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > "Laptops dicht. Pak een nieuw flip-overblad. Schrijf in je eigen woorden op: wat heb je gevonden en — dit is het belangrijkste — **wat betekent dit voor jullie onderzoek?** Dat laatste kan de AI niet voor je invullen."
 
 **Studenten:** Vertalen AI-output in eigen woorden op flip-over, voegen eigen interpretatie toe.
+
 **Materiaal:** Flip-over, stiften. Laptops dicht.
+
 **Tip:** De cruciale toevoeging is de eigen interpretatie. Als groepen letterlijk de AI-output overschrijven: "Dat is wat de AI zegt. Maar wat betekent het voor jullie specifieke situatie?"
 
 ### Stap 4 — Carrousel (0:55–1:00)
@@ -155,7 +165,9 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > "Sta op en loop naar de flip-over van een andere groep. Lees wat zij hebben gevonden. Schrijf op een post-it: 'Dit inzicht kunnen wij ook gebruiken omdat...' of 'Dit roept bij ons de vraag op...' Plak de post-it op hun flip-over."
 
 **Studenten:** Roteren, lezen, schrijven feedback op post-its.
+
 **Materiaal:** Post-its (andere kleur dan Blok 1), pennen.
+
 **Tip:** Dit is bewust kort (5 min). Eén rotatie is genoeg. Het doel is kruisbestuiving, niet uitgebreide feedback.
 
 ---
@@ -183,6 +195,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 | Verwachte output | Concreet beroepsproduct |
 
 **Studenten:** Vullen per groep het werkblad in.
+
 **Materiaal:** A3-werkblad, pennen, flip-overs uit Blok 1 en 2 als referentie.
 
 **Docentrol:** Loop rond en geef gerichte feedback:
@@ -200,6 +213,7 @@ Toon de scanprompt en het uitgewerkte voorbeeld (Gomaa 2025) op de handout:
 > "Wissel je werkblad met de groep naast je. Lees het door en beantwoord één vraag: is dit duidelijk genoeg om er volgende week mee aan de slag te gaan? Schrijf feedback direct op het werkblad."
 
 **Studenten:** Lezen elkaars werkblad, schrijven korte feedback.
+
 **Tip:** Niet langer dan 5 minuten — het is een snelle check, geen uitgebreide review.
 
 ---
