@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methode-Explorer | Workshop 2 — STRA0R23-OND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    /* === Keuzehulp === */
+    .keuzehulp {
+      border-left: 4px solid var(--warning);
+    }
+    .kh-stap {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+    .kh-vraag {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .kh-opties {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+    .kh-optie {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: border-color 150ms, box-shadow 150ms, transform 150ms;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-dark);
+    }
+    .kh-optie:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(30, 58, 95, 0.12);
+      transform: translateY(-1px);
+    }
+    .kh-optie.selected {
+      border-color: var(--primary);
+      background: var(--primary-50);
+    }
+
+    /* === Resultaat === */
+    .kh-resultaat {
+      background: var(--success-light);
+      border: 1px solid var(--success);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+    .kh-resultaat h4 {
+      color: var(--success);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .kh-resultaat .methode-naam {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+    .kh-resultaat .methode-beschrijving {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    .kh-tip {
+      background: var(--warning-light);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      margin-top: 0.75rem;
+    }
+    .kh-acties {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* === Filter bar === */
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 150ms;
+    }
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* === Strategie groep === */
+    .strategie-groep {
+      margin-bottom: 2rem;
+    }
+    .strategie-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .strategie-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .strategie-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+    }
+    .strategie-header p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* === Methode cards === */
+    .methode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .methode-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: box-shadow 150ms, transform 150ms;
+    }
+    .methode-card:hover {
+      box-shadow: 0 4px 12px rgba(30, 58, 95, 0.10);
+      transform: translateY(-1px);
+    }
+    .methode-card.highlight {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-100);
+    }
+    .methode-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+    .methode-card .beschrijving {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    .methode-card .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* === Veranderkracht indicator === */
+    .vk {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .vk-dots {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .vk-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .vk-hoog .vk-dot { background: var(--success); }
+    .vk-hoog .vk-label { color: var(--success); }
+    .vk-midden .vk-dot.filled { background: var(--warning); }
+    .vk-midden .vk-dot.empty { background: var(--border); }
+    .vk-midden .vk-label { color: var(--warning); }
+    .vk-laag .vk-dot.filled { background: var(--text-tertiary); }
+    .vk-laag .vk-dot.empty { background: var(--border); }
+    .vk-laag .vk-label { color: var(--text-tertiary); }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .kh-opties {
+        grid-template-columns: 1fr;
+      }
+      .methode-grid {
+        grid-template-columns: 1fr;
+      }
+      .strategie-header {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshop Onderzoekend Vermogen</a>
+    <ul class="navbar-links">
+      <li><a href="../" class="nav-link">&larr; Workshop 2</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Methode-Explorer</h1>
+    <p>Kies de juiste onderzoeksmethode voor je aannames</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Intro -->
+    <div class="card mt-3 mb-3" style="border-left: 4px solid var(--primary);">
+      <h3 class="mb-1" style="color: var(--primary);">Meer dan data ophalen</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Bij organisatieonderzoek is de keuze voor een methode ook een keuze voor <strong>hoe je met stakeholders omgaat</strong>.
+        Een enquete levert cijfers op, maar een focusgroep of co-creatiesessie levert niet alleen inzichten op &mdash;
+        het brengt mensen samen, creeert gedeeld begrip en bouwt <strong>draagvlak voor verandering</strong>.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.5rem;">
+        Elke methode hieronder toont een <strong>veranderkracht</strong>-indicator:
+        hoe sterk de methode bijdraagt aan betrokkenheid en veranderbereidheid bij de organisatie.
+      </p>
+      <div style="display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
+        <span class="vk vk-hoog">
+          <span class="vk-dots"><span class="vk-dot"></span><span class="vk-dot"></span><span class="vk-dot"></span></span>
+          <span class="vk-label">Hoog &mdash; activeert stakeholders</span>
+        </span>
+        <span class="vk vk-midden">
+          <span class="vk-dots"><span class="vk-dot filled"></span><span class="vk-dot filled"></span><span class="vk-dot empty"></span></span>
+          <span class="vk-label">Midden &mdash; persoonlijk contact</span>
+        </span>
+        <span class="vk vk-laag">
+          <span class="vk-dots"><span class="vk-dot filled"></span><span class="vk-dot empty"></span><span class="vk-dot empty"></span></span>
+          <span class="vk-label">Laag &mdash; data ophalen</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Keuzehulp -->
+    <h2 class="mb-1 mt-3">Keuzehulp</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">Beantwoord een paar vragen en krijg een aanbevolen methode.</p>
+
+    <div class="card keuzehulp mb-4" id="keuzehulp">
+      <div id="kh-stap" class="kh-stap"></div>
+      <div id="kh-vraag" class="kh-vraag"></div>
+      <div id="kh-opties" class="kh-opties"></div>
+      <div id="kh-resultaat" class="hidden"></div>
+    </div>
+
+    <!-- Overzicht -->
+    <h2 class="mb-1 mt-3">Alle methoden</h2>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">Gefilterd op wat relevant is voor organisatieonderzoek. Bron: <a href="https://cmdmethods.nl" target="_blank" rel="noopener" style="color: var(--primary-light); text-decoration: underline;">CMD Methods Pack</a>.</p>
+
+    <div class="filter-bar" id="filter-bar"></div>
+    <div id="methode-overzicht"></div>
+
+    <!-- Nav -->
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../onderzoeksontwerp/" class="btn btn-secondary">&larr; Terug naar Blok 3</a>
+      <a href="../" class="btn btn-primary">Workshop 2 overzicht</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    STRA0R23-OND &mdash; Workshop Onderzoekend Vermogen | HBO Bedrijfskunde
+  </footer>
+
+<script>
+// === DATA ===
+var STRATEGIEEN = [
+  { id: 'bibliotheek', naam: 'Bibliotheek', icon: '\uD83D\uDCDA', beschrijving: 'Wat is er al bekend?' },
+  { id: 'veld',        naam: 'Veld',        icon: '\uD83D\uDD0D', beschrijving: 'Wat gebeurt er echt bij de organisatie?' },
+  { id: 'stepping',    naam: 'Stepping Stones', icon: '\uD83D\uDDFA\uFE0F', beschrijving: 'Hoe breng je bevindingen over?' },
+  { id: 'workshop',    naam: 'Workshop',    icon: '\uD83E\uDD1D', beschrijving: 'Hoe cre\u00EBer je samen met stakeholders?' }
+];
+
+var METHODEN = [
+  // Bibliotheek
+  { id: 'literatuurstudie', naam: 'Literatuurstudie', strategie: 'bibliotheek',
+    beschrijving: 'Je wilt weten wat de wetenschap al zegt over je onderwerp.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Combineer met een focusgroep om bevindingen te toetsen bij stakeholders.' },
+  { id: 'expert-interview', naam: 'Expert-interview', strategie: 'bibliotheek',
+    beschrijving: 'Je wilt een ervaringsdeskundige of vakexpert raadplegen voor richting en context.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Een expert kan ook als ambassadeur voor je onderzoek fungeren binnen de organisatie.' },
+  { id: 'best-practices', naam: 'Best/good/bad practices', strategie: 'bibliotheek',
+    beschrijving: 'Je wilt leren van hoe andere organisaties een vergelijkbaar vraagstuk aanpakken.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Presenteer voorbeelden in een workshop om stakeholders te inspireren.' },
+  { id: 'benchmark', naam: 'Benchmark', strategie: 'bibliotheek',
+    beschrijving: 'Je wilt prestaties vergelijken met een standaard, norm of sector.',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Cijfers worden krachtiger als je ze bespreekt met het team dat ze moet verbeteren.' },
+  { id: 'trendanalyse', naam: 'Trendanalyse', strategie: 'bibliotheek',
+    beschrijving: 'Je wilt patronen over tijd herkennen in data of marktontwikkelingen.',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Deel trends in een sessie met stakeholders om urgentie te cre\u00EBren.' },
+
+  // Veld
+  { id: 'interview', naam: 'Interview', strategie: 'veld',
+    beschrijving: 'Je wilt in diepte begrijpen waarom iemand iets doet, ervaart of vindt.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'De respondent voelt zich gehoord \u2014 dat bouwt al vertrouwen op.' },
+  { id: 'enquete', naam: 'Enqu\u00EAte', strategie: 'veld',
+    beschrijving: 'Je wilt meten hoe breed een probleem, mening of behoefte leeft.',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Overweeg de resultaten terug te koppelen in een groepssessie voor meer impact.' },
+  { id: 'observatie', naam: 'Observatie', strategie: 'veld',
+    beschrijving: 'Je wilt zien wat er echt gebeurt op de werkvloer, niet alleen wat men zegt.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Bespreek je observaties met het team \u2014 dat opent het gesprek over verbeteringen.' },
+  { id: 'focusgroep', naam: 'Focusgroep', strategie: 'veld',
+    beschrijving: 'Je wilt een groep stakeholders samen laten reflecteren op een thema.',
+    dataType: 'Kwalitatief \u2022 diepte + breedte', veranderkracht: 'hoog',
+    tip: 'Deelnemers horen elkaars perspectief \u2014 dat cre\u00EBert gedeeld begrip en eigenaarschap.' },
+  { id: 'documentanalyse', naam: 'Documentanalyse', strategie: 'veld',
+    beschrijving: 'Er zijn al data of documenten (notulen, KPI\u2019s, verzuimcijfers) die je kunt analyseren.',
+    dataType: 'Kwalitatief/kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Gebruik de cijfers als gespreksstarter in een interview of workshop.' },
+  { id: 'dagboeken', naam: 'Dagboeken & probes', strategie: 'veld',
+    beschrijving: 'Je wilt ervaringen of patronen over langere tijd laten vastleggen door stakeholders.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Het bijhouden van een dagboek maakt de stakeholder bewuster van eigen patronen.' },
+
+  // Stepping Stones
+  { id: 'customer-journey', naam: 'Customer Journey', strategie: 'stepping',
+    beschrijving: 'Je wilt de beleving van een stakeholder stap voor stap in kaart brengen.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Maak de journey samen met stakeholders \u2014 dat geeft direct gedeeld inzicht.' },
+  { id: 'empathy-map', naam: 'Empathy Map', strategie: 'stepping',
+    beschrijving: 'Je wilt je inleven in wat een stakeholder denkt, voelt, zegt en doet.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Gebruik dit in een groepssessie om empathie voor de doelgroep te vergroten.' },
+  { id: 'persona', naam: 'Persona', strategie: 'stepping',
+    beschrijving: 'Je wilt een archetypisch profiel maken van een belangrijke doelgroep.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Persona\u2019s helpen het team om vanuit de gebruiker te denken bij beslissingen.' },
+
+  // Workshop
+  { id: 'co-creatie', naam: 'Co-creatie', strategie: 'workshop',
+    beschrijving: 'Je wilt samen met stakeholders oplossingen ontwerpen of verbeteren.',
+    dataType: 'Kwalitatief \u2022 diepte + breedte', veranderkracht: 'hoog',
+    tip: 'Stakeholders worden mede-eigenaar van de oplossing \u2014 dat versnelt implementatie.' },
+  { id: 'ideation', naam: 'Ideation (brainstorm)', strategie: 'workshop',
+    beschrijving: 'Je wilt creatief nieuwe idee\u00EBn genereren met een groep betrokkenen.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'hoog',
+    tip: 'Mensen die meedenken voelen zich gehoord en staan meer open voor verandering.' }
+];
+
+// === KEUZEHULP ===
+var STAPPEN = {
+  'q1': {
+    vraag: 'Wat wil je te weten komen?',
+    opties: [
+      { tekst: 'Waarom iemand iets doet of ervaart (motivatie, beleving)', next: 'q2-diepte' },
+      { tekst: 'Hoe breed een probleem of mening leeft (omvang, frequentie)', next: 'q2-breedte' },
+      { tekst: 'Hoe iets er in de praktijk uitziet (gedrag, proces)', next: 'q2-praktijk' },
+      { tekst: 'Wat andere organisaties of de wetenschap al weten', next: 'q2-bibliotheek' }
+    ]
+  },
+  'q2-diepte': {
+    vraag: 'Wie wil je betrekken?',
+    opties: [
+      { tekst: '\u00C9\u00E9n persoon \u2014 individueel gesprek', resultaat: 'interview' },
+      { tekst: 'Een groep stakeholders \u2014 samen', next: 'q3-groep' }
+    ]
+  },
+  'q2-breedte': {
+    vraag: 'Hoeveel mensen wil je bereiken?',
+    opties: [
+      { tekst: 'Veel mensen (10+) met gestandaardiseerde vragen', resultaat: 'enquete' },
+      { tekst: 'Een kleinere groep, samen in gesprek', resultaat: 'focusgroep' }
+    ]
+  },
+  'q2-praktijk': {
+    vraag: 'Hoe wil je het in kaart brengen?',
+    opties: [
+      { tekst: 'Zelf meekijken op de werkvloer', resultaat: 'observatie' },
+      { tekst: 'Bestaande documenten en data analyseren', resultaat: 'documentanalyse' },
+      { tekst: 'Stakeholders hun ervaring laten vastleggen over tijd', resultaat: 'dagboeken' },
+      { tekst: 'De beleving stap voor stap visualiseren', resultaat: 'customer-journey' }
+    ]
+  },
+  'q2-bibliotheek': {
+    vraag: 'Wat voor kennis zoek je?',
+    opties: [
+      { tekst: 'Wetenschappelijke theorie en modellen', resultaat: 'literatuurstudie' },
+      { tekst: 'Ervaringskennis van een vakexpert', resultaat: 'expert-interview' },
+      { tekst: 'Voorbeelden van andere organisaties', resultaat: 'best-practices' }
+    ]
+  },
+  'q3-groep': {
+    vraag: 'Wat is het doel van de groepssessie?',
+    opties: [
+      { tekst: 'Inzichten ophalen en samen reflecteren', resultaat: 'focusgroep' },
+      { tekst: 'Samen oplossingen bedenken of ontwerpen', resultaat: 'co-creatie' },
+      { tekst: 'Breed idee\u00EBn genereren (brainstorm)', resultaat: 'ideation' }
+    ]
+  }
+};
+
+var keuzehulpGeschiedenis = [];
+
+function toonStap(stapId) {
+  var stap = STAPPEN[stapId];
+  if (!stap) return;
+
+  keuzehulpGeschiedenis.push(stapId);
+  var stapNr = keuzehulpGeschiedenis.length;
+
+  document.getElementById('kh-stap').textContent = 'Vraag ' + stapNr;
+  document.getElementById('kh-vraag').textContent = stap.vraag;
+  document.getElementById('kh-resultaat').classList.add('hidden');
+
+  var optiesEl = document.getElementById('kh-opties');
+  optiesEl.innerHTML = '';
+
+  stap.opties.forEach(function(optie) {
+    var btn = document.createElement('button');
+    btn.className = 'kh-optie';
+    btn.textContent = optie.tekst;
+    btn.addEventListener('click', function() {
+      // Mark selected
+      optiesEl.querySelectorAll('.kh-optie').forEach(function(o) { o.classList.remove('selected'); });
+      btn.classList.add('selected');
+
+      setTimeout(function() {
+        if (optie.resultaat) {
+          toonResultaat(optie.resultaat);
+        } else if (optie.next) {
+          toonStap(optie.next);
+        }
+      }, 200);
+    });
+    optiesEl.appendChild(btn);
+  });
+
+  document.getElementById('keuzehulp').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function toonResultaat(methodeId) {
+  var methode = METHODEN.find(function(m) { return m.id === methodeId; });
+  if (!methode) return;
+
+  document.getElementById('kh-stap').textContent = 'Aanbeveling';
+  document.getElementById('kh-vraag').textContent = '';
+  document.getElementById('kh-opties').innerHTML = '';
+
+  var vkHtml = renderVK(methode.veranderkracht);
+
+  var tipHtml = '';
+  if (methode.veranderkracht === 'laag' || methode.veranderkracht === 'midden') {
+    tipHtml = '<div class="kh-tip"><strong>Tip:</strong> ' + methode.tip + '</div>';
+  }
+
+  var resultaatEl = document.getElementById('kh-resultaat');
+  resultaatEl.innerHTML =
+    '<div class="kh-resultaat">' +
+      '<h4>Aanbevolen methode</h4>' +
+      '<div class="methode-naam">' + methode.naam + '</div>' +
+      '<div class="methode-beschrijving">' + methode.beschrijving + '</div>' +
+      '<div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">' +
+        '<span class="badge badge-primary">' + methode.dataType + '</span>' +
+        vkHtml +
+      '</div>' +
+      tipHtml +
+      '<div class="kh-acties">' +
+        '<button class="btn btn-primary" onclick="resetKeuzehulp()">Opnieuw kiezen</button>' +
+        '<a href="#methode-' + methode.id + '" class="btn btn-secondary" onclick="highlightCard(\'' + methode.id + '\')">Bekijk in overzicht &darr;</a>' +
+      '</div>' +
+    '</div>';
+  resultaatEl.classList.remove('hidden');
+
+  resultaatEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetKeuzehulp() {
+  keuzehulpGeschiedenis = [];
+  toonStap('q1');
+}
+
+// === VERANDERKRACHT RENDER ===
+function renderVK(niveau) {
+  var dots, label, cls;
+  if (niveau === 'hoog') {
+    dots = '<span class="vk-dot"></span><span class="vk-dot"></span><span class="vk-dot"></span>';
+    label = 'Hoog';
+    cls = 'vk-hoog';
+  } else if (niveau === 'midden') {
+    dots = '<span class="vk-dot filled"></span><span class="vk-dot filled"></span><span class="vk-dot empty"></span>';
+    label = 'Midden';
+    cls = 'vk-midden';
+  } else {
+    dots = '<span class="vk-dot filled"></span><span class="vk-dot empty"></span><span class="vk-dot empty"></span>';
+    label = 'Laag';
+    cls = 'vk-laag';
+  }
+  return '<span class="vk ' + cls + '">' +
+    '<span class="vk-dots">' + dots + '</span>' +
+    '<span class="vk-label">Veranderkracht: ' + label + '</span>' +
+  '</span>';
+}
+
+// === OVERZICHT ===
+function renderOverzicht() {
+  var container = document.getElementById('methode-overzicht');
+  var filterBar = document.getElementById('filter-bar');
+
+  // Filter buttons
+  var alleBtn = document.createElement('button');
+  alleBtn.className = 'filter-btn active';
+  alleBtn.textContent = 'Alles';
+  alleBtn.dataset.filter = 'alles';
+  alleBtn.addEventListener('click', function() { filterMethoden('alles'); });
+  filterBar.appendChild(alleBtn);
+
+  STRATEGIEEN.forEach(function(s) {
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = s.icon + ' ' + s.naam;
+    btn.dataset.filter = s.id;
+    btn.addEventListener('click', function() { filterMethoden(s.id); });
+    filterBar.appendChild(btn);
+  });
+
+  // Strategy groups with cards
+  STRATEGIEEN.forEach(function(s) {
+    var groep = document.createElement('div');
+    groep.className = 'strategie-groep';
+    groep.dataset.strategie = s.id;
+
+    groep.innerHTML =
+      '<div class="strategie-header">' +
+        '<span class="strategie-icon">' + s.icon + '</span>' +
+        '<div><h3>' + s.naam + '</h3><p>' + s.beschrijving + '</p></div>' +
+      '</div>';
+
+    var grid = document.createElement('div');
+    grid.className = 'methode-grid';
+
+    var methoden = METHODEN.filter(function(m) { return m.strategie === s.id; });
+    methoden.forEach(function(m) {
+      var card = document.createElement('div');
+      card.className = 'methode-card';
+      card.id = 'methode-' + m.id;
+      card.dataset.strategie = s.id;
+
+      card.innerHTML =
+        '<h4>' + m.naam + '</h4>' +
+        '<p class="beschrijving">' + m.beschrijving + '</p>' +
+        '<div class="meta">' +
+          '<span class="badge badge-primary" style="font-size: 0.7rem;">' + m.dataType + '</span>' +
+          renderVK(m.veranderkracht) +
+        '</div>';
+
+      grid.appendChild(card);
+    });
+
+    groep.appendChild(grid);
+    container.appendChild(groep);
+  });
+}
+
+function filterMethoden(strategieId) {
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.filter === strategieId);
+  });
+  document.querySelectorAll('.strategie-groep').forEach(function(groep) {
+    groep.style.display = (strategieId === 'alles' || groep.dataset.strategie === strategieId) ? '' : 'none';
+  });
+}
+
+function highlightCard(methodeId) {
+  // Remove previous highlights
+  document.querySelectorAll('.methode-card.highlight').forEach(function(c) {
+    c.classList.remove('highlight');
+  });
+  // Reset filter to show all
+  filterMethoden('alles');
+  // Highlight and scroll
+  var card = document.getElementById('methode-' + methodeId);
+  if (card) {
+    card.classList.add('highlight');
+    setTimeout(function() {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+}
+
+// === INIT ===
+renderOverzicht();
+toonStap('q1');
+</script>
+
+</body>
+</html>
