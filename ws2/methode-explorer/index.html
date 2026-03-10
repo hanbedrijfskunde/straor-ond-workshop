@@ -88,6 +88,15 @@
       line-height: 1.6;
       margin-top: 0.75rem;
     }
+    .kh-analogie {
+      background: var(--primary-50);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
     .kh-acties {
       display: flex;
       gap: 0.75rem;
@@ -163,6 +172,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1.25rem;
+      cursor: pointer;
       transition: box-shadow 150ms, transform 150ms;
     }
     .methode-card:hover {
@@ -173,11 +183,27 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 2px var(--primary-100);
     }
+    .methode-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
     .methode-card h4 {
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--primary);
       margin-bottom: 0.4rem;
+    }
+    .expand-icon {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      transition: transform 200ms;
+      margin-top: 0.15rem;
+    }
+    .methode-card.open .expand-icon {
+      transform: rotate(90deg);
     }
     .methode-card .beschrijving {
       font-size: 0.85rem;
@@ -191,6 +217,50 @@
       justify-content: space-between;
       gap: 0.5rem;
       flex-wrap: wrap;
+    }
+
+    /* === Expandable detail === */
+    .methode-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms ease, margin-top 200ms ease;
+      margin-top: 0;
+    }
+    .methode-card.open .methode-detail {
+      max-height: 600px;
+      margin-top: 0.75rem;
+    }
+    .methode-detail-inner {
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+    }
+    .detail-tip {
+      background: var(--warning-light);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .detail-analogie {
+      background: var(--primary-50);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .detail-link {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--primary-light);
+      text-decoration: underline;
+      margin-top: 0.25rem;
+    }
+    .detail-link:hover {
+      color: var(--primary);
     }
 
     /* === Veranderkracht indicator === */
@@ -260,6 +330,7 @@
       <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.5rem;">
         Elke methode hieronder toont een <strong>veranderkracht</strong>-indicator:
         hoe sterk de methode bijdraagt aan betrokkenheid en veranderbereidheid bij de organisatie.
+        Klik op een kaart voor meer details en tips.
       </p>
       <div style="display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
         <span class="vk vk-hoog">
@@ -290,7 +361,7 @@
 
     <!-- Overzicht -->
     <h2 class="mb-1 mt-3">Alle methoden</h2>
-    <p class="text-muted mb-2" style="font-size: 0.9rem;">Gefilterd op wat relevant is voor organisatieonderzoek. Bron: <a href="https://cmdmethods.nl" target="_blank" rel="noopener" style="color: var(--primary-light); text-decoration: underline;">CMD Methods Pack</a>.</p>
+    <p class="text-muted mb-2" style="font-size: 0.9rem;">Alle 52 CMD-methoden, vertaald naar organisatieonderzoek. Bron: <a href="https://cmdmethods.nl" target="_blank" rel="noopener" style="color: var(--primary-light); text-decoration: underline;">CMD Methods Pack</a>. Klik op een kaart voor tips en verdieping.</p>
 
     <div class="filter-bar" id="filter-bar"></div>
     <div id="methode-overzicht"></div>
@@ -312,82 +383,342 @@
 var STRATEGIEEN = [
   { id: 'bibliotheek', naam: 'Bibliotheek', icon: '\uD83D\uDCDA', beschrijving: 'Wat is er al bekend?' },
   { id: 'veld',        naam: 'Veld',        icon: '\uD83D\uDD0D', beschrijving: 'Wat gebeurt er echt bij de organisatie?' },
-  { id: 'stepping',    naam: 'Stepping Stones', icon: '\uD83D\uDDFA\uFE0F', beschrijving: 'Hoe breng je bevindingen over?' },
-  { id: 'workshop',    naam: 'Workshop',    icon: '\uD83E\uDD1D', beschrijving: 'Hoe cre\u00EBer je samen met stakeholders?' }
+  { id: 'lab',         naam: 'Lab',         icon: '\uD83D\uDD2C', beschrijving: 'Hoe test je of iets werkt?' },
+  { id: 'showroom',    naam: 'Showroom',    icon: '\uD83C\uDFAF', beschrijving: 'Hoe presenteer en toets je je werk?' },
+  { id: 'workshop',    naam: 'Workshop',    icon: '\uD83E\uDD1D', beschrijving: 'Hoe cre\u00EBer je samen met stakeholders?' },
+  { id: 'stepping',    naam: 'Stepping Stones', icon: '\uD83D\uDDFA\uFE0F', beschrijving: 'Hoe breng je bevindingen over?' }
 ];
 
 var METHODEN = [
-  // Bibliotheek
+  // ===== BIBLIOTHEEK =====
   { id: 'literatuurstudie', naam: 'Literatuurstudie', strategie: 'bibliotheek',
     beschrijving: 'Je wilt weten wat de wetenschap al zegt over je onderwerp.',
     dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
-    tip: 'Combineer met een focusgroep om bevindingen te toetsen bij stakeholders.' },
+    tip: 'Combineer met een focusgroep om bevindingen te toetsen bij stakeholders.',
+    cmdUrl: 'literature-study' },
+
   { id: 'expert-interview', naam: 'Expert-interview', strategie: 'bibliotheek',
     beschrijving: 'Je wilt een ervaringsdeskundige of vakexpert raadplegen voor richting en context.',
     dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'Een expert kan ook als ambassadeur voor je onderzoek fungeren binnen de organisatie.' },
+    tip: 'Een expert kan ook als ambassadeur voor je onderzoek fungeren binnen de organisatie.',
+    analogie: 'Experts kunnen helpen om analogie\u00EBn te evalueren en confirmation bias te voorkomen. Leg je vergelijking voor aan een onafhankelijke expert en vraag: \u201CKlopt deze analogie? Waar gaat hij mank?\u201D (Carroll & S\u00F8rensen 2024, p. 490)',
+    cmdUrl: 'expert-interview' },
+
   { id: 'best-practices', naam: 'Best/good/bad practices', strategie: 'bibliotheek',
     beschrijving: 'Je wilt leren van hoe andere organisaties een vergelijkbaar vraagstuk aanpakken.',
     dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'laag',
-    tip: 'Presenteer voorbeelden in een workshop om stakeholders te inspireren.' },
+    tip: 'Presenteer voorbeelden in een workshop om stakeholders te inspireren.',
+    analogie: 'Verzamel niet alleen voorbeelden, maar ontleed waarom het daar werkte (de causale premissen). Vraag je af: gelden diezelfde oorzaken ook bij onze opdrachtgever? Zoek bewust ook naar negatieve analogie\u00EBn \u2014 waar verschilt de situatie wezenlijk? (Carroll & S\u00F8rensen 2024, p. 489)',
+    cmdUrl: 'best-good-and-bad-practices' },
+
   { id: 'benchmark', naam: 'Benchmark', strategie: 'bibliotheek',
     beschrijving: 'Je wilt prestaties vergelijken met een standaard, norm of sector.',
     dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
-    tip: 'Cijfers worden krachtiger als je ze bespreekt met het team dat ze moet verbeteren.' },
+    tip: 'Cijfers worden krachtiger als je ze bespreekt met het team dat ze moet verbeteren.',
+    analogie: 'Cijfers vergelijken is het vastleggen van horizontale relaties (overeenkomsten en verschillen). Maar vraag ook door naar de verticale relaties: welke oorzaken liggen achter de betere prestaties van de benchmark-organisatie? Zijn die oorzaken overdraagbaar? (Carroll & S\u00F8rensen 2024, p. 491)',
+    cmdUrl: 'benchmark-creation' },
+
   { id: 'trendanalyse', naam: 'Trendanalyse', strategie: 'bibliotheek',
     beschrijving: 'Je wilt patronen over tijd herkennen in data of marktontwikkelingen.',
     dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
-    tip: 'Deel trends in een sessie met stakeholders om urgentie te cre\u00EBren.' },
+    tip: 'Deel trends in een sessie met stakeholders om urgentie te cre\u00EBren.',
+    cmdUrl: 'trend-analysis' },
 
-  // Veld
+  { id: 'competitive-analysis', naam: 'Competitive Analysis', strategie: 'bibliotheek',
+    beschrijving: 'Analyseer hoe concurrenten of vergelijkbare organisaties een soortgelijk probleem aanpakken. Waar zit de kans om je te onderscheiden?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Gebruik de vergelijking als gespreksstarter met de opdrachtgever: wat kunnen wij leren?',
+    analogie: 'Dit is analogisch redeneren in de kern. Gebruik het 6-stappenmodel: (1) kies een succesvolle source-organisatie, (2) ontleed in premissen, (3) map naar je target, (4) zoek negatieve analogie\u00EBn, (5) evalueer causale relaties. Vermijd de valkuil om alleen overeenkomsten te zien. (Carroll & S\u00F8rensen 2024, p. 487\u2013489)',
+    cmdUrl: 'competitive-analysis' },
+
+  { id: 'design-pattern-search', naam: 'Design Pattern Search', strategie: 'bibliotheek',
+    beschrijving: 'Zoek naar bewezen aanpakken of \u201Cblauwdrukken\u201D voor organisatievraagstukken (bijv. verandermodellen, implementatieframeworks).',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Koppel elk patroon aan de specifieke context van je opdrachtgever: wat werkt hier w\u00E9l en wat niet?',
+    analogie: 'Patronen zijn structurele analogie\u00EBn over meerdere cases heen. Vraag bij elk patroon: wat is het onderliggende causale mechanisme? Werkt dat mechanisme ook in de context van mijn opdrachtgever? (Carroll & S\u00F8rensen 2024, p. 490)',
+    cmdUrl: 'design-pattern-search' },
+
+  // ===== VELD =====
   { id: 'interview', naam: 'Interview', strategie: 'veld',
     beschrijving: 'Je wilt in diepte begrijpen waarom iemand iets doet, ervaart of vindt.',
     dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'De respondent voelt zich gehoord \u2014 dat bouwt al vertrouwen op.' },
+    tip: 'De respondent voelt zich gehoord \u2014 dat bouwt al vertrouwen op.',
+    cmdUrl: 'interview' },
+
   { id: 'enquete', naam: 'Enqu\u00EAte', strategie: 'veld',
     beschrijving: 'Je wilt meten hoe breed een probleem, mening of behoefte leeft.',
     dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
-    tip: 'Overweeg de resultaten terug te koppelen in een groepssessie voor meer impact.' },
+    tip: 'Overweeg de resultaten terug te koppelen in een groepssessie voor meer impact.',
+    cmdUrl: 'survey' },
+
   { id: 'observatie', naam: 'Observatie', strategie: 'veld',
     beschrijving: 'Je wilt zien wat er echt gebeurt op de werkvloer, niet alleen wat men zegt.',
     dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
-    tip: 'Bespreek je observaties met het team \u2014 dat opent het gesprek over verbeteringen.' },
+    tip: 'Bespreek je observaties met het team \u2014 dat opent het gesprek over verbeteringen.',
+    cmdUrl: 'observation' },
+
   { id: 'focusgroep', naam: 'Focusgroep', strategie: 'veld',
     beschrijving: 'Je wilt een groep stakeholders samen laten reflecteren op een thema.',
     dataType: 'Kwalitatief \u2022 diepte + breedte', veranderkracht: 'hoog',
-    tip: 'Deelnemers horen elkaars perspectief \u2014 dat cre\u00EBert gedeeld begrip en eigenaarschap.' },
+    tip: 'Deelnemers horen elkaars perspectief \u2014 dat cre\u00EBert gedeeld begrip en eigenaarschap.',
+    cmdUrl: 'focus-group' },
+
   { id: 'documentanalyse', naam: 'Documentanalyse', strategie: 'veld',
     beschrijving: 'Er zijn al data of documenten (notulen, KPI\u2019s, verzuimcijfers) die je kunt analyseren.',
     dataType: 'Kwalitatief/kwantitatief \u2022 breedte', veranderkracht: 'laag',
-    tip: 'Gebruik de cijfers als gespreksstarter in een interview of workshop.' },
+    tip: 'Gebruik de cijfers als gespreksstarter in een interview of workshop.',
+    cmdUrl: 'document-analysis' },
+
   { id: 'dagboeken', naam: 'Dagboeken & probes', strategie: 'veld',
     beschrijving: 'Je wilt ervaringen of patronen over langere tijd laten vastleggen door stakeholders.',
     dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'Het bijhouden van een dagboek maakt de stakeholder bewuster van eigen patronen.' },
+    tip: 'Het bijhouden van een dagboek maakt de stakeholder bewuster van eigen patronen.',
+    cmdUrl: 'diary-study' },
 
-  // Stepping Stones
-  { id: 'customer-journey', naam: 'Customer Journey', strategie: 'stepping',
-    beschrijving: 'Je wilt de beleving van een stakeholder stap voor stap in kaart brengen.',
-    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'Maak de journey samen met stakeholders \u2014 dat geeft direct gedeeld inzicht.' },
-  { id: 'empathy-map', naam: 'Empathy Map', strategie: 'stepping',
-    beschrijving: 'Je wilt je inleven in wat een stakeholder denkt, voelt, zegt en doet.',
-    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'Gebruik dit in een groepssessie om empathie voor de doelgroep te vergroten.' },
-  { id: 'persona', naam: 'Persona', strategie: 'stepping',
-    beschrijving: 'Je wilt een archetypisch profiel maken van een belangrijke doelgroep.',
-    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
-    tip: 'Persona\u2019s helpen het team om vanuit de gebruiker te denken bij beslissingen.' },
+  { id: 'card-sorting', naam: 'Card sorting', strategie: 'veld',
+    beschrijving: 'Laat stakeholders prioriteiten, processen of thema\u2019s ordenen op kaartjes. Maakt impliciet denkpatronen expliciet.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Bijv. \u201CSorteer deze 10 knelpunten van meest naar minst urgent.\u201D Vergelijk de ordeningen van verschillende stakeholders.',
+    cmdUrl: 'card-sorting' },
 
-  // Workshop
+  // ===== LAB =====
+  { id: 'ab-testing', naam: 'A/B Testing (pilot)', strategie: 'lab',
+    beschrijving: 'Voer een pilot uit: test een nieuwe werkwijze bij een team (groep A) terwijl een ander team de oude werkwijze behoudt (groep B). Vergelijk resultaten.',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Betrek beide teams bij de evaluatie \u2014 dat vergroot acceptatie van de uitkomst.',
+    cmdUrl: 'a-b-testing' },
+
+  { id: 'biometrics', naam: 'Biometrics (objectieve indicatoren)', strategie: 'lab',
+    beschrijving: 'Meet werkbelasting of stress met objectieve indicatoren: ziekteverzuimcijfers, doorlooptijden, foutenpercentages. Laat de data spreken.',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Combineer harde cijfers met interviews om het verhaal achter de data te begrijpen.',
+    cmdUrl: 'biometrics' },
+
+  { id: 'field-trial', naam: 'Field Trial', strategie: 'lab',
+    beschrijving: 'Test een nieuw proces, tool of aanpak op de echte werkvloer in plaats van in een vergaderruimte. Kijk wat er gebeurt als de dagelijkse hectiek erbij komt.',
+    dataType: 'Kwalitatief/kwantitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Plan een korte evaluatie na de trial met deelnemers: wat werkte, wat niet?',
+    cmdUrl: 'field-trial' },
+
+  { id: 'online-analytics', naam: 'Online analytics (digitale data)', strategie: 'lab',
+    beschrijving: 'Analyseer bestaande digitale data: intranetgebruik, ticketsystemen, CRM-data, ERP-rapportages. Wat vertellen de systemen die de organisatie al heeft?',
+    dataType: 'Kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Presenteer de data visueel aan stakeholders \u2014 grafieken maken patronen zichtbaar die in tabellen verborgen blijven.',
+    cmdUrl: 'analytics' },
+
+  { id: 'risicoanalyse', naam: 'Risicoanalyse', strategie: 'lab',
+    beschrijving: 'Identificeer kwetsbaarheden in een proces of organisatiestructuur. Waar kan het misgaan? Wat zijn de zwakke schakels?',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Doe de risicoanalyse samen met het team \u2014 zij kennen de dagelijkse praktijk het best.',
+    cmdUrl: 'security-test' },
+
+  { id: 'thinking-aloud', naam: 'Thinking aloud', strategie: 'lab',
+    beschrijving: 'Laat een medewerker hardop vertellen wat ze denken terwijl ze een werkproces doorlopen. Onthult frustraties, onduidelijkheden of workarounds.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Neem het gesprek op (met toestemming) zodat je later kunt terugluisteren naar de precieze formuleringen.',
+    cmdUrl: 'thinking-aloud' },
+
+  { id: 'usability-testing', naam: 'Usability Testing', strategie: 'lab',
+    beschrijving: 'Test een nieuw formulier, procedure of digitaal hulpmiddel met echte medewerkers. Observeer waar ze vastlopen, fouten maken of afhaken.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Vijf deelnemers is vaak genoeg om de grootste knelpunten te vinden.',
+    cmdUrl: 'usability-testing' },
+
+  { id: 'wizard-of-oz', naam: 'Wizard of Oz', strategie: 'lab',
+    beschrijving: 'Simuleer een nieuw proces of dienst handmatig voordat je investeert in de echte implementatie. Bijv. laat een medewerker de rol van een chatbot spelen.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'hoog',
+    tip: 'Stakeholders ervaren de oplossing al \u2014 dat maakt de business case tastbaar.',
+    cmdUrl: 'wizard-of-oz' },
+
+  // ===== SHOWROOM =====
+  { id: 'ethical-check', naam: 'Ethical check', strategie: 'showroom',
+    beschrijving: 'Toets je advies of interventie op ethische en maatschappelijke impact. Past het binnen de waarden van de organisatie? Wie wordt er beter van, wie slechter?',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Betrek diverse stemmen bij de toetsing \u2014 niet alleen het management.',
+    cmdUrl: 'ethical-check' },
+
+  { id: 'expo', naam: 'Expo (poster-sessie)', strategie: 'showroom',
+    beschrijving: 'Organiseer een interne marktplaats of poster-sessie waar je onderzoeksresultaten presenteert aan stakeholders. Laagdrempelig feedback verzamelen.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'hoog',
+    tip: 'Laat bezoekers post-its plakken met reacties \u2014 dat verlaagt de drempel om feedback te geven.',
+    cmdUrl: 'expo' },
+
+  { id: 'guideline-conformity', naam: 'Guideline conformity', strategie: 'showroom',
+    beschrijving: 'Toets een proces, beleid of organisatie-inrichting aan kwaliteitsnormen, wet- en regelgeving of branche-standaarden (ISO, NEN, CAO).',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Gebruik de richtlijn als checklist en bespreek afwijkingen met de verantwoordelijke.',
+    cmdUrl: 'guideline-expert-review' },
+
+  { id: 'heuristic-evaluation', naam: 'Heuristic Evaluation', strategie: 'showroom',
+    beschrijving: 'Laat een interne of externe expert een proces of werkwijze beoordelen aan de hand van best practices of vuistregels. Snelle, goedkope kwaliteitscheck.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Gebruik 3\u20135 experts voor de beste resultaten \u2014 \u00E9\u00E9n expert mist altijd iets.',
+    cmdUrl: 'heuristic-evaluation' },
+
+  { id: 'peer-review', naam: 'Peer Review', strategie: 'showroom',
+    beschrijving: 'Laat je onderzoeksopzet, advies of interventieplan beoordelen door medestudenten, docenten of opdrachtgever. Meerdere ogen zien meer.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Geef reviewers gerichte vragen mee, anders blijft feedback oppervlakkig.',
+    analogie: 'Laat meerdere teams verschillende analogie\u00EBn ontwikkelen voor hetzelfde vraagstuk en vergelijk ze. Onderzoek toont aan dat meerdere analogie\u00EBn de voorspellende kracht vergroten (Green & Armstrong 2007, aangehaald in Carroll & S\u00F8rensen 2024, p. 494).',
+    cmdUrl: 'peer-review' },
+
+  { id: 'pitch', naam: 'Pitch', strategie: 'showroom',
+    beschrijving: 'Presenteer je advies in een korte, overtuigende pitch aan het MT of de opdrachtgever. Oefen in het helder verwoorden van je kernboodschap.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'hoog',
+    tip: 'Oefen de pitch minimaal drie keer hardop voordat je presenteert.',
+    analogie: 'Analogie\u00EBn zijn \u201Cremarkably efficient modes of communication\u201D \u2014 concreet, memorabel en overtuigend (Carroll & S\u00F8rensen 2024, p. 486). Gebruik het \u201CX is als Y\u201D-format: \u201COns voorstel is als [herkenbaar succesverhaal] maar dan voor [onze context].\u201D Pas op: een pitch-analogie is retorisch sterk maar logisch zwak \u2014 onderbouw altijd met premissen.',
+    cmdUrl: 'pitch' },
+
+  { id: 'provocative-prototyping', naam: 'Provocative Prototyping', strategie: 'showroom',
+    beschrijving: 'Presenteer een bewust overdreven of controversieel voorstel om reacties los te maken. Onthult wat stakeholders echt belangrijk vinden.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'hoog',
+    tip: 'Bijv. \u201CWat als we deze afdeling sluiten?\u201D of \u201CWat als iedereen thuiswerkt?\u201D',
+    analogie: 'Een provocatieve analogie (\u201CWij zijn het Kodak van onze sector\u201D) is een krachtig middel om verborgen aannames boven tafel te krijgen. Het dwingt stakeholders om de negatieve premissen expliciet te benoemen \u2014 precies wat Carroll & S\u00F8rensen (2024, p. 489) \u201Cnegatieve analogie\u00EBn\u201D noemen.',
+    cmdUrl: 'provocative-prototyping' },
+
+  { id: 'quality-review', naam: 'Quality Review', strategie: 'showroom',
+    beschrijving: 'Laat je eindadvies of beroepsproduct toetsen op kwaliteit en volledigheid door een onafhankelijke beoordelaar voordat je het oplevert.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Plan de review ruim voor de deadline \u2014 zo heb je nog tijd om feedback te verwerken.',
+    cmdUrl: 'product-quality-review' },
+
+  { id: 'usp', naam: 'USP (Unique Selling Points)', strategie: 'showroom',
+    beschrijving: 'Bepaal wat de unieke waarde is van jouw advies of oplossing. Waarom zou de opdrachtgever dit moeten implementeren in plaats van alternatieven?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Formuleer je USP vanuit het perspectief van de opdrachtgever, niet vanuit je eigen onderzoek.',
+    cmdUrl: 'unique-selling-points' },
+
+  // ===== WORKSHOP =====
   { id: 'co-creatie', naam: 'Co-creatie', strategie: 'workshop',
     beschrijving: 'Je wilt samen met stakeholders oplossingen ontwerpen of verbeteren.',
     dataType: 'Kwalitatief \u2022 diepte + breedte', veranderkracht: 'hoog',
-    tip: 'Stakeholders worden mede-eigenaar van de oplossing \u2014 dat versnelt implementatie.' },
+    tip: 'Stakeholders worden mede-eigenaar van de oplossing \u2014 dat versnelt implementatie.',
+    cmdUrl: 'co-creation' },
+
   { id: 'ideation', naam: 'Ideation (brainstorm)', strategie: 'workshop',
     beschrijving: 'Je wilt creatief nieuwe idee\u00EBn genereren met een groep betrokkenen.',
     dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'hoog',
-    tip: 'Mensen die meedenken voelen zich gehoord en staan meer open voor verandering.' }
+    tip: 'Mensen die meedenken voelen zich gehoord en staan meer open voor verandering.',
+    cmdUrl: 'ideation' },
+
+  { id: 'morphological-chart', naam: 'Morphological chart', strategie: 'workshop',
+    beschrijving: 'Zet de belangrijkste keuzes of variabelen van je vraagstuk in een matrix en combineer ze systematisch tot oplossingsrichtingen. Voorkomt tunnelvisie.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Werk de matrix uit op een groot vel papier zodat iedereen meekijkt en meedenkt.',
+    cmdUrl: 'morphological-chart' },
+
+  { id: 'proof-of-concept', naam: 'Proof of Concept', strategie: 'workshop',
+    beschrijving: 'Bouw een kleinschalige proef om te laten zien dat je advies werkt. Bijv. een proefperiode van twee weken met een nieuw overlegformat.',
+    dataType: 'Kwalitatief/kwantitatief \u2022 diepte', veranderkracht: 'hoog',
+    tip: 'Definieer vooraf duidelijke succescriteria \u2014 wanneer is de proef geslaagd?',
+    cmdUrl: 'proof-of-concept' },
+
+  { id: 'prototyping', naam: 'Prototyping', strategie: 'workshop',
+    beschrijving: 'Maak een concreet voorbeeld van je advies: een mock-up van een nieuw dashboard, een uitgewerkte procesbeschrijving, een voorbeeld-rapportage.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Een prototype hoeft niet perfect te zijn \u2014 het doel is feedback ophalen, niet opleveren.',
+    cmdUrl: 'prototyping' },
+
+  { id: 'scamper', naam: 'SCAMPER', strategie: 'workshop',
+    beschrijving: 'Pas SCAMPER toe op een bestaand proces: Wat als we stap X weglaten? Wat als we afdeling A en B combineren? Wat als we het omdraaien?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Loop alle 7 letters systematisch af \u2014 de meest verrassende idee\u00EBn komen vaak bij Eliminate en Reverse.',
+    cmdUrl: 'scamper' },
+
+  { id: 'sketching', naam: 'Sketching', strategie: 'workshop',
+    beschrijving: 'Schets een procesflow, organigram of klantreis op papier met stakeholders. Tekenen dwingt tot concreetheid en maakt overleg productiever.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Geef iedereen een stift \u2014 het gaat niet om tekenvaardigheid maar om duidelijkheid.',
+    cmdUrl: 'sketching' },
+
+  { id: 'storytelling', naam: 'Storytelling', strategie: 'workshop',
+    beschrijving: 'Vertel het verhaal van een medewerker, klant of team om je onderzoeksresultaten tot leven te brengen. \u201CStel je voor: het is maandagochtend en Fatima opent haar laptop...\u201D',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'hoog',
+    tip: 'Baseer je verhaal op echte data \u2014 fictie zonder fundament verliest geloofwaardigheid.',
+    analogie: 'Analogie\u00EBn zijn verhalen die causaal inzicht overdragen van een bekende situatie naar een onbekende. Een goede strategie-analogie is concreet, specifiek en roept herkenning op \u2014 precies de kenmerken van effectieve storytelling (Carroll & S\u00F8rensen 2024, p. 486).',
+    cmdUrl: 'storytelling' },
+
+  { id: 'tinkering', naam: 'Tinkering', strategie: 'workshop',
+    beschrijving: 'Experimenteer met beschikbare tools en systemen. Wat kan het bestaande ERP/CRM al wat niemand gebruikt? Welke quick wins liggen voor het oprapen?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Documenteer wat je ontdekt \u2014 vergeten functies in bestaande systemen zijn vaak de goedkoopste innovatie.',
+    cmdUrl: 'tinkering' },
+
+  // ===== STEPPING STONES =====
+  { id: 'customer-journey', naam: 'Customer Journey', strategie: 'stepping',
+    beschrijving: 'Je wilt de beleving van een stakeholder stap voor stap in kaart brengen.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Maak de journey samen met stakeholders \u2014 dat geeft direct gedeeld inzicht.',
+    cmdUrl: 'customer-journey' },
+
+  { id: 'empathy-map', naam: 'Empathy Map', strategie: 'stepping',
+    beschrijving: 'Je wilt je inleven in wat een stakeholder denkt, voelt, zegt en doet.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Gebruik dit in een groepssessie om empathie voor de doelgroep te vergroten.',
+    cmdUrl: 'empathy-map' },
+
+  { id: 'persona', naam: 'Persona', strategie: 'stepping',
+    beschrijving: 'Je wilt een archetypisch profiel maken van een belangrijke doelgroep.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Persona\u2019s helpen het team om vanuit de gebruiker te denken bij beslissingen.',
+    cmdUrl: 'persona' },
+
+  { id: 'business-model-canvas', naam: 'Business Model Canvas', strategie: 'stepping',
+    beschrijving: 'Breng het huidige en gewenste businessmodel in kaart. Waar zit de spanning? Welk onderdeel moet veranderen om het advies te laten werken?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Vul het canvas in met het team, niet alleen \u2014 dat vergroot het gedeelde begrip.',
+    analogie: 'Het BMC is een uitstekend raamwerk om analogie\u00EBn te ontleden in premissen. Vergelijk de 9 bouwstenen van een source-organisatie met je target \u2014 precies zoals het Tripadvisor/Glassdoor-voorbeeld (Carroll & S\u00F8rensen 2024, Table 3). Per bouwsteen vraag je: is dit vergelijkbaar? En zo ja, leidt dezelfde oorzaak tot hetzelfde resultaat?',
+    cmdUrl: 'business-model-canvas' },
+
+  { id: 'comparison-chart', naam: 'Comparison Chart', strategie: 'stepping',
+    beschrijving: 'Maak een vergelijkingstabel van oplossingsalternatieven, leveranciers of aanpakken. Objectiveer de keuze voor de opdrachtgever.',
+    dataType: 'Kwalitatief/kwantitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Laat de opdrachtgever de criteria meebepalen \u2014 dat vergroot acceptatie van de uitkomst.',
+    analogie: 'Dit is het instrument bij uitstek om de horizontale relaties uit een analogie te structureren. Gebruik kolommen voor source en target, en rijen voor elke premisse. Markeer expliciet zowel overeenkomsten (positieve analogie\u00EBn) als verschillen (negatieve analogie\u00EBn) \u2014 zie Table 5 in Carroll & S\u00F8rensen (2024, p. 489).',
+    cmdUrl: 'comparison-chart' },
+
+  { id: 'concept', naam: 'Concept', strategie: 'stepping',
+    beschrijving: 'Vat je advies samen in \u00E9\u00E9n helder concept of kernprincipe. Niet \u201Cwe moeten veel dingen veranderen\u201D maar \u201Cvan controle naar vertrouwen\u201D.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Test je concept op herkenbaarheid: begrijpt iemand buiten het project in \u00E9\u00E9n zin waar het over gaat?',
+    cmdUrl: 'concept' },
+
+  { id: 'design-specification', naam: 'Design Specification (implementatieplan)', strategie: 'stepping',
+    beschrijving: 'Schrijf een implementatieplan met concrete specificaties: wie doet wat, welke systemen worden aangepast, welke resources zijn nodig?',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Definieer duidelijke acceptatiecriteria: wanneer is de implementatie geslaagd?',
+    cmdUrl: 'design-specification' },
+
+  { id: 'inspiration-wall', naam: 'Inspiration Wall', strategie: 'stepping',
+    beschrijving: 'Maak een inspiratiebord (fysiek of digitaal) met voorbeelden, citaten, foto\u2019s en idee\u00EBn die relevant zijn voor het vraagstuk.',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'midden',
+    tip: 'Hang het bord op een plek waar het team dagelijks langsloopt \u2014 dat houdt het vraagstuk levend.',
+    cmdUrl: 'inspiration-wall' },
+
+  { id: 'mood-board', naam: 'Mood Board', strategie: 'stepping',
+    beschrijving: 'Visualiseer de gewenste organisatiecultuur of merkbeleving met beelden, woorden en kleuren. Helpt abstracte doelen tastbaar te maken.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'midden',
+    tip: 'Laat stakeholders zelf beelden kiezen \u2014 dat onthult onbewuste associaties.',
+    cmdUrl: 'mood-board' },
+
+  { id: 'requirements-list', naam: 'Requirements list (eisenlijst)', strategie: 'stepping',
+    beschrijving: 'Stel een eisenlijst of programma van eisen op voor de oplossing. Wat moet het minimaal opleveren? Wat zijn randvoorwaarden en wensen?',
+    dataType: 'Kwalitatief \u2022 breedte', veranderkracht: 'laag',
+    tip: 'Onderscheid must-haves van nice-to-haves \u2014 dat voorkomt scope creep.',
+    cmdUrl: 'requirements-list' },
+
+  { id: 'scenario', naam: 'Scenario', strategie: 'stepping',
+    beschrijving: 'Werk twee of drie scenario\u2019s uit: \u201CWat als we niets doen?\u201D, \u201CWat als we klein beginnen?\u201D, \u201CWat als we radicaal veranderen?\u201D',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'hoog',
+    tip: 'Scenario\u2019s helpen de opdrachtgever bij besluitvorming \u2014 presenteer ze visueel.',
+    analogie: 'Bouw scenario\u2019s op basis van analogie\u00EBn: \u201CWat als wij doen wat Organisatie X deed?\u201D Dit is de generatieve kracht van analogisch redeneren \u2014 het transfereert causaal inzicht van een bekende case naar een nieuwe situatie. Gebruik ook een omgekeerde analogie: kies een source met een negatieve uitkomst (falen) om risico\u2019s in kaart te brengen (Carroll & S\u00F8rensen 2024, p. 494).',
+    cmdUrl: 'scenario' },
+
+  { id: 'task-analysis', naam: 'Task Analysis', strategie: 'stepping',
+    beschrijving: 'Ontleed een werkproces stap voor stap: wie doet wat, hoe lang duurt het, waar zitten de knelpunten? Basis voor procesoptimalisatie.',
+    dataType: 'Kwalitatief \u2022 diepte', veranderkracht: 'laag',
+    tip: 'Loop het proces samen met een medewerker door \u2014 zij kennen de informele shortcuts.',
+    cmdUrl: 'task-analysis' }
 ];
 
 // === KEUZEHULP ===
@@ -399,7 +730,8 @@ var STAPPEN = {
       { tekst: 'Hoe breed een probleem of mening leeft (omvang, frequentie)', next: 'q2-breedte' },
       { tekst: 'Hoe iets er in de praktijk uitziet (gedrag, proces)', next: 'q2-praktijk' },
       { tekst: 'Wat andere organisaties of de wetenschap al weten', next: 'q2-bibliotheek' },
-      { tekst: 'Samen met stakeholders oplossingen verkennen of ontwerpen', next: 'q3-groep' }
+      { tekst: 'Samen met stakeholders oplossingen verkennen of ontwerpen', next: 'q3-groep' },
+      { tekst: 'Mijn advies of oplossing toetsen of presenteren', next: 'q2-toetsen' }
     ]
   },
   'q2-diepte': {
@@ -422,7 +754,10 @@ var STAPPEN = {
       { tekst: 'Zelf meekijken op de werkvloer', resultaat: 'observatie' },
       { tekst: 'Bestaande documenten en data analyseren', resultaat: 'documentanalyse' },
       { tekst: 'Stakeholders hun ervaring laten vastleggen over tijd', resultaat: 'dagboeken' },
-      { tekst: 'De beleving stap voor stap visualiseren', resultaat: 'customer-journey' }
+      { tekst: 'De beleving stap voor stap visualiseren', resultaat: 'customer-journey' },
+      { tekst: 'Een medewerker een werkproces laten doorlopen en hardop laten vertellen', resultaat: 'thinking-aloud' },
+      { tekst: 'Een nieuw proces testen op de echte werkvloer', resultaat: 'field-trial' },
+      { tekst: 'Een nieuw en oud proces vergelijken via een pilot', resultaat: 'ab-testing' }
     ]
   },
   'q2-bibliotheek': {
@@ -430,7 +765,19 @@ var STAPPEN = {
     opties: [
       { tekst: 'Wetenschappelijke theorie en modellen', resultaat: 'literatuurstudie' },
       { tekst: 'Ervaringskennis van een vakexpert', resultaat: 'expert-interview' },
-      { tekst: 'Voorbeelden van andere organisaties', resultaat: 'best-practices' }
+      { tekst: 'Voorbeelden van andere organisaties', resultaat: 'best-practices' },
+      { tekst: 'Bewezen aanpakken of frameworks voor dit type vraagstuk', resultaat: 'design-pattern-search' },
+      { tekst: 'Hoe concurrenten of vergelijkbare organisaties het aanpakken', resultaat: 'competitive-analysis' }
+    ]
+  },
+  'q2-toetsen': {
+    vraag: 'Hoe wil je toetsen of presenteren?',
+    opties: [
+      { tekst: 'Aan experts of collega\u2019s laten beoordelen', resultaat: 'peer-review' },
+      { tekst: 'Kort en krachtig pitchen aan het MT', resultaat: 'pitch' },
+      { tekst: 'Presenteren aan een breder publiek voor feedback', resultaat: 'expo' },
+      { tekst: 'Toetsen aan richtlijnen, normen of wetgeving', resultaat: 'guideline-conformity' },
+      { tekst: 'Toetsen op ethische en maatschappelijke impact', resultaat: 'ethical-check' }
     ]
   },
   'q3-groep': {
@@ -438,7 +785,8 @@ var STAPPEN = {
     opties: [
       { tekst: 'Inzichten ophalen en samen reflecteren', resultaat: 'focusgroep' },
       { tekst: 'Samen oplossingen bedenken of ontwerpen', resultaat: 'co-creatie' },
-      { tekst: 'Breed idee\u00EBn genereren (brainstorm)', resultaat: 'ideation' }
+      { tekst: 'Breed idee\u00EBn genereren (brainstorm)', resultaat: 'ideation' },
+      { tekst: 'Systematisch oplossingsrichtingen verkennen (matrix/SCAMPER)', resultaat: 'morphological-chart' }
     ]
   }
 };
@@ -464,7 +812,6 @@ function toonStap(stapId) {
     btn.className = 'kh-optie';
     btn.textContent = optie.tekst;
     btn.addEventListener('click', function() {
-      // Mark selected
       optiesEl.querySelectorAll('.kh-optie').forEach(function(o) { o.classList.remove('selected'); });
       btn.classList.add('selected');
 
@@ -493,8 +840,18 @@ function toonResultaat(methodeId) {
   var vkHtml = renderVK(methode.veranderkracht);
 
   var tipHtml = '';
-  if (methode.veranderkracht === 'laag' || methode.veranderkracht === 'midden') {
+  if (methode.tip) {
     tipHtml = '<div class="kh-tip"><strong>Tip:</strong> ' + methode.tip + '</div>';
+  }
+
+  var analogieHtml = '';
+  if (methode.analogie) {
+    analogieHtml = '<div class="kh-analogie"><strong>\uD83D\uDD17 Analogie-verdieping:</strong> ' + methode.analogie + '</div>';
+  }
+
+  var cmdLinkHtml = '';
+  if (methode.cmdUrl) {
+    cmdLinkHtml = '<a href="https://cmdmethods.nl/' + methode.cmdUrl + '/" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 0.8rem;">Bekijk op CMD Methods \u2192</a>';
   }
 
   var resultaatEl = document.getElementById('kh-resultaat');
@@ -508,9 +865,11 @@ function toonResultaat(methodeId) {
         vkHtml +
       '</div>' +
       tipHtml +
+      analogieHtml +
       '<div class="kh-acties">' +
         '<button class="btn btn-primary" onclick="resetKeuzehulp()">Opnieuw kiezen</button>' +
-        '<a href="#methode-' + methode.id + '" class="btn btn-secondary" onclick="highlightCard(\'' + methode.id + '\')">Bekijk in overzicht &darr;</a>' +
+        '<a href="#methode-' + methode.id + '" class="btn btn-secondary" onclick="highlightCard(\'' + methode.id + '\')">Bekijk in overzicht \u2193</a>' +
+        cmdLinkHtml +
       '</div>' +
     '</div>';
   resultaatEl.classList.remove('hidden');
@@ -589,13 +948,44 @@ function renderOverzicht() {
       card.id = 'methode-' + m.id;
       card.dataset.strategie = s.id;
 
+      // Build detail section
+      var detailHtml = '<div class="methode-detail"><div class="methode-detail-inner">';
+      if (m.tip) {
+        detailHtml += '<div class="detail-tip"><strong>Tip:</strong> ' + m.tip + '</div>';
+      }
+      if (m.analogie) {
+        detailHtml += '<div class="detail-analogie"><strong>\uD83D\uDD17 Analogie-verdieping:</strong> ' + m.analogie + '</div>';
+      }
+      if (m.cmdUrl) {
+        detailHtml += '<a href="https://cmdmethods.nl/' + m.cmdUrl + '/" target="_blank" rel="noopener" class="detail-link">Bekijk op CMD Methods \u2192</a>';
+      }
+      detailHtml += '</div></div>';
+
       card.innerHTML =
-        '<h4>' + m.naam + '</h4>' +
+        '<div class="methode-card-header">' +
+          '<h4>' + m.naam + '</h4>' +
+          '<span class="expand-icon">\u25B8</span>' +
+        '</div>' +
         '<p class="beschrijving">' + m.beschrijving + '</p>' +
         '<div class="meta">' +
           '<span class="badge badge-primary" style="font-size: 0.7rem;">' + m.dataType + '</span>' +
           renderVK(m.veranderkracht) +
-        '</div>';
+        '</div>' +
+        detailHtml;
+
+      // Click handler for accordion
+      card.addEventListener('click', function(e) {
+        // Don't toggle when clicking links
+        if (e.target.tagName === 'A') return;
+        var wasOpen = card.classList.contains('open');
+        // Close all other open cards
+        document.querySelectorAll('.methode-card.open').forEach(function(c) {
+          c.classList.remove('open');
+        });
+        if (!wasOpen) {
+          card.classList.add('open');
+        }
+      });
 
       grid.appendChild(card);
     });
@@ -625,6 +1015,11 @@ function highlightCard(methodeId) {
   var card = document.getElementById('methode-' + methodeId);
   if (card) {
     card.classList.add('highlight');
+    // Also open the card
+    document.querySelectorAll('.methode-card.open').forEach(function(c) {
+      c.classList.remove('open');
+    });
+    card.classList.add('open');
     setTimeout(function() {
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
