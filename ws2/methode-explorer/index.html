@@ -722,6 +722,20 @@ var METHODEN = [
 ];
 
 // === KEUZEHULP ===
+var CMD_CATEGORY_MAP = {
+  'bibliotheek': 'library',
+  'veld': 'field',
+  'lab': 'lab',
+  'showroom': 'showroom',
+  'workshop': 'workshop',
+  'stepping': 'stepping-stones'
+};
+
+function cmdMethodsUrl(methode) {
+  var cat = CMD_CATEGORY_MAP[methode.strategie] || methode.strategie;
+  return 'https://cmdmethods.nl/cards/' + cat + '/' + methode.cmdUrl;
+}
+
 var STAPPEN = {
   'q1': {
     vraag: 'Wat wil je te weten komen?',
@@ -851,7 +865,7 @@ function toonResultaat(methodeId) {
 
   var cmdLinkHtml = '';
   if (methode.cmdUrl) {
-    cmdLinkHtml = '<a href="https://cmdmethods.nl/' + methode.cmdUrl + '/" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 0.8rem;">Bekijk op CMD Methods \u2192</a>';
+    cmdLinkHtml = '<a href="' + cmdMethodsUrl(methode) + '" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 0.8rem;">Bekijk op CMD Methods \u2192</a>';
   }
 
   var resultaatEl = document.getElementById('kh-resultaat');
@@ -957,7 +971,7 @@ function renderOverzicht() {
         detailHtml += '<div class="detail-analogie"><strong>\uD83D\uDD17 Analogie-verdieping:</strong> ' + m.analogie + '</div>';
       }
       if (m.cmdUrl) {
-        detailHtml += '<a href="https://cmdmethods.nl/' + m.cmdUrl + '/" target="_blank" rel="noopener" class="detail-link">Bekijk op CMD Methods \u2192</a>';
+        detailHtml += '<a href="' + cmdMethodsUrl(m) + '" target="_blank" rel="noopener" class="detail-link">Bekijk op CMD Methods \u2192</a>';
       }
       detailHtml += '</div></div>';
 
