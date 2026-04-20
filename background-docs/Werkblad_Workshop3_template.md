@@ -30,11 +30,15 @@ _______________________________________________________________________________
 
 ## 2. Positie op het schema — *Blok 2 · PROMEF-1*
 
-> Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol neem jij nu in — en welke rol heb je zojuist verlaten of bewust vermeden?
+> Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol nemen jullie elk nu in — en welke rol hebben jullie zojuist verlaten of bewust vermeden?
 
-**Fase waar we nu zitten** (bv. "7 Communiceren"):
+**Fase waar we nu zitten** (gedeeld — bv. "7 Communiceren"):
 
 _____________________________________________________
+
+### Student 1
+
+**Naam**: _____________________________________________________
 
 **Rol die ik nu inneem** (bv. "Synthesemaker"):
 
@@ -44,27 +48,39 @@ _____________________________________________________
 
 _____________________________________________________
 
+### Student 2
+
+**Naam**: _____________________________________________________
+
+**Rol die ik nu inneem** (bv. "Tacticus"):
+
+_____________________________________________________
+
+**Rol die ik zojuist verliet of vermeed** (bv. "Onderzoeker"):
+
+_____________________________________________________
+
 ---
 
-## 3. Lens-analyse van één concrete beslissing — *Blok 2 · PROMEF-1*
+## 3. Framework-analyse van één gedeelde beslissing — *Blok 2 · PROMEF-1*
 
-> Kies één lens en analyseer één concrete beslissing of actie uit je traject van de afgelopen 2 weken.
+> Kies samen een framework of lens naar keuze en analyseer één concrete beslissing of actie uit jullie traject van de afgelopen 2 weken. Jullie zijn vrij in welk theoretisch kader je inzet.
 
-**Gekozen lens** (omcirkel):
+**Gekozen framework of lens**:
 
-- [ ] Value-Stream Mapping
-- [ ] Jobs To Be Done (JTBD)
-- [ ] Wardley Map
+_____________________________________________________
 
-**Concrete beslissing of actie van vorige week** (waar moest ik kiezen? wat heb ik beslist?):
+*(bijv. Value-Stream, JTBD, Wardley, Kotter, Caluwé's kleuren, 7S, Burke-Litwin, Lewin, ADKAR, ...)*
 
-_______________________________________________________________________________
+**Concrete beslissing of actie van vorige week** (waar moesten we kiezen? wat hebben we beslist?):
 
 _______________________________________________________________________________
 
 _______________________________________________________________________________
 
-**Wat zie ik via deze lens?** (wat brengt de lens aan het licht dat anders verborgen zou blijven?):
+_______________________________________________________________________________
+
+**Wat zien we via dit framework?** (wat brengt het aan het licht dat anders verborgen zou blijven?):
 
 _______________________________________________________________________________
 
@@ -104,29 +120,53 @@ _______________________________________________________________________________
 
 ---
 
-## 5. Twee PROMEF-zinnen in eigen woorden — *Blok 4 · PROMEF-1 + 4*
+## 5. Twee PROMEF-zinnen per student — *Blok 4 · PROMEF-1 + 4*
 
-> Formuleer twee zinnen die je direct kunt overnemen in je Handin-reflectie en die je kunt uitspreken in het PROMEF-gesprek.
+> PROMEF is individueel. Elke student formuleert eigen zinnen die direct overgenomen kunnen worden in de Handin-reflectie en uitgesproken in het PROMEF-gesprek.
 
-### Criterium 1 — Veranderen en evalueren (theoretisch concept)
+---
+
+### Student 1 — [naam uit sectie 2]
+
+**Criterium 1 — Veranderen en evalueren (theoretisch concept)**
 
 > *"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."*
 
-**Aanvulling**:
+Aanvulling:
 
 _______________________________________________________________________________
 
 _______________________________________________________________________________
 
-_______________________________________________________________________________
-
-### Criterium 4 — Professionaliseren (groei)
+**Criterium 4 — Professionaliseren (groei)**
 
 > *"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."*
 
-**Aanvulling** (rol + concreet gedragsvoorbeeld):
+Aanvulling (rol + concreet gedragsvoorbeeld):
 
 _______________________________________________________________________________
+
+_______________________________________________________________________________
+
+---
+
+### Student 2 — [naam uit sectie 2]
+
+**Criterium 1 — Veranderen en evalueren (theoretisch concept)**
+
+> *"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."*
+
+Aanvulling:
+
+_______________________________________________________________________________
+
+_______________________________________________________________________________
+
+**Criterium 4 — Professionaliseren (groei)**
+
+> *"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."*
+
+Aanvulling (rol + concreet gedragsvoorbeeld):
 
 _______________________________________________________________________________
 

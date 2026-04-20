@@ -199,35 +199,21 @@
       gap: 0.75rem;
     }
 
-    .wb-lens-choice {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.5rem;
-    }
-    .wb-lens-option {
-      flex: 1;
-      min-width: 130px;
-      padding: 0.5rem 0.7rem;
-      border: 2px solid var(--border);
+    .wb-student-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      background: #fff;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      text-align: center;
-      transition: all 150ms;
-      font-family: 'Inter', inherit;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.75rem;
     }
-    .wb-lens-option:hover {
-      border-color: var(--primary-light);
+    .wb-student-block:last-child { margin-bottom: 0; }
+    .wb-student-label {
+      font-size: 0.78rem;
+      font-weight: 600;
       color: var(--primary);
-    }
-    .wb-lens-option.selected {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .wb-promef-box {
@@ -294,7 +280,8 @@
       }
       textarea.wb-input { min-height: 36pt; }
       .wb-hint { font-size: 8pt; }
-      .wb-lens-option { font-size: 8pt; padding: 0.3rem 0.5rem; }
+      .wb-student-block { padding: 0.4rem 0.6rem; margin-bottom: 0.4rem; }
+      .wb-student-label { font-size: 8pt; margin-bottom: 0.3rem; }
       .wb-promef-box { padding: 0.4rem 0.6rem; }
       .wb-promef-stem { font-size: 9pt; }
       .wb-footer { font-size: 8pt; margin-top: 0.5rem; padding-top: 0.5rem; }
@@ -364,19 +351,46 @@
         <span class="wb-section-title">Positie op het schema</span>
         <span class="wb-section-meta">Blok 2 <span class="wb-promef">PROMEF-1</span></span>
       </div>
-      <p class="wb-hint">Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol neem jij nu in — en welke rol heb je zojuist verlaten of bewust vermeden?</p>
-      <div class="wb-three-col">
-        <div class="wb-input-group">
-          <label>Fase waar we nu zitten</label>
-          <input type="text" class="wb-input" data-field="fase" placeholder="Bijv. 7 Communiceren">
+      <p class="wb-hint">Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol nemen jullie elk nu in — en welke rol hebben jullie zojuist verlaten of bewust vermeden?</p>
+
+      <div class="wb-input-group">
+        <label>Fase waar we nu zitten (gedeeld)</label>
+        <input type="text" class="wb-input" data-field="fase" placeholder="Bijv. 7 Communiceren">
+      </div>
+
+      <div class="wb-student-block">
+        <div class="wb-student-label">Student 1</div>
+        <div class="wb-three-col">
+          <div class="wb-input-group">
+            <label>Naam</label>
+            <input type="text" class="wb-input" data-field="naam1" placeholder="Jouw naam">
+          </div>
+          <div class="wb-input-group">
+            <label>Rol die ik nu inneem</label>
+            <input type="text" class="wb-input" data-field="rol_nu_1" placeholder="Bijv. Synthesemaker">
+          </div>
+          <div class="wb-input-group">
+            <label>Rol die ik zojuist verliet of vermeed</label>
+            <input type="text" class="wb-input" data-field="rol_verlaten_1" placeholder="Bijv. Analist">
+          </div>
         </div>
-        <div class="wb-input-group">
-          <label>Rol die ik nu inneem</label>
-          <input type="text" class="wb-input" data-field="rol_nu" placeholder="Bijv. Synthesemaker">
-        </div>
-        <div class="wb-input-group">
-          <label>Rol die ik zojuist verliet of vermeed</label>
-          <input type="text" class="wb-input" data-field="rol_verlaten" placeholder="Bijv. Analist">
+      </div>
+
+      <div class="wb-student-block">
+        <div class="wb-student-label">Student 2</div>
+        <div class="wb-three-col">
+          <div class="wb-input-group">
+            <label>Naam</label>
+            <input type="text" class="wb-input" data-field="naam2" placeholder="Jouw naam">
+          </div>
+          <div class="wb-input-group">
+            <label>Rol die ik nu inneem</label>
+            <input type="text" class="wb-input" data-field="rol_nu_2" placeholder="Bijv. Tacticus">
+          </div>
+          <div class="wb-input-group">
+            <label>Rol die ik zojuist verliet of vermeed</label>
+            <input type="text" class="wb-input" data-field="rol_verlaten_2" placeholder="Bijv. Onderzoeker">
+          </div>
         </div>
       </div>
     </div>
@@ -385,25 +399,21 @@
     <div class="wb-section">
       <div class="wb-section-head">
         <span class="wb-section-num">3</span>
-        <span class="wb-section-title">Lens-analyse van één concrete beslissing</span>
+        <span class="wb-section-title">Framework-analyse van één gedeelde beslissing</span>
         <span class="wb-section-meta">Blok 2 <span class="wb-promef">PROMEF-1</span></span>
       </div>
-      <p class="wb-hint">Kies één lens en analyseer één concrete beslissing of actie uit je traject van de afgelopen 2 weken.</p>
+      <p class="wb-hint">Kies samen een framework of lens naar keuze en analyseer één concrete beslissing of actie uit jullie traject van de afgelopen 2 weken. Jullie zijn vrij in welk theoretisch kader je inzet.</p>
       <div class="wb-input-group">
-        <label>Gekozen lens</label>
-        <div class="wb-lens-choice" role="radiogroup" data-field="lens">
-          <button type="button" class="wb-lens-option" data-lens="Value-Stream">Value-Stream Mapping</button>
-          <button type="button" class="wb-lens-option" data-lens="JTBD">Jobs To Be Done (JTBD)</button>
-          <button type="button" class="wb-lens-option" data-lens="Wardley">Wardley Map</button>
-        </div>
+        <label>Gekozen framework of lens</label>
+        <input type="text" class="wb-input" data-field="lens" placeholder="Bijv. Value-Stream, JTBD, Wardley, Kotter, Caluwé, 7S, Burke-Litwin, ...">
       </div>
       <div class="wb-input-group">
         <label>Concrete beslissing of actie van vorige week</label>
-        <textarea class="wb-input" data-field="beslissing" placeholder="Waar moest ik kiezen? Wat heb ik beslist?" rows="2"></textarea>
+        <textarea class="wb-input" data-field="beslissing" placeholder="Waar moesten we kiezen? Wat hebben we beslist?" rows="2"></textarea>
       </div>
       <div class="wb-input-group">
-        <label>Wat zie ik via deze lens?</label>
-        <textarea class="wb-input" data-field="lens_inzicht" placeholder="Wat brengt de lens aan het licht dat anders verborgen zou blijven?" rows="3"></textarea>
+        <label>Wat zien we via dit framework?</label>
+        <textarea class="wb-input" data-field="lens_inzicht" placeholder="Wat brengt dit framework aan het licht dat anders verborgen zou blijven?" rows="3"></textarea>
       </div>
     </div>
 
@@ -439,19 +449,37 @@
     <div class="wb-section">
       <div class="wb-section-head">
         <span class="wb-section-num">5</span>
-        <span class="wb-section-title">Twee PROMEF-zinnen in eigen woorden</span>
+        <span class="wb-section-title">Twee PROMEF-zinnen per student</span>
         <span class="wb-section-meta">Blok 4 <span class="wb-promef">PROMEF-1 &middot; 4</span></span>
       </div>
-      <p class="wb-hint">Formuleer twee zinnen die je direct kunt overnemen in je Handin-reflectie en die je kunt uitspreken in het PROMEF-gesprek.</p>
-      <div class="wb-promef-box">
-        <div class="wb-promef-label">Criterium 1 — Veranderen en evalueren (theoretisch concept)</div>
-        <div class="wb-promef-stem">"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."</div>
-        <textarea class="wb-input" data-field="promef1" placeholder="Vul de zin zelf aan..." rows="2"></textarea>
+      <p class="wb-hint">PROMEF is individueel. Elke student formuleert eigen zinnen die direct overgenomen kunnen worden in de Handin-reflectie en uitgesproken in het PROMEF-gesprek. (Namen zijn overgenomen uit sectie 2.)</p>
+
+      <div class="wb-student-block">
+        <div class="wb-student-label">Student 1</div>
+        <div class="wb-promef-box">
+          <div class="wb-promef-label">Criterium 1 — Veranderen en evalueren (theoretisch concept)</div>
+          <div class="wb-promef-stem">"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."</div>
+          <textarea class="wb-input" data-field="promef1_s1" placeholder="Vul de zin zelf aan..." rows="2"></textarea>
+        </div>
+        <div class="wb-promef-box">
+          <div class="wb-promef-label">Criterium 4 — Professionaliseren (groei)</div>
+          <div class="wb-promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
+          <textarea class="wb-input" data-field="promef4_s1" placeholder="Rol + concreet gedragsvoorbeeld..." rows="2"></textarea>
+        </div>
       </div>
-      <div class="wb-promef-box">
-        <div class="wb-promef-label">Criterium 4 — Professionaliseren (groei)</div>
-        <div class="wb-promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
-        <textarea class="wb-input" data-field="promef4" placeholder="Rol + concreet gedragsvoorbeeld..." rows="2"></textarea>
+
+      <div class="wb-student-block">
+        <div class="wb-student-label">Student 2</div>
+        <div class="wb-promef-box">
+          <div class="wb-promef-label">Criterium 1 — Veranderen en evalueren (theoretisch concept)</div>
+          <div class="wb-promef-stem">"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."</div>
+          <textarea class="wb-input" data-field="promef1_s2" placeholder="Vul de zin zelf aan..." rows="2"></textarea>
+        </div>
+        <div class="wb-promef-box">
+          <div class="wb-promef-label">Criterium 4 — Professionaliseren (groei)</div>
+          <div class="wb-promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
+          <textarea class="wb-input" data-field="promef4_s2" placeholder="Rol + concreet gedragsvoorbeeld..." rows="2"></textarea>
+        </div>
       </div>
     </div>
 
@@ -468,24 +496,11 @@
     var STORAGE_KEY = 'ws3-werkblad';
     var canvas = document.getElementById('werkblad-canvas');
 
-    function getSelectedLens() {
-      var selected = canvas.querySelector('.wb-lens-option.selected');
-      return selected ? selected.dataset.lens : '';
-    }
-
-    function setSelectedLens(value) {
-      canvas.querySelectorAll('.wb-lens-option').forEach(function(btn) {
-        btn.classList.toggle('selected', btn.dataset.lens === value);
-      });
-    }
-
     function collectData() {
       var data = {};
       canvas.querySelectorAll('[data-field]').forEach(function(el) {
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           data[el.dataset.field] = el.value;
-        } else if (el.classList.contains('wb-lens-choice')) {
-          data[el.dataset.field] = getSelectedLens();
         }
       });
       return data;
@@ -498,8 +513,6 @@
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           el.value = data[key] || '';
           if (el.tagName === 'TEXTAREA' && el.value) autoResize(el);
-        } else if (el.classList.contains('wb-lens-choice')) {
-          setSelectedLens(data[key]);
         }
       });
     }
@@ -523,16 +536,6 @@
     // Save on input
     canvas.addEventListener('input', debouncedSave);
 
-    // Lens selection
-    canvas.querySelectorAll('.wb-lens-option').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var wasSelected = this.classList.contains('selected');
-        canvas.querySelectorAll('.wb-lens-option').forEach(function(b) { b.classList.remove('selected'); });
-        if (!wasSelected) this.classList.add('selected');
-        saveData();
-      });
-    });
-
     // Auto-resize textareas
     function autoResize(ta) {
       ta.style.height = 'auto';
@@ -550,8 +553,6 @@
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
           el.value = '';
           if (el.tagName === 'TEXTAREA') el.style.height = '';
-        } else if (el.classList.contains('wb-lens-choice')) {
-          setSelectedLens('');
         }
       });
       localStorage.removeItem(STORAGE_KEY);

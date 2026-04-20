@@ -33,7 +33,7 @@ Het schema grijpt deze patronen via:
 |---|------------------|----------|------------------|
 | L1 | Understand · Conceptual | Het schema **uitleggen als theoretisch concept** uit de fasen veranderen/evalueren van de bedrijfskundige handelingscyclus. | 1 |
 | L2 | Apply · Procedural | Het eigen lopende traject **plaatsen op het schema** (welke fase, welke rol). | 1 |
-| L3 | Analyze · Conceptual | Met één van de drie lenzen een concrete beslissing of actie uit het eigen traject **analyseren**. | 1 |
+| L3 | Analyze · Conceptual | Met een **framework of lens naar keuze** een concrete beslissing of actie uit het eigen traject **analyseren**. | 1 |
 | L4 | Evaluate · Metacognitive | Een **blind spot of rolvermijding** herkennen via Red Team-spiegel van een peer-duo. | 4 |
 | L5 | Create · Metacognitive | **Groei als professional** concreet verwoorden (rolwissel sinds PvA + voorbeeld) in PROMEF-taal. | 4 |
 
@@ -55,7 +55,7 @@ Andere PROMEF-criteria (2 sociaal-communicatief, 3 weerstand, 5 intercultureel, 
 | # | Blok | Tijd | Bloom | PROMEF | Werkvorm |
 |---|------|------|-------|--------|----------|
 | 1 | **Het schema als theoretisch concept** — docent introduceert schema nadrukkelijk als "theoretisch concept uit de fasen veranderen/evalueren van de bedrijfskundige handelingscyclus". Focus op fase 6–10 (Synthetiseren → Terugkoppelen) + drie lenzen. Micro-demo op Van den Berg. Duo's oefenen: leg in 90 sec uit aan je duo-partner hoe dit schema theoretisch werkt — alsof je voor de assessor staat. | 20 min | L1 | 1 | Plenair + duo |
-| 2 | **Plaats jezelf op het schema** — duo's plaatsen hun lopende traject op het schema: welke fase, welke rol neem ik nu in, welke rol heb ik zojuist verlaten? Kies één lens (Value-Stream / JTBD / Wardley) en analyseer één concrete beslissing/actie van vorige week. **Werkblad invullen**. Docent loopt rond, stelt verdiepende vragen (geen antwoorden). | 30 min | L2 / L3 | 1 | Duo + docent-Socratisch |
+| 2 | **Plaats jezelf op het schema** — duo's plaatsen hun lopende traject op het schema: welke fase, welke rol neemt elk van ons nu in, welke rol hebben we zojuist verlaten? Kies een **framework of lens naar keuze** (bijv. Value-Stream, JTBD, Wardley, Kotter, Caluwé, 7S) en analyseer één concrete beslissing/actie van vorige week. **Werkblad invullen** — rol-inname per student. Docent loopt rond, stelt verdiepende vragen (geen antwoorden). | 30 min | L2 / L3 | 1 | Duo + docent-Socratisch |
 | 3 | **Red Team-spiegel** — duo A en duo B wisselen. Ieder krijgt 3 spiegel-vragen over het andere traject: (a) wat zie ik aan groei in jullie verhaal? (b) welke rol lijken jullie systematisch te vermijden? (c) welke fase hebben jullie overgeslagen? Terugkoppeling als growth-spiegel, niet als kritiek. **Peer-notities op werkblad**. | 25 min | L4 | 4 | Duo ↔ duo |
 | 4 | **Van schema naar PROMEF-woorden** — elk duo schrijft in 8 min twee zinnen in eigen woorden: (1) *"Het schema als theoretisch concept helpt mij om ... uit te leggen"* (criterium 1); (2) *"Sinds mijn PvA ben ik gegroeid in rol X, zichtbaar in ..."* (criterium 4). Plenair rondje: één voorbeeld per 2 duo's. Foto van werkblad → input voor Handin. | 15 min | L5 | 1 + 4 | Duo + plenair |
 
@@ -68,13 +68,12 @@ Andere PROMEF-criteria (2 sociaal-communicatief, 3 weerstand, 5 intercultureel, 
 Kopjes die matchen met het schema en PROMEF-taal:
 
 1. **Ons traject in één zin** — wat doen we bij welke gastorganisatie?
-2. **Fase waar we nu zitten** — uit het schema (Communiceren / Besluiten / Implementeren / Terugkoppelen typisch)
-3. **Rol die ik nu inneem** — uit de rol-taxonomie
-4. **Rol die ik zojuist verliet of vermeed**
-5. **Lens-analyse** — welke lens (V-S / JTBD / Wardley) + wat zie ik?
-6. **Eén concrete actie of beslissing van vorige week** — waar heb ik mijn rol echt gespeeld?
-7. **Peer-spiegel** (blok 3): groei die zij zien · rol die wij vermijden · fase die wij overslaan
-8. **Twee PROMEF-zinnen** (blok 4): criterium 1 + criterium 4
+2. **Fase waar we nu zitten** (gedeeld) — uit het schema (Communiceren / Besluiten / Implementeren / Terugkoppelen typisch)
+3. **Rol-inname per student** — welke rol neemt elk nu in + welke rol zojuist verlaten/vermeden
+4. **Framework-analyse** (gedeeld) — framework of lens naar keuze + wat zien we?
+5. **Eén concrete beslissing of actie van vorige week** — waar hebben we onze rollen echt gespeeld?
+6. **Peer-spiegel** (blok 3): groei die zij zien · rol die wij vermijden · fase die wij overslaan
+7. **Twee PROMEF-zinnen per student** (blok 4): criterium 1 + criterium 4, individueel geformuleerd
 
 Werkblad is zowel **werkinstrument** tijdens de workshop als **bijlage** bij de Handin-reflectie.
 
@@ -82,7 +81,7 @@ Werkblad is zowel **werkinstrument** tijdens de workshop als **bijlage** bij de 
 
 - Workshop-schema (print + scherm) — bron: [schema/index.html](../ws3-rollen/schema/index.html)
 - Korte casus Van den Berg — te extraheren uit schema voor blok 1 demo
-- Drie lens-cards (Value-Stream / JTBD / Wardley) met kernvraag
+- Voorbeeld-lens-cards ter inspiratie, niet voorgeschreven (bijv. Value-Stream, JTBD, Wardley, Kotter, Caluwé)
 - Red Team-spiegelkaart met de 3 standaardvragen uit blok 3
 
 ## 6. Docentrol en facilitatie
