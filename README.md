@@ -22,9 +22,9 @@ Achtergronddocumenten: [background-docs/LRD_Workshop_Onderzoekend_Vermogen.md](b
 
 ## Workshop 3 — Rollen in adviestrajecten (Veranderkunde)
 
-90 minuten waarin 3e/4e jaars studenten de rollen expliciet maken die ze inzetten tijdens een adviestraject: Regisseur, Kadersteller, Onderzoeker, Analist, Strateeg, Tacticus, Synthesemaker, Communicator. Een 10-fasenschema met entiteitslagen (Domein/Kennis/Actie/Agent), poorten (Red Team, Mens beslist) en drie analytische lenzen (Value-Stream, JTBD, Wardley Map) dient als gedeelde taal.
+90 minuten voor studenten die **een goedgekeurd PvA hebben en dit uitvoeren** bij een gastorganisatie, onderweg naar het **PROMEF-eindassessment F-cluster**. Het schema is hier geen instructie-instrument maar een **spiegel**: duo's plaatsen hun lopende traject erop, articuleren het schema als theoretisch concept (PROMEF-criterium 1), en signaleren rol-evolutie sinds het PvA als bewijs van groei (PROMEF-criterium 4).
 
-Studenten werken in duo's aan een echt veranderkundig vraagstuk uit hun stage of afstudeertraject — vraagstuk vooraf meegenomen in één alinea (pre-work). Toetsing is formatief.
+Output per duo: een ingevuld werkblad + Red Team-spiegel van een peer, bedoeld als bijlage bij de Handin-reflectie en oefenmateriaal voor het PROMEF-gesprek. Toetsing is formatief.
 
 Ontwerpdocument: [background-docs/PRD_Workshop_Rollen_Adviestrajecten.md](background-docs/PRD_Workshop_Rollen_Adviestrajecten.md).
 
