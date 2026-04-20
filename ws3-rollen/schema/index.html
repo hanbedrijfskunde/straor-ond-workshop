@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schema — Rollen in adviestrajecten | Workshops HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    :root {
+      --domein:     var(--primary);
+      --kennis:     var(--warning);
+      --actie:      var(--success);
+      --agent:      #6b3d7a;
+      --gate:       var(--danger);
+      --bg-domein:  var(--primary-50);
+      --bg-kennis:  var(--warning-light);
+      --bg-actie:   var(--success-light);
+      --bg-agent:   #f0e8f3;
+      --bg-gate:    var(--danger-light);
+    }
+
+    .schema-container { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+    .casus {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .casus-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.25rem;
+    }
+    .casus-titel { font-weight: 600; margin-bottom: 0.35rem; color: var(--text-dark); }
+    .casus-tekst { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+    .fase { display: flex; gap: 0.75rem; margin-bottom: 0.25rem; position: relative; }
+    .fase-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      background: var(--primary); color: #fff; display: flex;
+      align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.85rem; margin-top: 2px; z-index: 2;
+    }
+    .fase-body {
+      flex: 1; background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .fase-titel { font-weight: 600; font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-dark); }
+    .rij {
+      display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center;
+      margin-bottom: 0.5rem; font-size: 0.85rem;
+    }
+    .rij-label {
+      color: var(--text-tertiary); font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 600; width: 60px; flex-shrink: 0;
+    }
+    .pil {
+      display: inline-block; padding: 0.15rem 0.6rem; border-radius: 10px;
+      font-size: 0.75rem; border: 1px solid; font-weight: 500;
+    }
+    .pil.rol    { background: var(--bg-agent);  border-color: var(--agent);  color: var(--agent); }
+    .pil.domein { background: var(--bg-domein); border-color: var(--domein); color: var(--domein); }
+    .pil.kennis { background: var(--bg-kennis); border-color: var(--kennis); color: var(--kennis); }
+    .pil.actie  { background: var(--bg-actie);  border-color: var(--actie);  color: var(--actie); }
+    .voorbeeld {
+      font-size: 0.85rem; color: var(--text-secondary); font-style: italic;
+      padding: 0.6rem 0.75rem; background: var(--surface);
+      border-left: 2px solid var(--border); margin-top: 0.5rem; border-radius: 0 6px 6px 0;
+      line-height: 1.6;
+    }
+    .voorbeeld::before { content: "→ "; color: var(--text-tertiary); font-style: normal; }
+
+    .poort {
+      background: var(--bg-gate); border: 1px dashed var(--gate);
+      color: var(--gate); padding: 0.7rem 1rem;
+      margin: 0 0 1rem 48px; border-radius: 8px; font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .poort strong {
+      display: block; font-size: 0.7rem; letter-spacing: 0.08em;
+      text-transform: uppercase; margin-bottom: 0.15rem;
+    }
+    .lus {
+      color: var(--text-tertiary); font-size: 0.8rem;
+      margin: -0.5rem 0 1rem 48px; font-style: italic;
+    }
+
+    .legenda { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .legenda-titel {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.6rem;
+    }
+    .legenda-rij { display: flex; flex-wrap: wrap; gap: 0.6rem; font-size: 0.8rem; }
+    .legenda-item { display: flex; align-items: center; gap: 0.4rem; }
+    .legenda-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid; }
+    .sw-dom { background: var(--bg-domein); border-color: var(--domein); }
+    .sw-ken { background: var(--bg-kennis); border-color: var(--kennis); }
+    .sw-act { background: var(--bg-actie);  border-color: var(--actie); }
+    .sw-agt { background: var(--bg-agent);  border-color: var(--agent); }
+
+    .fase::before {
+      content: ''; position: absolute; left: 17px; top: 36px; bottom: -16px;
+      width: 2px; background: var(--border); z-index: 1;
+    }
+    .fase:last-of-type::before { display: none; }
+
+    .lenzen { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .lenzen-intro {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.4rem;
+    }
+    .lenzen-titel { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--text-dark); }
+    .lenzen-sub { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem; line-height: 1.6; }
+    .lens-kaart {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--kennis);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.85rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .lens-kop { display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+    .lens-naam { font-size: 1rem; font-weight: 600; color: var(--kennis); }
+    .lens-herkomst { font-size: 0.8rem; color: var(--text-tertiary); font-style: italic; }
+    .lens-tekst { font-size: 0.875rem; color: var(--text-dark); margin-bottom: 0.6rem; line-height: 1.65; }
+    .lens-tekst:last-child { margin-bottom: 0; }
+    .lens-inzoom {
+      font-size: 0.875rem; line-height: 1.65;
+      padding: 0.6rem 0.75rem; background: var(--surface);
+      border-left: 2px solid var(--border); border-radius: 0 6px 6px 0;
+      color: var(--text-dark);
+    }
+    .lens-inzoom-label { font-weight: 600; color: var(--kennis); }
+
+    @media (max-width: 600px) {
+      .poort, .lus { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../" class="nav-link">← Workshop 3</a></li>
+      <li><a href="../../index.html" class="nav-link">Alle workshops</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Hoe het agentic team een opdracht uitvoert</h1>
+    <p>Ontologie in de praktijk — fase voor fase, van intake tot terugkoppeling</p>
+  </header>
+
+  <main class="schema-container">
+
+    <div class="casus">
+      <div class="casus-label">Fictieve casus</div>
+      <div class="casus-titel">Installatiebedrijf Van den Berg (20 FTE)</div>
+      <div class="casus-tekst">
+        DGA Mark van den Berg (tweede generatie, familiebedrijf,
+        elektrotechnische installaties B2B) belt THTX:
+        <em>"Collega-installateurs werken met AI. Ik wil niet achterlopen, maar
+        ook geen domme fouten maken. Wat moet ik doen — en vooral: wat níet?"</em>
+        Horizon: 12 maanden. Budget: indicatief €35k. Gevoelig: monteurs zijn
+        sceptisch, en bij een foute offerte zit de aansprakelijkheid bij Van den Berg.
+      </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="fase">
+      <div class="fase-num">1</div>
+      <div class="fase-body">
+        <div class="fase-titel">Intake</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Regisseur</span></div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil domein">Opdracht</span>
+          <span class="pil domein">Opdrachtgever</span>
+          <span class="pil domein">Context</span>
+        </div>
+        <div class="voorbeeld">
+          Regisseur legt de opdracht vast: scope = offerteproces + planning +
+          klantcommunicatie. Context: MKB zonder formele OR, wel
+          personeelsvertegenwoordiging. Stakeholders: DGA (besluit),
+          bedrijfsleider, planner, senior-monteur als informele woordvoerder.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="fase">
+      <div class="fase-num">2</div>
+      <div class="fase-body">
+        <div class="fase-titel">Kaderen</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Kadersteller</span></div>
+        <div class="rij"><span class="rij-label">In</span> <span class="pil domein">Opdracht</span></div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil domein">Vraagstuk</span>
+          <span class="pil domein">Doelstelling</span>
+        </div>
+        <div class="voorbeeld">
+          "Wat moet ik doen?" wordt:<br>
+          V1 (diagnostisch) — <em>waar verliezen we nu tijd in offerte-tot-factuur?</em><br>
+          V2 (strategisch) — <em>willen we voorop lopen, meelopen of bewust
+          achterblijven op AI?</em><br>
+          V3 (tactisch) — <em>welke tools kunnen we binnen 3 maanden testen
+          zonder aansprakelijkheidsrisico?</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="fase">
+      <div class="fase-num">3</div>
+      <div class="fase-body">
+        <div class="fase-titel">Onderzoeken</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Onderzoeker</span></div>
+        <div class="rij"><span class="rij-label">In</span> <span class="pil domein">Vraagstuk</span></div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil kennis">Onderbouwing</span>
+          <span class="pil kennis">Herkomst</span>
+        </div>
+        <div class="voorbeeld">
+          Verzamelt offertedoorlooptijden (gemiddeld 9 werkdagen), win/loss-ratio,
+          interviews met planner en twee monteurs, rapporten van Techniek NL,
+          demo's van drie planning-tools. Elke Onderbouwing krijgt Herkomst
+          (bron, tijdstempel, methode, betrouwbaarheid).
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="fase">
+      <div class="fase-num">4</div>
+      <div class="fase-body">
+        <div class="fase-titel">Analyseren</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Analist</span></div>
+        <div class="rij"><span class="rij-label">In</span>
+          <span class="pil kennis">Onderbouwing</span>
+          <span class="pil kennis">Lens</span>
+        </div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil kennis">Inzicht</span>
+          <span class="pil kennis">Aanname</span>
+          <span class="pil kennis">Hypothese</span>
+        </div>
+        <div class="voorbeeld">
+          Analist past drie lenzen toe: Value-Stream (waar zit de wachttijd?),
+          JTBD (welke klus probeert de klant af te krijgen?), Wardley Map (waar is
+          AI commodity en waar moet het custom?). Expliciete aannames:
+          "monteurs blijven schaars", "aansprakelijkheid blijft altijd bij ons".
+        </div>
+      </div>
+    </div>
+
+    <div class="lus">↻ Lus: hypotheses die niet houden sturen de Onderzoeker terug het veld in.</div>
+
+    <!-- FASE 5 -->
+    <div class="fase">
+      <div class="fase-num">5</div>
+      <div class="fase-body">
+        <div class="fase-titel">Opties genereren</div>
+        <div class="rij"><span class="rij-label">Rol</span>
+          <span class="pil rol">Strateeg</span>
+          <span class="pil rol">Tacticus</span>
+        </div>
+        <div class="rij"><span class="rij-label">In</span> <span class="pil kennis">Inzicht</span></div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil actie">Optie</span>
+          <span class="pil actie">Risico</span>
+        </div>
+        <div class="voorbeeld">
+          Strateeg schetst drie koersen: Conservatief (alleen interne AI-hulp,
+          geen klant-facing), Gematigd (AI-assistent voor offertes en planning,
+          mens bewaakt), Ambitieus (plus klant-chatbot). Tacticus werkt per
+          koers concrete pilots uit. Risicoprofielen per optie.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="fase">
+      <div class="fase-num">6</div>
+      <div class="fase-body">
+        <div class="fase-titel">Synthetiseren</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Synthesemaker</span></div>
+        <div class="rij"><span class="rij-label">In</span>
+          <span class="pil actie">Optie</span>
+          <span class="pil kennis">Inzicht</span>
+        </div>
+        <div class="rij"><span class="rij-label">Uit</span> <span class="pil actie">Aanbeveling</span> <span style="font-size:0.7rem;color:var(--text-tertiary)">(concept)</span></div>
+        <div class="voorbeeld">
+          Kiest gematigde koers met twee pilots: AI-offerte-assistent en
+          planning-optimalisatie. Klant-facing AI pas overwegen na maand 6.
+          Verworpen opties blijven zichtbaar, mét reden.
+        </div>
+      </div>
+    </div>
+
+    <!-- POORT: Red Team -->
+    <div class="poort">
+      <strong>Poort — Red Team</strong>
+      Tegenspraak-ronde: wat als monteurs massaal afhaken? Wat als een
+      AI-offerte een calculatiefout bevat die de verzekering niet dekt?
+      Bij falen → terug naar fase 4.
+    </div>
+
+    <!-- FASE 7 -->
+    <div class="fase">
+      <div class="fase-num">7</div>
+      <div class="fase-body">
+        <div class="fase-titel">Communiceren</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">Communicator</span></div>
+        <div class="rij"><span class="rij-label">In</span>
+          <span class="pil actie">Aanbeveling</span>
+          <span class="pil domein">Stakeholder</span>
+        </div>
+        <div class="rij"><span class="rij-label">Uit</span> <span class="pil rol">Eindproduct</span></div>
+        <div class="voorbeeld">
+          Drie varianten van hetzelfde advies: DGA krijgt een beslisnota met
+          businesscase, bedrijfsleider een uitvoeringsnota, monteurs een
+          werkvloer-briefing "wat verandert er voor jou".
+        </div>
+      </div>
+    </div>
+
+    <!-- POORT: Mens-in-de-lus -->
+    <div class="poort">
+      <strong>Poort — Mens beslist</strong>
+      Besluit wordt aan de DGA voorgelegd. Nooit geautomatiseerd.
+      Uitkomst: aangenomen / met wijzigingen / afgewezen / uitgesteld.
+    </div>
+
+    <!-- FASE 8 -->
+    <div class="fase">
+      <div class="fase-num">8</div>
+      <div class="fase-body">
+        <div class="fase-titel">Besluiten</div>
+        <div class="rij"><span class="rij-label">Rol</span> <span class="pil rol">DGA (mens)</span></div>
+        <div class="rij"><span class="rij-label">Uit</span> <span class="pil actie">Besluit</span></div>
+        <div class="voorbeeld">
+          DGA neemt gematigde koers aan, mits de senior-monteur meedoet in het
+          pilot-team. Budget €35k verdeeld over 12 maanden. Besluit vastgelegd
+          met besluitvormer, datum en toelichting.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 9 -->
+    <div class="fase">
+      <div class="fase-num">9</div>
+      <div class="fase-body">
+        <div class="fase-titel">Implementeren</div>
+        <div class="rij"><span class="rij-label">Rol</span>
+          <span class="pil rol">Tacticus</span>
+          <span class="pil rol">Regisseur</span>
+        </div>
+        <div class="rij"><span class="rij-label">In</span> <span class="pil actie">Besluit</span></div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil actie">Initiatief</span>
+          <span class="pil actie">Actie</span>
+          <span class="pil actie">KPI</span>
+        </div>
+        <div class="voorbeeld">
+          Initiatief "AI-ondersteunde offertes en planning" met 8 Acties over
+          12 maanden. Elke Actie implementeert het Initiatief; dit dient de
+          Doelstelling. KPIs: offerte-doorlooptijd, win-rate, tijdverlies
+          planning, monteur-tevredenheid.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 10 -->
+    <div class="fase">
+      <div class="fase-num">10</div>
+      <div class="fase-body">
+        <div class="fase-titel">Terugkoppelen</div>
+        <div class="rij"><span class="rij-label">Rol</span>
+          <span class="pil rol">Onderzoeker</span>
+          <span class="pil rol">Synthesemaker</span>
+        </div>
+        <div class="rij"><span class="rij-label">In</span>
+          <span class="pil actie">KPI</span>
+          <span class="pil actie">Actie</span>
+        </div>
+        <div class="rij"><span class="rij-label">Uit</span>
+          <span class="pil kennis">Onderbouwing</span>
+          <span class="pil kennis">Inzicht</span>
+          <span class="pil actie">Aanbeveling</span>
+        </div>
+        <div class="voorbeeld">
+          Na kwartaal 1: pilot offertes loopt (30% sneller, win-rate stabiel).
+          Pilot planning stokt — monteurs vertrouwen het rooster niet.
+          Bijgestelde aanbeveling: pilot 2 herframen met senior-monteur als
+          mede-eigenaar.
+        </div>
+      </div>
+    </div>
+
+    <div class="lenzen">
+      <div class="lenzen-intro">Lenzen uit deze casus</div>
+      <h2 class="lenzen-titel">Welke denkramen gebruikt de Analist?</h2>
+      <p class="lenzen-sub">
+        Drie lenzen op dezelfde onderbouwingen leveren andere inzichten op.
+        Daarom is het governance-axioma: altijd expliciet vermelden door welke
+        lens je kijkt.
+      </p>
+
+      <div class="lens-kaart">
+        <div class="lens-kop">
+          <span class="lens-naam">Value-Stream Mapping</span>
+          <span class="lens-herkomst">uit Lean / Toyota Production System</span>
+        </div>
+        <p class="lens-tekst">
+          Breng elke stap in een proces in kaart van grondstof tot eindproduct,
+          en meet per stap hoe lang er gewerkt wordt versus hoe lang er
+          <em>gewacht</em> wordt. Vrijwel altijd blijkt dat het overgrote deel
+          van de doorlooptijd wachten is, geen werken.
+        </p>
+        <p class="lens-tekst">
+          Het klassieke voorbeeld komt uit de autofabriek: tussen "onderdeel
+          gesneden" en "onderdeel geschilderd" ligt soms drie dagen tussentijdse
+          opslag. De productie duurt geen drie dagen — het ligt drie dagen stil.
+        </p>
+        <div class="lens-inzoom">
+          <span class="lens-inzoom-label">In deze casus:</span> de
+          offerte-doorlooptijd is gemiddeld 9 werkdagen. De effectieve werktijd
+          is waarschijnlijk 2 uur. De lens vraagt: waar zijn die andere 71 uur
+          gebleven? Antwoord meestal: wachten op informatie, wachten op de
+          calculator, wachten op akkoord van Mark.
+        </div>
+      </div>
+
+      <div class="lens-kaart">
+        <div class="lens-kop">
+          <span class="lens-naam">Jobs To Be Done (JTBD)</span>
+          <span class="lens-herkomst">van Clayton Christensen, Harvard Business School</span>
+        </div>
+        <p class="lens-tekst">
+          Klanten kopen geen producten, ze "huren" een product of dienst in
+          om een klus voor zich te laten doen. Je onderzoekt dus niet <em>wie</em>
+          je klant is, maar welke taak hij probeert af te krijgen wanneer hij
+          bij jou aanklopt.
+        </p>
+        <p class="lens-tekst">
+          Klassiek voorbeeld: de milkshake-studie. Mensen kochten 's ochtends
+          veel milkshakes — niet als snack, maar om hun saaie woon-werkrit
+          draaglijk te maken en ze tot de lunch vol te houden. Zodra je de job
+          kent, ziet de concurrent er anders uit: niet andere milkshakes, maar
+          bananen, donuts of de radio.
+        </p>
+        <div class="lens-inzoom">
+          <span class="lens-inzoom-label">In deze casus:</span> waarvoor benadert
+          een klant eigenlijk een installateur? Misschien voor "zekerheid dat
+          dit project niet uit de hand loopt en dat deze partij te vertrouwen
+          is" — niet voor "een snel antwoord op een prijsvraag". Als dát de
+          echte job is, voegt een AI die sneller offertes produceert weinig toe.
+          Dan helpt een AI die beter uitlegt <em>waarom</em> iets kost wat het
+          kost, of die de klant door zijn eigen twijfels heen leidt, veel meer.
+        </div>
+      </div>
+
+      <div class="lens-kaart">
+        <div class="lens-kop">
+          <span class="lens-naam">Wardley Map</span>
+          <span class="lens-herkomst">van Simon Wardley</span>
+        </div>
+        <p class="lens-tekst">
+          Visualiseer je waardeketen als onderdelen die ergens op een as staan
+          tussen <em>genesis</em> (gloednieuw, volledig custom) en
+          <em>commodity</em> (overal te koop, gestandaardiseerd). Strategie
+          wordt dan: bouw niet wat je kunt inkopen, en koop niet wat je
+          onderscheidend vermogen geeft.
+        </p>
+        <p class="lens-tekst">
+          Klassiek voorbeeld: e-mailservers waren ooit custom-bouw; tegenwoordig
+          draait niemand die meer zelf. Databases en webhosting volgden dezelfde
+          weg. AI-onderdelen verschuiven nu in rap tempo van "custom" naar
+          "nutsvoorziening" — wat vorig jaar moeilijk was, is volgende maand
+          een API-aanroep.
+        </p>
+        <div class="lens-inzoom">
+          <span class="lens-inzoom-label">In deze casus:</span> een
+          AI-offerte-assistent is al commodity — kant-en-klaar te koop bij
+          meerdere leveranciers. Zelf bouwen is zonde. Maar de
+          installatie-specifieke kennis van Van den Berg (welke klant, welk
+          gebouw, welke uitzondering) is juist custom. De lens helpt Mark
+          bepalen waar hij geld aan uitgeeft en waar hij juist zelf de regie
+          houdt.
+        </div>
+      </div>
+    </div>
+
+    <div class="legenda">
+      <div class="legenda-titel">Entiteitslagen</div>
+      <div class="legenda-rij">
+        <div class="legenda-item"><span class="legenda-swatch sw-dom"></span>Domein</div>
+        <div class="legenda-item"><span class="legenda-swatch sw-ken"></span>Kennis</div>
+        <div class="legenda-item"><span class="legenda-swatch sw-act"></span>Actie</div>
+        <div class="legenda-item"><span class="legenda-swatch sw-agt"></span>Agent</div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../" class="btn btn-secondary">← Workshop-overzicht</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops
+  </footer>
+
+</body>
+</html>

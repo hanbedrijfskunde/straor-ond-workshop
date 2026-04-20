@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop 3 — Rollen in adviestrajecten | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .blok-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .blok-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: box-shadow 150ms, transform 150ms;
+    }
+    .blok-card:hover {
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-1px);
+    }
+    .blok-nummer {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .blok-info { flex: 1; }
+    .blok-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .blok-info p { font-size: 0.875rem; color: var(--text-secondary); margin: 0; }
+    .blok-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .blok-tijd {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .blok-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      margin-top: 0.35rem;
+    }
+    .blok-badge-bloom {
+      background: var(--primary-100);
+      color: var(--primary);
+    }
+    .dagdeel-kop {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      text-align: center;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .dagdeel-kop:first-of-type { margin-top: 0; }
+    @media (max-width: 600px) {
+      .blok-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .blok-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../index.html" class="nav-link">← Alle workshops</a></li>
+      <li><a href="schema/" class="nav-link">Schema</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Workshop 3 — Rollen in adviestrajecten</h1>
+    <p>Van rolvermenging naar rolbewustzijn | 2 dagdelen | Veranderkunde</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card-grid mt-3 mb-4">
+
+      <div class="card" style="border-left: 4px solid var(--primary);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🎭</div>
+        <h3 class="mb-1" style="color: var(--primary);">Waarom</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          In een adviestraject wisselen professionals impliciet van rol — Onderzoeker, Analist, Strateeg, Synthesemaker — zonder dat bewust te benoemen. Dat leidt tot rolvermenging: hypothesen worden als feiten gepresenteerd, Kaderen wordt overgeslagen, stakeholders krijgen dezelfde boodschap.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--warning);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🗺️</div>
+        <h3 class="mb-1" style="color: var(--primary);">Hoe</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          Een <a href="schema/">10-fasenschema</a> met expliciete rollen, entiteitslagen (Domein/Kennis/Actie/Agent) en poorten (Red Team, Mens beslist) dient als gedeelde taal. Drie analytische lenzen (Value-Stream, JTBD, Wardley Map) maken patronen zichtbaar.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--success);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">📋</div>
+        <h3 class="mb-1" style="color: var(--primary);">Wat</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          2 dagdelen, werken in duo's aan een eigen veranderkundig vraagstuk. Je verlaat de workshop met drie kandidaat-vraagstukken, een onderbouwde synthese, en drie stakeholder-varianten van je aanbeveling.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Voorkennis -->
+    <div class="card mb-4" style="border-left: 4px solid var(--primary-light); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat neem je mee?</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li>Eén <strong>echt veranderkundig vraagstuk</strong> uit je stage of afstudeertraject (in één alinea vooraf beschreven)</li>
+        <li>Bereidheid om <strong>rollen expliciet te wisselen</strong>, ook als je ze normaal niet inneemt (Red Team)</li>
+        <li>Oog voor het <strong>onderscheid tussen Onderbouwing, Inzicht, Aanname en Hypothese</strong></li>
+      </ul>
+    </div>
+
+    <h2 class="text-center mb-1">Workshopflow</h2>
+    <p class="text-center text-muted mb-3">2 dagdelen, elk ~3,5 uur — 9 activiteiten verdeeld over Bloom-niveaus</p>
+
+    <div class="blok-list mb-4">
+
+      <div class="dagdeel-kop">Dagdeel 1 — Kennen en begrijpen</div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">1.1</div>
+        <div class="blok-info">
+          <h3>Het schema als kaart</h3>
+          <p>Docent presenteert schema; focus op entiteitslagen en poorten. Korte quiz in duo's: welke fase → welke rol?</p>
+          <span class="blok-badge blok-badge-bloom">Remember + Understand</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">30 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">1.2</div>
+        <div class="blok-info">
+          <h3>Van den Berg als warming-up</h3>
+          <p>Duo's lezen de casus en fasen 1–6; noteren per fase wat er verandert en één twijfel. Plenaire terugkoppeling.</p>
+          <span class="blok-badge blok-badge-bloom">Understand</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">45 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">1.3</div>
+        <div class="blok-info">
+          <h3>Lenzen door toepassing</h3>
+          <p>Duo kiest één lens (Value-Stream, JTBD, Wardley) en past toe op Van den Berg. Wisseling met duo dat andere lens koos.</p>
+          <span class="blok-badge blok-badge-bloom">Understand + Apply</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">60 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">1.4</div>
+        <div class="blok-info">
+          <h3>Eigen vraagstuk inbrengen</h3>
+          <p>Fase 1 (Intake) + fase 2 (Kaderen) op eigen casus. Output: Opdracht/Opdrachtgever/Context + drie kandidaat-vraagstukken.</p>
+          <span class="blok-badge blok-badge-bloom">Apply</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">45 min</span></div>
+      </div>
+
+      <div class="dagdeel-kop">Dagdeel 2 — Toepassen, evalueren en creëren</div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2.1</div>
+        <div class="blok-info">
+          <h3>Onderzoek + analyse met één lens</h3>
+          <p>Duo's kiezen een lens, doen korte onderzoeksronde, formuleren expliciet 2 aannames en 1 hypothese.</p>
+          <span class="blok-badge blok-badge-bloom">Apply + Analyze</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">60 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2.2</div>
+        <div class="blok-info">
+          <h3>Opties en synthese</h3>
+          <p>Genereer drie opties (conservatief / gematigd / ambitieus). Kies één synthese met motivering.</p>
+          <span class="blok-badge blok-badge-bloom">Apply + Create</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">45 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2.3</div>
+        <div class="blok-info">
+          <h3>Red Team-wisseling</h3>
+          <p>Duo's wisselen synthese uit: 3 kritische vragen, 1 blind spot, 1 faalscenario. Terugkoppeling naar eigenaar.</p>
+          <span class="blok-badge blok-badge-bloom">Evaluate</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">30 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2.4</div>
+        <div class="blok-info">
+          <h3>Communicatievarianten</h3>
+          <p>Drie stakeholder-communicaties (bestuurder / leidinggevende / werkvloer) van dezelfde aanbeveling. Peer-review in triootjes.</p>
+          <span class="blok-badge blok-badge-bloom">Create</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">45 min</span></div>
+      </div>
+
+      <div class="blok-card" style="border-left: 3px solid var(--success);">
+        <div class="blok-nummer" style="background: var(--success);">✓</div>
+        <div class="blok-info">
+          <h3>Reflectie en transfer</h3>
+          <p>Individueel: welke rol viel je zwaar? Waar betrapte je jezelf op rolvermenging? Plenaire afsluiting: wat neem je mee naar je eigen traject?</p>
+          <span class="blok-badge blok-badge-bloom">Evaluate (metacognitief)</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">30 min</span></div>
+      </div>
+
+    </div>
+
+    <!-- Schema CTA -->
+    <div class="card mb-4" style="border-left: 4px solid var(--primary); max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">
+      <h3 class="mb-1" style="color: var(--primary);">Het schema als gedeelde taal</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+        Alle activiteiten verwijzen terug naar het 10-fasenschema. Open het schema om de entiteitslagen, poorten, Van den Berg-casus en drie analytische lenzen te bestuderen.
+      </p>
+      <a href="schema/" class="btn btn-primary">Open het schema →</a>
+    </div>
+
+    <!-- Producten -->
+    <div class="card mb-4" style="border-left: 4px solid var(--success); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat lever je op?</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li><strong>Drie kandidaat-vraagstukken</strong> (V1 diagnostisch / V2 strategisch / V3 tactisch) → richting voor je PvA of adviestraject</li>
+        <li><strong>Onderbouwde synthese</strong> met expliciete aannames, gekozen optie en Red Team-feedback</li>
+        <li><strong>Drie stakeholder-varianten</strong> van je aanbeveling → direct bruikbaar in stage/afstudeercommunicatie</li>
+      </ul>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="../index.html" class="btn btn-secondary">← Workshops</a>
+      <a href="schema/" class="btn btn-primary">Naar het schema →</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops
+  </footer>
+
+</body>
+</html>
