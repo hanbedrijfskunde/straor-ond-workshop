@@ -1,23 +1,40 @@
-# Workshop Onderzoekend Vermogen — STRA0R23-OND
+# Workshops — HAN Bedrijfskunde
 
-Een interactieve webapplicatie met oefeningen voor de workshop 'Onderzoekend Vermogen' binnen de opleiding HBO Bedrijfskunde.
+Interactieve webapplicatie met werkcolleges en oefeningen voor de opleiding HBO Bedrijfskunde. Gehost op GitHub Pages: [hanbedrijfskunde.github.io/straor-ond-workshop](https://hanbedrijfskunde.github.io/straor-ond-workshop/).
 
-## Doel
+## Inhoud
 
-Deze applicatie ondersteunt een 90-minuten durende workshop waarin studenten leren hoe ze vanuit nieuwsgierigheid een goed onderbouwde onderzoeksvraag formuleren. Onderzoekend vermogen is een kerncompetentie van de bedrijfskundige professional: een scherpe onderzoeksvraag vormt de basis voor relevante en betrouwbare inzichten.
+| Workshop | Thema | Duur | Module |
+|----------|-------|------|--------|
+| **Workshop 1** — Onderzoekend Vermogen Ontwikkelen | Van nieuwsgierigheid naar onderbouwde vraagstelling | 90 min | STRA0R23-OND |
+| **Workshop 2** — Van vraag naar onderzoeksontwerp | Aannames zichtbaar maken, bronnen scannen met AI, onderzoeksontwerp schetsen | 90 min | STRA0R23-OND |
+| **Workshop 3** — Rollen in adviestrajecten | Rolbewustzijn in veranderkunde: 10-fasenschema op eigen vraagstuk | 2 dagdelen | Veranderkunde |
 
-## Functies
+## Workshop 1 & 2 — Onderzoekend Vermogen (STRA0R23-OND)
 
-- **Interactieve Oefeningen**: Stap-voor-stap opdrachten die studenten begeleiden bij het ontwikkelen van onderzoeksvragen.
-- **QR-code Toegang**: De workshop is direct via de smartphone te openen door de QR-code te scannen.
-- **Theoretisch Kader**: Uitleg over waarom onderzoekend vermogen essentieel is voor bedrijfskundige vraagstukken.
-- **Responsive Ontwerp**: Geschikt voor gebruik op zowel laptop als mobiel apparaat tijdens de workshop.
-- **Enkelvoudige HTML-pagina**: Geen installatie vereist, eenvoudig te delen en te gebruiken in de klas.
+Twee werkcolleges van elk 90 minuten waarin studenten HBO Bedrijfskunde leren hoe ze vanuit nieuwsgierigheid een goed onderbouwde onderzoeksvraag formuleren en uitwerken tot een onderzoeksontwerp. Onderzoekend vermogen is een kerncompetentie van de bedrijfskundige professional.
+
+- **Interactieve oefeningen**: sleepoefeningen, vraagbouwer, bronnenscanner en onderzoeksposter.
+- **QR-code toegang**: scan op de workshopdag om direct te openen.
+- **Responsive ontwerp**: werkt op laptop én mobiel.
+
+Achtergronddocumenten: [background-docs/LRD_Workshop_Onderzoekend_Vermogen.md](background-docs/LRD_Workshop_Onderzoekend_Vermogen.md), [LRD-Workshop-2.md](background-docs/LRD-Workshop-2.md), [draaiboek-ws2.md](background-docs/draaiboek-ws2.md).
+
+## Workshop 3 — Rollen in adviestrajecten (Veranderkunde)
+
+Twee dagdelen waarin 3e/4e jaars studenten de rollen expliciet maken die ze inzetten tijdens een adviestraject: Regisseur, Kadersteller, Onderzoeker, Analist, Strateeg, Tacticus, Synthesemaker, Communicator. Een 10-fasenschema met entiteitslagen (Domein/Kennis/Actie/Agent), poorten (Red Team, Mens beslist) en drie analytische lenzen (Value-Stream, JTBD, Wardley Map) dient als gedeelde taal.
+
+Studenten werken in duo's aan een echt veranderkundig vraagstuk uit hun stage of afstudeertraject. Toetsing is formatief.
+
+Ontwerpdocument: [background-docs/PRD_Workshop_Rollen_Adviestrajecten.md](background-docs/PRD_Workshop_Rollen_Adviestrajecten.md).
 
 ## Doelgroep
 
-Studenten HBO Bedrijfskunde die de module STRA0R23-OND volgen. De workshop is onderdeel van het curriculum rondom strategisch onderzoek en onderbouwde vraagstelling.
+Studenten HBO Bedrijfskunde. Workshops 1 & 2 zijn onderdeel van STRA0R23-OND (strategisch onderzoek). Workshop 3 sluit aan bij de module Veranderkunde voor studenten in stage- of afstudeerfase.
 
-## Live Demo
+## Live
 
-Bekijk de workshop op: [hanbedrijfskunde.github.io/straor-ond-workshop](https://hanbedrijfskunde.github.io/straor-ond-workshop/)
+- Portal: [hanbedrijfskunde.github.io/straor-ond-workshop](https://hanbedrijfskunde.github.io/straor-ond-workshop/)
+- Workshop 1: [/ws1/](https://hanbedrijfskunde.github.io/straor-ond-workshop/ws1/)
+- Workshop 2: [/ws2/](https://hanbedrijfskunde.github.io/straor-ond-workshop/ws2/)
+- Workshop 3: [/ws3-rollen/](https://hanbedrijfskunde.github.io/straor-ond-workshop/ws3-rollen/)
