@@ -251,7 +251,9 @@
     }
     .wb-footer a { color: var(--primary-light); text-decoration: underline; }
 
-    /* ===== Print styles ===== */
+    /* ===== Print styles =====
+       Geoptimaliseerd voor pen-invulling: ruime invulvelden,
+       duidelijke lijnen, mag meerdere A4-pagina's beslaan. */
     @media print {
       body { background: #fff; padding: 0; font-size: 10pt; }
       .werkblad-actions { display: none !important; }
@@ -263,29 +265,54 @@
         box-shadow: none;
         border-radius: 0;
       }
-      .wb-header h1 { font-size: 14pt; }
-      .wb-header p { font-size: 9pt; }
-      .wb-section { margin-bottom: 0.6rem; padding-bottom: 0.6rem; }
-      .wb-section-head { margin-bottom: 0.4rem; }
-      .wb-section-title { font-size: 10pt; }
-      .wb-section-num { width: 1.3rem; height: 1.3rem; font-size: 0.7rem; }
-      .wb-input-group { margin-bottom: 0.35rem; }
-      .wb-input-group label { font-size: 8pt; }
+      .wb-header h1 { font-size: 16pt; }
+      .wb-header p { font-size: 10pt; }
+      .wb-section {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
+        break-inside: avoid;
+      }
+      .wb-section-head { margin-bottom: 0.6rem; }
+      .wb-section-title { font-size: 12pt; }
+      .wb-section-num { width: 1.6rem; height: 1.6rem; font-size: 0.9rem; }
+      .wb-input-group { margin-bottom: 0.9rem; }
+      .wb-input-group label {
+        font-size: 9pt;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
       .wb-input,
       textarea.wb-input {
-        font-size: 9pt;
-        border: 1px solid #999;
+        font-size: 11pt;
+        border: 1px solid #555;
         background: #fff;
-        padding: 0.3rem 0.4rem;
+        padding: 0.4rem 0.5rem;
+        min-height: 32pt;            /* single-line input */
+        line-height: 1.8;
       }
-      textarea.wb-input { min-height: 36pt; }
-      .wb-hint { font-size: 8pt; }
-      .wb-student-block { padding: 0.4rem 0.6rem; margin-bottom: 0.4rem; }
-      .wb-student-label { font-size: 8pt; margin-bottom: 0.3rem; }
-      .wb-promef-box { padding: 0.4rem 0.6rem; }
-      .wb-promef-stem { font-size: 9pt; }
-      .wb-footer { font-size: 8pt; margin-top: 0.5rem; padding-top: 0.5rem; }
-      @page { margin: 1cm; size: A4; }
+      textarea.wb-input { min-height: 80pt; }  /* default textarea */
+      /* Extra ruimte voor reflectieve velden */
+      textarea.wb-input[data-field="beslissing"] { min-height: 110pt; }
+      textarea.wb-input[data-field="lens_inzicht"] { min-height: 130pt; }
+      textarea.wb-input[data-field="peer_groei"] { min-height: 95pt; }
+      textarea.wb-input[data-field="peer_rolvermijding"],
+      textarea.wb-input[data-field="peer_fase_overslaan"] { min-height: 95pt; }
+      textarea.wb-input[data-field^="promef"] { min-height: 95pt; }
+      .wb-hint { font-size: 9pt; margin-bottom: 0.5rem; }
+      .wb-student-block {
+        padding: 0.7rem 0.9rem;
+        margin-bottom: 0.8rem;
+        break-inside: avoid;
+      }
+      .wb-student-label { font-size: 10pt; margin-bottom: 0.6rem; }
+      .wb-promef-box {
+        padding: 0.6rem 0.8rem;
+        margin-bottom: 0.6rem;
+        break-inside: avoid;
+      }
+      .wb-promef-stem { font-size: 10pt; margin-bottom: 0.5rem; }
+      .wb-footer { font-size: 8pt; margin-top: 0.8rem; padding-top: 0.5rem; }
+      @page { margin: 1.2cm; size: A4; }
     }
 
     @media (max-width: 700px) {
