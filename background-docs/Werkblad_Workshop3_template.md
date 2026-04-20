@@ -40,7 +40,7 @@ _______________________________________________________________________________
 
 ## 2. Positie op het schema — *Blok 2 · PROMEF-1*
 
-> Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol nemen jullie elk nu in — en welke rol hebben jullie zojuist verlaten of bewust vermeden?
+> Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol nemen jullie elk nu in — en welke rol namen jullie hiervoor in?
 
 **Fase waar we nu zitten** (gedeeld — bv. "7 Communiceren"):
 
@@ -61,7 +61,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 
-**Rol die ik zojuist verliet of vermeed** (bv. "Analist"):
+**Rol die ik hiervoor innam** (bv. "Analist"):
 
 _______________________________________________________________________________
 
@@ -80,7 +80,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 
-**Rol die ik zojuist verliet of vermeed** (bv. "Onderzoeker"):
+**Rol die ik hiervoor innam** (bv. "Onderzoeker"):
 
 _______________________________________________________________________________
 
