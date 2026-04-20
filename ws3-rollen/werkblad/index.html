@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Werkblad — Workshop 3 Rollen in adviestrajecten | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body {
+      background: var(--surface);
+      padding-bottom: 3rem;
+    }
+
+    .werkblad-actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .werkblad-actions .title { font-weight: 600; font-size: 1rem; }
+    .werkblad-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .werkblad-actions button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      transition: background 150ms;
+    }
+    .werkblad-actions button:hover { background: rgba(255,255,255,0.25); }
+    .werkblad-actions .back-link {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .werkblad-actions .back-link:hover { color: #fff; }
+
+    .werkblad {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .wb-header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .wb-header h1 {
+      font-size: 1.4rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .wb-header p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .wb-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .wb-section {
+      margin-bottom: 1.4rem;
+      padding-bottom: 1.4rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .wb-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .wb-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .wb-section-num {
+      background: var(--primary);
+      color: #fff;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .wb-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .wb-section-meta {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .wb-promef {
+      display: inline-block;
+      background: var(--primary-100);
+      color: var(--primary);
+      padding: 0.1rem 0.5rem;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 0.4rem;
+    }
+
+    .wb-hint {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      margin-bottom: 0.5rem;
+    }
+
+    .wb-input-group {
+      margin-bottom: 0.75rem;
+    }
+    .wb-input-group:last-child { margin-bottom: 0; }
+    .wb-input-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.01em;
+    }
+    .wb-input,
+    textarea.wb-input {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: 'Inter', inherit;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      transition: border-color 150ms, box-shadow 150ms;
+      background: rgba(255,255,255,0.8);
+      line-height: 1.55;
+    }
+    textarea.wb-input {
+      resize: vertical;
+      min-height: 60px;
+    }
+    .wb-input:focus,
+    textarea.wb-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+    .wb-input::placeholder,
+    textarea.wb-input::placeholder {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    .wb-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .wb-three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .wb-lens-choice {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .wb-lens-option {
+      flex: 1;
+      min-width: 130px;
+      padding: 0.5rem 0.7rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-align: center;
+      transition: all 150ms;
+      font-family: 'Inter', inherit;
+    }
+    .wb-lens-option:hover {
+      border-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .wb-lens-option.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .wb-promef-box {
+      background: var(--primary-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 0.75rem;
+    }
+    .wb-promef-box:last-child { margin-bottom: 0; }
+    .wb-promef-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+    .wb-promef-stem {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      font-style: italic;
+      margin-bottom: 0.4rem;
+      line-height: 1.55;
+    }
+
+    .wb-footer {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .wb-footer a { color: var(--primary-light); text-decoration: underline; }
+
+    /* ===== Print styles ===== */
+    @media print {
+      body { background: #fff; padding: 0; font-size: 10pt; }
+      .werkblad-actions { display: none !important; }
+      .werkblad {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.8cm;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .wb-header h1 { font-size: 14pt; }
+      .wb-header p { font-size: 9pt; }
+      .wb-section { margin-bottom: 0.6rem; padding-bottom: 0.6rem; }
+      .wb-section-head { margin-bottom: 0.4rem; }
+      .wb-section-title { font-size: 10pt; }
+      .wb-section-num { width: 1.3rem; height: 1.3rem; font-size: 0.7rem; }
+      .wb-input-group { margin-bottom: 0.35rem; }
+      .wb-input-group label { font-size: 8pt; }
+      .wb-input,
+      textarea.wb-input {
+        font-size: 9pt;
+        border: 1px solid #999;
+        background: #fff;
+        padding: 0.3rem 0.4rem;
+      }
+      textarea.wb-input { min-height: 36pt; }
+      .wb-hint { font-size: 8pt; }
+      .wb-lens-option { font-size: 8pt; padding: 0.3rem 0.5rem; }
+      .wb-promef-box { padding: 0.4rem 0.6rem; }
+      .wb-promef-stem { font-size: 9pt; }
+      .wb-footer { font-size: 8pt; margin-top: 0.5rem; padding-top: 0.5rem; }
+      @page { margin: 1cm; size: A4; }
+    }
+
+    @media (max-width: 700px) {
+      .werkblad { margin: 0.75rem; padding: 1.25rem 1rem; }
+      .wb-meta-grid, .wb-two-col, .wb-three-col { grid-template-columns: 1fr; }
+      .wb-section-head { flex-wrap: wrap; }
+      .wb-section-meta { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="werkblad-actions">
+    <span class="title">Werkblad — Workshop 3 Rollen in adviestrajecten</span>
+    <div class="btns">
+      <a href="../" class="back-link">← Workshop 3</a>
+      <button onclick="window.print()" title="Print of sla op als PDF">&#x2B73; Print / PDF</button>
+      <button onclick="downloadWerkbladPNG()" title="Download als PNG voor Handin">&#x2B73; PNG</button>
+      <button onclick="resetWerkblad()" title="Wis alle velden">&#x21BB; Wis</button>
+    </div>
+  </div>
+
+  <div class="werkblad" id="werkblad-canvas">
+
+    <div class="wb-header">
+      <h1>Werkblad — Rollen in adviestrajecten</h1>
+      <p>Workshop 3 &middot; Veranderkunde &middot; HBO Bedrijfskunde &middot; gericht op PROMEF-criteria 1 en 4</p>
+      <div class="wb-meta-grid">
+        <div class="wb-input-group">
+          <label>Duo (namen)</label>
+          <input type="text" class="wb-input" data-field="duo" placeholder="Jullie namen">
+        </div>
+        <div class="wb-input-group">
+          <label>Datum</label>
+          <input type="text" class="wb-input" data-field="datum" placeholder="dd-mm-jjjj">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sectie 1 -->
+    <div class="wb-section">
+      <div class="wb-section-head">
+        <span class="wb-section-num">1</span>
+        <span class="wb-section-title">Ons traject</span>
+        <span class="wb-section-meta">Blok 2</span>
+      </div>
+      <div class="wb-two-col">
+        <div class="wb-input-group">
+          <label>Gastorganisatie</label>
+          <input type="text" class="wb-input" data-field="gastorganisatie" placeholder="Naam + branche">
+        </div>
+        <div class="wb-input-group">
+          <label>Ons traject in één zin</label>
+          <input type="text" class="wb-input" data-field="traject" placeholder="Wat jullie doen + voor wie">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sectie 2 -->
+    <div class="wb-section">
+      <div class="wb-section-head">
+        <span class="wb-section-num">2</span>
+        <span class="wb-section-title">Positie op het schema</span>
+        <span class="wb-section-meta">Blok 2 <span class="wb-promef">PROMEF-1</span></span>
+      </div>
+      <p class="wb-hint">Plaats jullie lopende traject op het schema. Welke fase (uit de 10) past bij waar jullie nu zitten? En welke rol neem jij nu in — en welke rol heb je zojuist verlaten of bewust vermeden?</p>
+      <div class="wb-three-col">
+        <div class="wb-input-group">
+          <label>Fase waar we nu zitten</label>
+          <input type="text" class="wb-input" data-field="fase" placeholder="Bijv. 7 Communiceren">
+        </div>
+        <div class="wb-input-group">
+          <label>Rol die ik nu inneem</label>
+          <input type="text" class="wb-input" data-field="rol_nu" placeholder="Bijv. Synthesemaker">
+        </div>
+        <div class="wb-input-group">
+          <label>Rol die ik zojuist verliet of vermeed</label>
+          <input type="text" class="wb-input" data-field="rol_verlaten" placeholder="Bijv. Analist">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sectie 3 -->
+    <div class="wb-section">
+      <div class="wb-section-head">
+        <span class="wb-section-num">3</span>
+        <span class="wb-section-title">Lens-analyse van één concrete beslissing</span>
+        <span class="wb-section-meta">Blok 2 <span class="wb-promef">PROMEF-1</span></span>
+      </div>
+      <p class="wb-hint">Kies één lens en analyseer één concrete beslissing of actie uit je traject van de afgelopen 2 weken.</p>
+      <div class="wb-input-group">
+        <label>Gekozen lens</label>
+        <div class="wb-lens-choice" role="radiogroup" data-field="lens">
+          <button type="button" class="wb-lens-option" data-lens="Value-Stream">Value-Stream Mapping</button>
+          <button type="button" class="wb-lens-option" data-lens="JTBD">Jobs To Be Done (JTBD)</button>
+          <button type="button" class="wb-lens-option" data-lens="Wardley">Wardley Map</button>
+        </div>
+      </div>
+      <div class="wb-input-group">
+        <label>Concrete beslissing of actie van vorige week</label>
+        <textarea class="wb-input" data-field="beslissing" placeholder="Waar moest ik kiezen? Wat heb ik beslist?" rows="2"></textarea>
+      </div>
+      <div class="wb-input-group">
+        <label>Wat zie ik via deze lens?</label>
+        <textarea class="wb-input" data-field="lens_inzicht" placeholder="Wat brengt de lens aan het licht dat anders verborgen zou blijven?" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Sectie 4 -->
+    <div class="wb-section">
+      <div class="wb-section-head">
+        <span class="wb-section-num">4</span>
+        <span class="wb-section-title">Peer-spiegel (Red Team)</span>
+        <span class="wb-section-meta">Blok 3 <span class="wb-promef">PROMEF-4</span></span>
+      </div>
+      <p class="wb-hint">Laat het peer-duo invullen. Spiegel is growth-mirror — formuleer als observatie, niet als kritiek.</p>
+      <div class="wb-input-group">
+        <label>Peer-duo (namen)</label>
+        <input type="text" class="wb-input" data-field="peers" placeholder="Namen van het duo dat jullie spiegelt">
+      </div>
+      <div class="wb-input-group">
+        <label>Groei die zij bij ons zien</label>
+        <textarea class="wb-input" data-field="peer_groei" placeholder="Wat is er zichtbaar gegroeid sinds het PvA?" rows="2"></textarea>
+      </div>
+      <div class="wb-two-col">
+        <div class="wb-input-group">
+          <label>Rol die wij systematisch vermijden</label>
+          <textarea class="wb-input" data-field="peer_rolvermijding" placeholder="Welke rol komt bij jullie maar niet uit de verf?" rows="2"></textarea>
+        </div>
+        <div class="wb-input-group">
+          <label>Fase die wij overslaan</label>
+          <textarea class="wb-input" data-field="peer_fase_overslaan" placeholder="Welke fase lijken jullie te skippen?" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sectie 5 -->
+    <div class="wb-section">
+      <div class="wb-section-head">
+        <span class="wb-section-num">5</span>
+        <span class="wb-section-title">Twee PROMEF-zinnen in eigen woorden</span>
+        <span class="wb-section-meta">Blok 4 <span class="wb-promef">PROMEF-1 &middot; 4</span></span>
+      </div>
+      <p class="wb-hint">Formuleer twee zinnen die je direct kunt overnemen in je Handin-reflectie en die je kunt uitspreken in het PROMEF-gesprek.</p>
+      <div class="wb-promef-box">
+        <div class="wb-promef-label">Criterium 1 — Veranderen en evalueren (theoretisch concept)</div>
+        <div class="wb-promef-stem">"Het schema als theoretisch concept uit de bedrijfskundige handelingscyclus helpt mij om ___ uit te leggen."</div>
+        <textarea class="wb-input" data-field="promef1" placeholder="Vul de zin zelf aan..." rows="2"></textarea>
+      </div>
+      <div class="wb-promef-box">
+        <div class="wb-promef-label">Criterium 4 — Professionaliseren (groei)</div>
+        <div class="wb-promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
+        <textarea class="wb-input" data-field="promef4" placeholder="Rol + concreet gedragsvoorbeeld..." rows="2"></textarea>
+      </div>
+    </div>
+
+    <div class="wb-footer">
+      Gemaakt tijdens Workshop 3 &mdash; voeg als bijlage toe aan je Handin-reflectie en gebruik als oefenmateriaal voor het PROMEF-gesprek.
+      &middot; <a href="../schema/">Schema</a> &middot; <a href="../">Workshop 3</a>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+  (function() {
+    var STORAGE_KEY = 'ws3-werkblad';
+    var canvas = document.getElementById('werkblad-canvas');
+
+    function getSelectedLens() {
+      var selected = canvas.querySelector('.wb-lens-option.selected');
+      return selected ? selected.dataset.lens : '';
+    }
+
+    function setSelectedLens(value) {
+      canvas.querySelectorAll('.wb-lens-option').forEach(function(btn) {
+        btn.classList.toggle('selected', btn.dataset.lens === value);
+      });
+    }
+
+    function collectData() {
+      var data = {};
+      canvas.querySelectorAll('[data-field]').forEach(function(el) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          data[el.dataset.field] = el.value;
+        } else if (el.classList.contains('wb-lens-choice')) {
+          data[el.dataset.field] = getSelectedLens();
+        }
+      });
+      return data;
+    }
+
+    function applyData(data) {
+      Object.keys(data).forEach(function(key) {
+        var el = canvas.querySelector('[data-field="' + key + '"]');
+        if (!el) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.value = data[key] || '';
+          if (el.tagName === 'TEXTAREA' && el.value) autoResize(el);
+        } else if (el.classList.contains('wb-lens-choice')) {
+          setSelectedLens(data[key]);
+        }
+      });
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+    }
+
+    var saveTimer;
+    function debouncedSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveData, 400);
+    }
+
+    // Load existing data
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) applyData(JSON.parse(raw));
+    } catch(e) { /* ignore */ }
+
+    // Save on input
+    canvas.addEventListener('input', debouncedSave);
+
+    // Lens selection
+    canvas.querySelectorAll('.wb-lens-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var wasSelected = this.classList.contains('selected');
+        canvas.querySelectorAll('.wb-lens-option').forEach(function(b) { b.classList.remove('selected'); });
+        if (!wasSelected) this.classList.add('selected');
+        saveData();
+      });
+    });
+
+    // Auto-resize textareas
+    function autoResize(ta) {
+      ta.style.height = 'auto';
+      ta.style.height = (ta.scrollHeight + 2) + 'px';
+    }
+    canvas.querySelectorAll('textarea.wb-input').forEach(function(ta) {
+      ta.addEventListener('input', function() { autoResize(this); });
+      if (ta.value) autoResize(ta);
+    });
+
+    // Reset
+    window.resetWerkblad = function() {
+      if (!confirm('Weet je zeker dat je alle velden wilt wissen?')) return;
+      canvas.querySelectorAll('[data-field]').forEach(function(el) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.value = '';
+          if (el.tagName === 'TEXTAREA') el.style.height = '';
+        } else if (el.classList.contains('wb-lens-choice')) {
+          setSelectedLens('');
+        }
+      });
+      localStorage.removeItem(STORAGE_KEY);
+    };
+
+    // PNG download — swap textareas/inputs for divs so content renders, then restore
+    window.downloadWerkbladPNG = function() {
+      var swaps = [];
+      canvas.querySelectorAll('textarea.wb-input, input.wb-input').forEach(function(el) {
+        var cs = window.getComputedStyle(el);
+        var div = document.createElement('div');
+        div.textContent = el.value || '';
+        div.style.cssText = [
+          'font:' + cs.font,
+          'padding:' + cs.padding,
+          'width:' + cs.width,
+          'min-height:' + cs.height,
+          'border:' + cs.border,
+          'border-radius:' + cs.borderRadius,
+          'background:' + cs.background,
+          'color:' + cs.color,
+          'box-sizing:border-box',
+          'white-space:pre-wrap',
+          'word-wrap:break-word',
+          'overflow-wrap:break-word',
+          'line-height:' + cs.lineHeight
+        ].join(';');
+        el.parentNode.insertBefore(div, el);
+        el.style.display = 'none';
+        swaps.push({ el: el, div: div });
+      });
+
+      function restore() {
+        swaps.forEach(function(s) { s.div.remove(); s.el.style.display = ''; });
+      }
+
+      html2canvas(canvas, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      }).then(function(pngCanvas) {
+        restore();
+        pngCanvas.toBlob(function(blob) {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'werkblad-workshop-3-rollen.png';
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+      }).catch(function(err) {
+        restore();
+        console.error(err);
+        alert('PNG-download mislukte. Probeer anders Print / PDF.');
+      });
+    };
+  })();
+  </script>
+
+</body>
+</html>
