@@ -329,8 +329,7 @@
     <span class="title">Werkblad — Workshop 3 Rollen in adviestrajecten</span>
     <div class="btns">
       <a href="../" class="back-link">← Workshop 3</a>
-      <button onclick="window.print()" title="Print of sla op als PDF">&#x2B73; Print / PDF</button>
-      <button onclick="downloadWerkbladPNG()" title="Download als PNG voor Handin">&#x2B73; PNG</button>
+      <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF</button>
       <button onclick="resetWerkblad()" title="Wis alle velden">&#x21BB; Wis</button>
     </div>
   </div>
@@ -517,7 +516,6 @@
 
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
   (function() {
     var STORAGE_KEY = 'ws3-werkblad';
@@ -583,58 +581,6 @@
         }
       });
       localStorage.removeItem(STORAGE_KEY);
-    };
-
-    // PNG download — swap textareas/inputs for divs so content renders, then restore
-    window.downloadWerkbladPNG = function() {
-      var swaps = [];
-      canvas.querySelectorAll('textarea.wb-input, input.wb-input').forEach(function(el) {
-        var cs = window.getComputedStyle(el);
-        var div = document.createElement('div');
-        div.textContent = el.value || '';
-        div.style.cssText = [
-          'font:' + cs.font,
-          'padding:' + cs.padding,
-          'width:' + cs.width,
-          'min-height:' + cs.height,
-          'border:' + cs.border,
-          'border-radius:' + cs.borderRadius,
-          'background:' + cs.background,
-          'color:' + cs.color,
-          'box-sizing:border-box',
-          'white-space:pre-wrap',
-          'word-wrap:break-word',
-          'overflow-wrap:break-word',
-          'line-height:' + cs.lineHeight
-        ].join(';');
-        el.parentNode.insertBefore(div, el);
-        el.style.display = 'none';
-        swaps.push({ el: el, div: div });
-      });
-
-      function restore() {
-        swaps.forEach(function(s) { s.div.remove(); s.el.style.display = ''; });
-      }
-
-      html2canvas(canvas, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-      }).then(function(pngCanvas) {
-        restore();
-        pngCanvas.toBlob(function(blob) {
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = 'werkblad-workshop-3-rollen.png';
-          a.click();
-          URL.revokeObjectURL(url);
-        });
-      }).catch(function(err) {
-        restore();
-        console.error(err);
-        alert('PNG-download mislukte. Probeer anders Print / PDF.');
-      });
     };
   })();
   </script>
