@@ -4,7 +4,7 @@
 
 **Module**: Veranderkunde — HBO Bedrijfskunde
 **Doelgroep**: 3e/4e jaars studenten (stage/afstuderen, eigen veranderkundig vraagstuk)
-**Omvang**: 2 dagdelen (ca. 2 × 4 uur), aaneengesloten of gesplitst
+**Omvang**: 90 minuten (4 blokken)
 **Werkvorm**: duo's (2 studenten per team)
 **Toetsing**: uitsluitend formatief — geen cijfer
 **Bronnen**: [ws3-rollen/schema/index.html](../ws3-rollen/schema/index.html) (rolmodel) + [ws3-rollen/bloom-taxonomy.png](../ws3-rollen/bloom-taxonomy.png) (progressie-as)
@@ -36,7 +36,7 @@ Deze workshop maakt de rollen en hun scheidingen expliciet, met als einddoel dat
 | L5 | Evaluate | Metacognitive | De eigen aanbeveling kritisch toetsen via een Red Team-ronde op een peer. |
 | L6 | Create | Procedural | Drie stakeholder-varianten van dezelfde aanbeveling produceren (besluit / uitvoering / werkvloer). |
 
-De progressie is **cumulatief binnen de workshop**: L1–L2 in dagdeel 1, L3–L6 in dagdeel 2. De metacognitieve laag (reflectie op eigen rol-inname) loopt door beide dagdelen.
+De progressie is **cumulatief binnen 90 minuten**: alle zes niveaus worden aangeraakt, maar de diepgang per niveau is beperkt. Kern is **L3 Apply** (schema toepassen op eigen casus); L1/L2 zijn plenaire opstap, L4–L6 zijn compacte stappen in dezelfde flow. De echte diepgang ontstaat in de **transfer** (zie sectie 9): studenten passen het schema na de workshop toe op hun lopende traject.
 
 ## 3. Ontwerpprincipes
 
@@ -46,27 +46,16 @@ De progressie is **cumulatief binnen de workshop**: L1–L2 in dagdeel 1, L3–L
 - **Duo als minimum speelveld**: één duo kan niet alle rollen tegelijk spelen. Voor Red Team en peer-review wisselen duo's tijdelijk met elkaar (koppel ↔ koppel).
 - **Schema is de taal**: bij twijfel verwijst de docent naar de term in het schema, niet naar eigen opvatting. Dit voorkomt dat studenten het schema parafraseren naar bestaande clichés.
 
-## 4. Activiteitenreeks
+## 4. Activiteitenreeks (90 minuten, 4 blokken)
 
-### Dagdeel 1 — Kennen en begrijpen (≈ 3,5 uur)
+| # | Blok | Tijd | Bloom | Werkvorm |
+|---|------|------|-------|----------|
+| 1 | **Kennismaken met het schema** — docent introduceert schema: 10 fasen, 4 entiteitslagen, 2 poorten. Micro-demo op Van den Berg (fase 1–6 in 5 min). Duo's: welk onderscheid is voor jullie het meest verwarrend? | 20 min | L1 / L2 | Plenair + duo |
+| 2 | **Kaderen + analyseren op eigen vraagstuk** — fase 1–2: Opdracht/Opdrachtgever/Context + drie kandidaat-vraagstukken (V1 diagnostisch / V2 strategisch / V3 tactisch). Fase 4: kies één lens (Value-Stream, JTBD of Wardley), pas toe, formuleer één expliciete aanname en één inzicht. Docent loopt rond en challenget. | 30 min | L3 / L4 | Duo + docent-challenge |
+| 3 | **Synthese + Red Team** — fase 5–6: twee opties (conservatief + gematigd) en één synthese met motivering. Wissel met buurduo voor Red Team: 3 kritische vragen + 1 blind spot. Terugkoppeling naar eigenaar. | 25 min | L5 / L6 | Duo ↔ duo |
+| 4 | **Communicatievarianten + afsluiting** — fase 7: schets in trefwoorden drie stakeholder-varianten (bestuurder / leidinggevende / werkvloer) van dezelfde aanbeveling. Plenair: welke rol viel je zwaar? (elk duo 30 sec) | 15 min | L6 + metacognitief | Duo + plenair |
 
-| # | Activiteit | Tijd | Bloom | Werkvorm |
-|---|-----------|------|-------|----------|
-| 1.1 | **Het schema als kaart** — docent presenteert schema; focus op entiteitslagen + poorten. Korte quiz in duo's: welke fase → welke rol? welke output is Kennis, welke Actie? | 30 min | L1 / L2 | Plenair + duo |
-| 1.2 | **Van den Berg als warming-up** — duo's lezen casus + fase 1-6. Opdracht: per fase noteren wat er verandert (welke entiteit) en één twijfel. Plenaire terugkoppeling. | 45 min | L2 | Duo + plenair |
-| 1.3 | **Lenzen door toepassing** — elk duo kiest één lens (Value-Stream, JTBD, Wardley). Past toe op Van den Berg. Wisseling: pitch je lens aan duo met andere lens — welke lens geeft welk type inzicht? | 60 min | L2 / L3 | Duo + duo-wisseling |
-| — | Pauze | 15 min | — | — |
-| 1.4 | **Eigen vraagstuk inbrengen** — elk duo doet fase 1 (Intake) + fase 2 (Kaderen) op eigen casus. Output: A4 met Opdracht/Opdrachtgever/Context + drie kandidaat-vraagstukken (V1 diagnostisch / V2 strategisch / V3 tactisch). Docent loopt rond en challenget Kaderingen. | 45 min | L3 | Duo + docent-challenge |
-
-### Dagdeel 2 — Toepassen, evalueren en creëren (≈ 3,5 uur)
-
-| # | Activiteit | Tijd | Bloom | Werkvorm |
-|---|-----------|------|-------|----------|
-| 2.1 | **Onderzoek + analyse met één lens** — duo's kiezen de lens die bij hun vraagstuk past. Korte onderzoeksronde (wat weten we, wat ontbreekt, wat is de herkomst?). Formuleer expliciet 2 aannames en 1 hypothese. | 60 min | L3 / L4 | Duo |
-| 2.2 | **Opties en synthese** — genereer drie opties (conservatief / gematigd / ambitieus). Kies één synthese, motiveer waarom de andere twee afvallen. | 45 min | L3 / L6 | Duo |
-| 2.3 | **Red Team-wisseling** — duo A en duo B wisselen synthese uit. Elkaars synthese wordt Red Teamed: 3 kritische vragen, 1 blind spot, 1 faalscenario. Terugkoppeling naar eigenaar. | 30 min | L5 | Duo ↔ duo |
-| 2.4 | **Communicatievarianten** — elk duo produceert drie korte stakeholder-communicaties (bestuurder / leidinggevende / werkvloer) van dezelfde aanbeveling. Peer-review in triootjes: welke variant mist iets? | 45 min | L6 | Duo + trio-review |
-| 2.5 | **Reflectie en transfer** — individueel: welke rol viel je zwaar? Waar betrapte je jezelf op rolvermenging? Plenaire afsluiting: wat neem je mee naar je eigen traject volgende week? | 30 min | L5 (metacognitief) | Individueel + plenair |
+**Compressienotes**: door de beperkte tijd vervalt een aparte onderzoeksfase (fase 3); studenten werken met wat ze al weten over hun eigen casus. Fase 8–10 (Besluiten / Implementeren / Terugkoppelen) komen niet aan bod in de workshop zelf maar worden als transfer meegegeven.
 
 ## 5. Materialen (te ontwikkelen)
 
@@ -80,14 +69,15 @@ De progressie is **cumulatief binnen de workshop**: L1–L2 in dagdeel 1, L3–L
 ## 6. Docentrol en facilitatie
 
 - **Modelleer de taal**: gebruik in feedback consequent de schema-termen ("jullie zitten nu in Analyse, niet in Synthese").
-- **Uitdagen, niet beoordelen**: challenge de Kaderingen in 1.4 hard (de kwaliteit van V1/V2/V3 bepaalt de rest van de workshop).
-- **Zelf een rol spelen in 1.2**: speel bijvoorbeeld Regisseur bij Van den Berg — zo zien studenten rolinname gemodelleerd.
+- **Uitdagen, niet beoordelen**: challenge de Kaderingen in blok 2 hard (de kwaliteit van V1/V2/V3 bepaalt de rest van de workshop).
+- **Zelf een rol spelen in blok 1**: speel bijvoorbeeld Regisseur bij Van den Berg — zo zien studenten rolinname gemodelleerd.
 - **Verwachte pijnpunten**: (a) studenten springen naar oplossingen en slaan Kaderen over; (b) verwarren Aanname en Inzicht; (c) maken stakeholders tot één ongedifferentieerde groep.
+- **Tempo bewaken**: 90 min is krap. Blok 2 is het belangrijkst (Apply op eigen casus); als één blok moet inleveren op tijd, laat dat blok 4 zijn.
 - **Capaciteit**: max 8 duo's per docent voor zinvolle formatieve feedback; bij grotere groep een tweede facilitator.
 
 ## 7. Formatieve evaluatie
 
-Geen cijfer. Docent observeert per duo op drie indicatoren en geeft mondeling signaal na dagdeel 2:
+Geen cijfer. Docent observeert per duo op drie indicatoren en geeft mondeling signaal in blok 4:
 
 | Indicator | Observatie |
 |-----------|------------|
@@ -97,16 +87,16 @@ Geen cijfer. Docent observeert per duo op drie indicatoren en geeft mondeling si
 
 ## 8. Randvoorwaarden
 
-- **Pre-work**: duo's brengen hun vraagstuk vooraf mee in één alinea (anders verdwijnt dagdeel 1 aan vraagstuk-formulering).
-- **Ruimte**: verplaatsbare tafels nodig voor duo-werk + duo-wisselingen.
+- **Pre-work is cruciaal bij 90 min**: duo's brengen hun vraagstuk vooraf mee in één alinea én hebben het schema ingekeken (bv. via de workshop-landing). Zonder deze voorbereiding verliest de workshop minimaal 15 min aan vraagstuk-formulering.
+- **Ruimte**: verplaatsbare tafels nodig voor duo-werk + duo-wisselingen in blok 3.
 - **Digitaal**: schema en werkbladen beschikbaar op één gedeelde plek (bv. LMS).
-- **Rol van docent**: ervaren met facilitatie en bekend met het schema; gespreksleiding onder begeleiding werkt niet.
+- **Rol van docent**: ervaren met facilitatie en bekend met het schema; 90 min laat geen ruimte voor improvisatie.
 
 ## 9. Verificatie — hoe weet je of de workshop werkt?
 
-1. **In-workshop steekproef (einde dagdeel 2)**: vraag 2 duo's om hun V1/V2/V3 en hun synthese in 3 minuten te presenteren. Slagingscriterium: ze kunnen aangeven welke rol ze in welke fase innamen.
-2. **Controlevraag**: "Noem één aanname die jullie expliciet maakten en waarom die pijn deed." Geen bruikbaar antwoord = Analysefase was oppervlakkig.
-3. **Transfercheck (+1 week)**: vraag per mail naar één voorbeeld uit hun lopende stage/afstudeertraject waar ze het schema herkenden. Geen voorbeeld = workshop bleef binnen schoolse context.
+1. **In-workshop check (einde blok 4)**: elk duo noemt in 30 sec hun V2 (strategisch vraagstuk) én één expliciete aanname. Slagingscriterium: onderscheid tussen vraag en aanname is helder.
+2. **Controlevraag**: "Noem de rol waar jullie zojuist in zaten en de rol waar jullie in twijfel nog mee worstelden." Geen antwoord = rolbewustzijn blijft te impliciet.
+3. **Transfercheck (+1 week)**: vraag per mail naar één voorbeeld uit hun lopende stage/afstudeertraject waar ze het schema herkenden. Geen voorbeeld = workshop bleef binnen schoolse context — bij 90 min de meest harde test van werkelijke transfer.
 
 Deze drie checks samen dekken respectievelijk: uitvoering tijdens workshop, diepgang van de analyse, en daadwerkelijke transfer naar het eigen project — de enige harde test van deze formatieve workshop.
 
@@ -118,6 +108,7 @@ Deze drie checks samen dekken respectievelijk: uitvoering tijdens workshop, diep
 ## 11. Open punten voor iteratie
 
 Items die in versie 2 van deze workshop overwogen kunnen worden wanneer dit vaker gedraaid is:
-- Een **korte pre-assessment** (5 min) om beginniveau van rolbewustzijn te peilen, zodat je de focus van dagdeel 1 kunt aanpassen.
-- Een optionele **verdiepingssessie** (+1 dagdeel) waarin duo's fase 5-10 op eigen casus doorlopen. Nu blijft dit beperkt tot 6-9 binnen beschikbare tijd.
+- **Pre-work-video** (5 min): korte screencast waarin docent het schema doorloopt, zodat blok 1 nog compacter kan.
+- **Verdiepings-werkvorm** voor wie klaar is met blok 3: Wardley-lens parallel aan de gekozen lens (voor duo's die sneller werken).
+- **Follow-up-sessie** (optioneel, 45 min) een week later waarin duo's hun transfercheck-voorbeeld inbrengen en samen een volgende fase (Besluiten / Implementeren) toepassen.
 - **Integratie met bestaande opdracht**: als afstudeeropdrachten al een vaste structuur volgen, kunnen de werkbladen daar direct op aansluiten.

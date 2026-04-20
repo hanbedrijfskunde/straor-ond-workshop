@@ -8,7 +8,7 @@ Interactieve webapplicatie met werkcolleges en oefeningen voor de opleiding HBO 
 |----------|-------|------|--------|
 | **Workshop 1** — Onderzoekend Vermogen Ontwikkelen | Van nieuwsgierigheid naar onderbouwde vraagstelling | 90 min | STRA0R23-OND |
 | **Workshop 2** — Van vraag naar onderzoeksontwerp | Aannames zichtbaar maken, bronnen scannen met AI, onderzoeksontwerp schetsen | 90 min | STRA0R23-OND |
-| **Workshop 3** — Rollen in adviestrajecten | Rolbewustzijn in veranderkunde: 10-fasenschema op eigen vraagstuk | 2 dagdelen | Veranderkunde |
+| **Workshop 3** — Rollen in adviestrajecten | Rolbewustzijn in veranderkunde: 10-fasenschema op eigen vraagstuk | 90 min | Veranderkunde |
 
 ## Workshop 1 & 2 — Onderzoekend Vermogen (STRA0R23-OND)
 
@@ -22,9 +22,9 @@ Achtergronddocumenten: [background-docs/LRD_Workshop_Onderzoekend_Vermogen.md](b
 
 ## Workshop 3 — Rollen in adviestrajecten (Veranderkunde)
 
-Twee dagdelen waarin 3e/4e jaars studenten de rollen expliciet maken die ze inzetten tijdens een adviestraject: Regisseur, Kadersteller, Onderzoeker, Analist, Strateeg, Tacticus, Synthesemaker, Communicator. Een 10-fasenschema met entiteitslagen (Domein/Kennis/Actie/Agent), poorten (Red Team, Mens beslist) en drie analytische lenzen (Value-Stream, JTBD, Wardley Map) dient als gedeelde taal.
+90 minuten waarin 3e/4e jaars studenten de rollen expliciet maken die ze inzetten tijdens een adviestraject: Regisseur, Kadersteller, Onderzoeker, Analist, Strateeg, Tacticus, Synthesemaker, Communicator. Een 10-fasenschema met entiteitslagen (Domein/Kennis/Actie/Agent), poorten (Red Team, Mens beslist) en drie analytische lenzen (Value-Stream, JTBD, Wardley Map) dient als gedeelde taal.
 
-Studenten werken in duo's aan een echt veranderkundig vraagstuk uit hun stage of afstudeertraject. Toetsing is formatief.
+Studenten werken in duo's aan een echt veranderkundig vraagstuk uit hun stage of afstudeertraject — vraagstuk vooraf meegenomen in één alinea (pre-work). Toetsing is formatief.
 
 Ontwerpdocument: [background-docs/PRD_Workshop_Rollen_Adviestrajecten.md](background-docs/PRD_Workshop_Rollen_Adviestrajecten.md).
 
