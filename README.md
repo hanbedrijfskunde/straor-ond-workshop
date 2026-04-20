@@ -26,7 +26,7 @@ Achtergronddocumenten: [background-docs/LRD_Workshop_Onderzoekend_Vermogen.md](b
 
 Output per duo: een ingevuld werkblad + Red Team-spiegel van een peer, bedoeld als bijlage bij de Handin-reflectie en oefenmateriaal voor het PROMEF-gesprek. Toetsing is formatief.
 
-Ontwerpdocument: [background-docs/PRD_Workshop_Rollen_Adviestrajecten.md](background-docs/PRD_Workshop_Rollen_Adviestrajecten.md).
+Ontwerpdocument: [ws3-rollen/PRD_Workshop_Rollen_Adviestrajecten.md](ws3-rollen/PRD_Workshop_Rollen_Adviestrajecten.md).
 
 ## Doelgroep
 

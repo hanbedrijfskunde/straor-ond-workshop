@@ -1,13 +1,13 @@
 # PRD — Workshop "Rollen in adviestrajecten"
 
-> **Bijbehorende live-pagina**: [ws3-rollen/](../ws3-rollen/) · [schema](../ws3-rollen/schema/)
+> **Bijbehorende live-pagina's**: [Workshop 3 landing](./) · [schema](schema/) · [werkblad](werkblad/)
 
 **Module**: Veranderkunde — HBO Bedrijfskunde
 **Doelgroep**: 3e/4e jaars studenten met **goedgekeurd PvA in uitvoering**; onderweg naar PROMEF-eindassessment F-cluster
 **Omvang**: 90 minuten (4 blokken)
 **Werkvorm**: duo's (2 studenten per team)
 **Toetsing**: uitsluitend formatief — geen cijfer; output is voeding voor de Handin-reflectie
-**Bronnen**: [ws3-rollen/schema/index.html](../ws3-rollen/schema/index.html) (rolmodel) + [ws3-rollen/bloom-taxonomy.png](../ws3-rollen/bloom-taxonomy.png) (progressie-as) + [Beoordelingsformulier PROMEF.pdf](Beoordelingsformulier%20PROMEF.pdf) (eindkwalificaties)
+**Bronnen**: [schema/index.html](schema/index.html) (rolmodel) + [bloom-taxonomy.png](bloom-taxonomy.png) (progressie-as) + [Beoordelingsformulier PROMEF.pdf](../background-docs/Beoordelingsformulier%20PROMEF.pdf) (eindkwalificaties)
 
 ---
 
@@ -79,7 +79,7 @@ Werkblad is zowel **werkinstrument** tijdens de workshop als **bijlage** bij de 
 
 ### Overige materialen
 
-- Workshop-schema (print + scherm) — bron: [schema/index.html](../ws3-rollen/schema/index.html)
+- Workshop-schema (print + scherm) — bron: [schema/index.html](schema/index.html)
 - Korte casus Van den Berg — te extraheren uit schema voor blok 1 demo
 - Voorbeeld-lens-cards ter inspiratie, niet voorgeschreven (bijv. Value-Stream, JTBD, Wardley, Kotter, Caluwé)
 - Red Team-spiegelkaart met de 3 standaardvragen uit blok 3
@@ -109,7 +109,7 @@ Docent geeft mondeling signaal in blok 4 bij de plenaire afsluiting.
 
 ## 8. Randvoorwaarden
 
-- **Pre-work is cruciaal**: studenten bekijken vooraf het [schema](../ws3-rollen/schema/) én brengen één concrete beslissing/actie van hun traject van de afgelopen 2 weken mee (in één zin). Zonder deze voorbereiding blijft blok 2 in "ons project in het algemeen" hangen.
+- **Pre-work is cruciaal**: studenten bekijken vooraf het [schema](schema/) én brengen één concrete beslissing/actie van hun traject van de afgelopen 2 weken mee (in één zin). Zonder deze voorbereiding blijft blok 2 in "ons project in het algemeen" hangen.
 - **Goedgekeurd PvA is voorwaarde**: deze workshop werkt niet voor studenten die nog in de kaderfase zitten.
 - **Ruimte**: verplaatsbare tafels voor duo-werk + duo-wisselingen in blok 3.
 - **Digitaal**: schema, werkblad (als PDF/Word) en Beoordelingsformulier PROMEF beschikbaar op gedeelde plek (LMS).
@@ -123,9 +123,9 @@ Docent geeft mondeling signaal in blok 4 bij de plenaire afsluiting.
 
 ## 10. Kritische bronbestanden
 
-- [ws3-rollen/schema/index.html](../ws3-rollen/schema/index.html) — het schema met 10 fasen, 3 lenzen, entiteitslagen en poorten. Bron voor alle materialen.
-- [ws3-rollen/bloom-taxonomy.png](../ws3-rollen/bloom-taxonomy.png) — referentie voor leerdoelen-tabel.
-- [Beoordelingsformulier PROMEF.pdf](Beoordelingsformulier%20PROMEF.pdf) — bron voor de 6 criteria; criteria 1 en 4 zijn primair doel.
+- [schema/index.html](schema/index.html) — het schema met 10 fasen, 3 lenzen, entiteitslagen en poorten. Bron voor alle materialen.
+- [bloom-taxonomy.png](bloom-taxonomy.png) — referentie voor leerdoelen-tabel.
+- [Beoordelingsformulier PROMEF.pdf](../background-docs/Beoordelingsformulier%20PROMEF.pdf) — bron voor de 6 criteria; criteria 1 en 4 zijn primair doel.
 
 ## 11. PROMEF-mapping (samenvatting)
 
