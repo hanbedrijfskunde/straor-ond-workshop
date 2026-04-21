@@ -419,24 +419,46 @@
       pointer-events: none;
     }
 
-    /* ========== Print rules ========== */
+    /* ========== Print rules ==========
+       Canvas is designed at A3 landscape (420×297 mm). A4 landscape has
+       the same 1.414:1 aspect ratio, so we keep the logical A3 size and
+       shrink by 297/420 ≈ 0.7071 to fit A4 landscape. We use `zoom`
+       (not `transform: scale`) because zoom is layout-aware in Chromium
+       and Safari — the print engine then paginates on the zoomed 297×210 mm
+       size instead of the logical 420×297 mm, so it fits on one page. */
     @media print {
-      @page { size: A3 landscape; margin: 8mm; }
-      body { background: #fff; }
+      @page { size: A4 landscape; margin: 0; }
+      html, body {
+        background: #fff;
+        margin: 0;
+        padding: 0;
+      }
       .actions { display: none !important; }
-      .canvas-wrap { padding: 0; min-height: 0; }
+      .canvas-wrap {
+        display: block;
+        padding: 0;
+        margin: 0;
+        min-height: 0;
+      }
       .canvas {
-        box-shadow: none;
-        width: 100%;
+        zoom: 0.7071;
+        width: 420mm;
+        height: 297mm;
         max-width: none;
         max-height: none;
-        height: 100%;
         aspect-ratio: auto;
+        box-shadow: none;
+        margin: 0;
+      }
+      /* Preserve the yellow/blue/green ghost post-it tints in print */
+      .canvas, .canvas * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
     }
 
-    /* ========== Responsive (small screens) ========== */
-    @media (max-width: 900px) {
+    /* ========== Responsive (small screens, screen-only — must not affect print) ========== */
+    @media screen and (max-width: 900px) {
       .canvas {
         aspect-ratio: auto;
         width: 100%;
@@ -462,7 +484,7 @@
     <div class="btns">
       <a href="../" class="back-link">← Workshop 3</a>
       <a href="../werkblad/">Werkblad (A4)</a>
-      <button onclick="window.print()" title="Print op A3 liggend">Print · A3 liggend</button>
+      <button onclick="window.print()" title="Print op A4 liggend (PDF)">Print · A4 liggend</button>
     </div>
   </div>
 
@@ -646,7 +668,7 @@
 
       </div>
 
-      <span class="canvas-footer">HAN Bedrijfskunde · Workshop 3 · A3 liggend</span>
+      <span class="canvas-footer">HAN Bedrijfskunde · Workshop 3</span>
     </div>
   </div>
 
