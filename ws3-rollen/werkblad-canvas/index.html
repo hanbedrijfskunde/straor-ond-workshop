@@ -6,379 +6,647 @@
   <title>Canvas A3 — Workshop 3 Rollen in adviestrajecten | HAN Bedrijfskunde</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: #e2e8f0;
-      padding-bottom: 2rem;
+    :root {
+      --ink: #000;
+      --paper: #fff;
+      --rule: #000;
+      --muted: #6b7280;
+      --ghost: #e5e7eb;
+      --action-h: 42px;  /* sticky action bar height */
     }
 
-    /* ===== Sticky action bar ===== */
-    .canvas-actions {
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #d4d4d4;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+    }
+
+    /* ========== Action bar (screen only) ========== */
+    .actions {
       position: sticky;
       top: 0;
-      background: var(--primary);
+      background: #111;
       color: #fff;
-      padding: 0.6rem 1.5rem;
+      padding: 0.55rem 1.2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
       z-index: 100;
-    }
-    .canvas-actions .title { font-weight: 600; font-size: 1rem; }
-    .canvas-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    .canvas-actions a, .canvas-actions button {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #fff;
-      padding: 0.4rem 0.9rem;
-      border-radius: 6px;
       font-size: 0.85rem;
+      min-height: var(--action-h);
+    }
+    .actions .title {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.82rem;
+    }
+    .actions .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .actions a, .actions button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      padding: 0.35rem 0.8rem;
+      border-radius: 2px;
+      font-size: 0.78rem;
       cursor: pointer;
       font-weight: 500;
-      font-family: 'Inter', inherit;
+      font-family: inherit;
       transition: background 150ms;
       text-decoration: none;
+      letter-spacing: 0.02em;
     }
-    .canvas-actions a:hover, .canvas-actions button:hover {
-      background: rgba(255,255,255,0.25);
-    }
-    .canvas-actions .back-link {
-      background: transparent;
-      border: none;
-      color: rgba(255,255,255,0.85);
-      padding: 0.4rem 0.3rem;
-    }
-    .canvas-actions .back-link:hover {
-      background: transparent;
-      color: #fff;
-    }
+    .actions a:hover, .actions button:hover { background: rgba(255,255,255,0.12); }
+    .actions .back-link { border: none; color: rgba(255,255,255,0.7); padding: 0.35rem 0.2rem; }
 
-    /* ===== Canvas — A3 landscape (420 × 297 mm → 1.414 : 1) ===== */
+    /* ========== Canvas frame — fit to viewport ==========
+       Width is the smaller of:
+       - 100% of the container (minus padding)
+       - 1680px (absolute cap)
+       - What the remaining viewport height allows, given 420/297 aspect
+       Height auto-follows via aspect-ratio. */
     .canvas-wrap {
       display: flex;
       justify-content: center;
-      padding: 1.5rem;
+      align-items: center;
+      padding: 0.6rem;
+      min-height: calc(100dvh - var(--action-h));
     }
     .canvas {
-      width: 100%;
-      max-width: 1600px;
       aspect-ratio: 420 / 297;
-      background: #fff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      border-radius: 4px;
+      width: min(
+        100%,
+        1680px,
+        calc((100dvh - var(--action-h) - 1.2rem) * 420 / 297)
+      );
+      max-height: calc(100dvh - var(--action-h) - 1.2rem);
+      background: var(--paper);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.2);
       display: grid;
       grid-template-rows: auto 1fr;
       overflow: hidden;
-      color: var(--text-primary);
+      border: 3px solid var(--ink);
+      position: relative;
     }
 
-    /* ===== Canvas header — compact title only ===== */
+    /* ========== Header strip ========== */
     .canvas-header {
-      border-bottom: 2px solid var(--primary);
-      padding: 0.9rem 1.4rem;
+      padding: 0.55rem 1.2rem 0.6rem;
+      border-bottom: 3px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.5rem;
     }
     .canvas-header h1 {
-      font-size: 1.25rem;
-      color: var(--primary);
-      font-weight: 700;
-      line-height: 1.2;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.3rem;
       letter-spacing: -0.01em;
-      margin-bottom: 0.15rem;
+      line-height: 1;
+      margin: 0 0 0.25rem 0;
+      text-transform: uppercase;
     }
     .canvas-header p {
-      color: var(--text-secondary);
-      font-size: 0.78rem;
+      font-size: 0.7rem;
+      color: #111;
       margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .canvas-header .meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: #111;
+      text-align: right;
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    /* ===== Zones grid (4 columns) ===== */
+    /* ========== 6-block grid (3 cols top / 2 evenly-split cols bottom) ========== */
     .zones {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 0;
+      grid-template-columns: 1.05fr 1.25fr 0.9fr;
+      grid-template-rows: 1.35fr 0.95fr 1fr;
+      grid-template-areas:
+        "z1 z2 z3"
+        "z1 z2 z4"
+        "zbot zbot zbot";
       min-height: 0;
+      overflow: hidden;
     }
+    .zone-bottom {
+      grid-area: zbot;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
     .zone {
-      padding: 1rem 1.1rem 1.1rem;
-      border-right: 1px solid var(--border);
+      border-right: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      padding: 0.55rem 0.75rem 0.6rem;
       display: flex;
       flex-direction: column;
       min-width: 0;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
     }
-    .zone:last-child { border-right: none; }
+    .zone.z1 { grid-area: z1; }
+    .zone.z2 { grid-area: z2; }
+    .zone.z3 { grid-area: z3; border-right: none; }
+    .zone.z4 { grid-area: z4; border-right: none; }
+    .zone.z5 { border-bottom: none; }
+    .zone.z6 { border-bottom: none; border-right: none; }
 
+    /* ========== Zone header ========== */
     .zone-head {
       display: flex;
       align-items: center;
-      gap: 0.55rem;
-      margin-bottom: 1rem;
+      gap: 0.45rem;
+      margin-bottom: 0.25rem;
+      flex-shrink: 0;
     }
     .zone-num {
-      background: var(--primary);
-      color: #fff;
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 50%;
-      font-size: 0.8rem;
-      font-weight: 600;
+      background: var(--ink);
+      color: var(--paper);
+      width: 1.25rem;
+      height: 1.25rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.72rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      line-height: 1;
     }
     .zone-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: -0.01em;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.01em;
       flex: 1;
-      line-height: 1.2;
+      line-height: 1.05;
+      text-transform: uppercase;
     }
     .zone-badge {
-      background: var(--primary-100);
-      color: var(--primary);
-      padding: 0.12rem 0.5rem;
-      border-radius: 10px;
-      font-size: 0.65rem;
-      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.52rem;
+      font-weight: 500;
+      border: 1.5px solid var(--ink);
+      padding: 0.1rem 0.35rem;
       white-space: nowrap;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    /* ===== Field — label + open writing space ===== */
-    .field {
-      margin-bottom: 0.8rem;
+    .zone-prompts {
+      font-size: 0.56rem;
+      font-weight: 600;
+      color: #111;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px dashed #9ca3af;
+      flex-shrink: 0;
+    }
+    .zone-prompts ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .zone-prompts li {
+      display: flex;
+      gap: 0.4rem;
+      align-items: baseline;
+    }
+    .zone-prompts li::before {
+      content: "→";
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: #111;
+      flex-shrink: 0;
+    }
+
+    /* ========== Post-it canvas area ========== */
+    .postits {
+      flex: 1;
+      display: grid;
+      gap: 0.35rem;
+      min-height: 0;
+    }
+    .postits[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+    .postits[data-cols="3"] { grid-template-columns: 1fr 1fr 1fr; }
+    .postits[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+    .postits[data-rows="2"] { grid-template-rows: 1fr 1fr; }
+
+    .postit {
+      border: 1.5px dashed var(--ghost);
+      min-height: 0;
+      min-width: 0;
+      position: relative;
+      transition: background 200ms, border 200ms;
+    }
+
+    /* Ghost label in the corner of each post-it */
+    .postit-label {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.45rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: #9ca3af;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Baked-in defaults: colored ghost post-its + no PROMEF badges */
+    body.tw-color .postit { background: #fffbeb; border-color: #fde68a; }
+    body.tw-color .postit.alt { background: #eff6ff; border-color: #bfdbfe; }
+    body.tw-color .postit.alt2 { background: #f0fdf4; border-color: #bbf7d0; }
+    body.tw-no-badges .zone-badge { display: none; }
+
+    /* ========== PROMEF zone special layout ========== */
+    .promef-stem {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: #111;
+      font-style: italic;
+      line-height: 1.4;
+      padding: 0.3rem 0.45rem;
+      border-left: 3px solid var(--ink);
+      background: #f8f8f8;
+      margin-bottom: 0.4rem;
+      flex-shrink: 0;
+    }
+    .promef-students {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .promef-student {
       display: flex;
       flex-direction: column;
+      gap: 0.25rem;
+      min-height: 0;
+      min-width: 0;
     }
-    .field:last-child { margin-bottom: 0; }
-    .field-label {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 0.1rem;
-      letter-spacing: 0.01em;
+    .promef-student .sticker {
+      border: 1.5px dashed var(--ghost);
+      flex: 1;
+      min-height: 0;
+      position: relative;
     }
-    .field-line {
-      border-bottom: 1px solid #cbd5e1;
-      min-height: 1.8rem;
-    }
-    .field-line[data-h="sm"] { min-height: 1.4rem; }
-    .field-line[data-h="md"] { min-height: 2.6rem; }
-    .field-line[data-h="lg"] { min-height: 4rem; }
-    .field-line[data-h="xl"] { min-height: 5.5rem; }
-
-    /* ===== Sub-header voor studenten / groepen binnen een zone ===== */
-    .sub-head {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--primary);
-      text-transform: uppercase;
+    .promef-student .sticker-label {
+      position: absolute;
+      top: 0.3rem;
+      left: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: #9ca3af;
       letter-spacing: 0.05em;
-      padding-bottom: 0.3rem;
-      margin-top: 0.5rem;
-      margin-bottom: 0.55rem;
-      border-bottom: 1px dashed var(--border);
+      text-transform: uppercase;
     }
-    .sub-head:first-child { margin-top: 0; }
+    .promef-student .name-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: #111;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+    .promef-student .name-line::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid var(--ink);
+      height: 1px;
+    }
+    body.tw-color .promef-student .sticker { background: #fffbeb; border-color: #fde68a; }
+    body.tw-color .promef-student.s2 .sticker { background: #eff6ff; border-color: #bfdbfe; }
 
-    /* ===== PROMEF-zin box — minimaal ===== */
-    .promef-box {
-      margin-bottom: 0.7rem;
+    /* Zone 1 (Positie) — stacked student halves */
+    .positie {
+      display: grid;
+      grid-template-rows: auto 1fr 1fr;
+      gap: 0.4rem;
+      flex: 1;
+      min-height: 0;
     }
-    .promef-box:last-child { margin-bottom: 0; }
-    .promef-crit {
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: var(--primary);
-      letter-spacing: 0.02em;
+    .positie .fase-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px dashed #9ca3af;
+      flex-shrink: 0;
+    }
+    .positie .fase-row .label { flex-shrink: 0; font-weight: 500; }
+    .positie .fase-row .line {
+      flex: 1;
+      border-bottom: 1.5px solid var(--ink);
+      height: 1px;
+      align-self: flex-end;
       margin-bottom: 0.15rem;
     }
-    .promef-stem {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      font-style: italic;
-      line-height: 1.45;
-      margin-bottom: 0.3rem;
+    .positie-student {
+      border: 1.5px solid var(--ink);
+      padding: 0.35rem 0.5rem 0.4rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.25rem 0.5rem;
+      align-items: center;
+      align-content: start;
+      min-height: 0;
+    }
+    .positie-student .tag {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.1rem 0.4rem;
+      grid-column: 1 / 3;
+      justify-self: start;
+      margin-bottom: 0.05rem;
+    }
+    .positie-student .f-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.52rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #111;
+      white-space: nowrap;
+    }
+    .positie-student .f-line {
+      border-bottom: 1px solid var(--ink);
+      height: 0.95rem;
     }
 
-    /* ===== Screen viewport scaling ===== */
-    @media (max-width: 1100px) {
-      .canvas-wrap { padding: 0.75rem; }
-      .canvas-header { padding: 0.7rem 1rem; }
-      .zone { padding: 0.7rem 0.85rem 0.85rem; }
+    /* ========== Footer hint ========== */
+    .canvas-footer {
+      position: absolute;
+      bottom: 0.3rem;
+      right: 0.55rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: #9ca3af;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      pointer-events: none;
     }
-    @media (max-width: 700px) {
-      .canvas-actions { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
+
+    /* ========== Print rules ========== */
+    @media print {
+      @page { size: A3 landscape; margin: 8mm; }
+      body { background: #fff; }
+      .actions { display: none !important; }
+      .canvas-wrap { padding: 0; min-height: 0; }
+      .canvas {
+        box-shadow: none;
+        width: 100%;
+        max-width: none;
+        max-height: none;
+        height: 100%;
+        aspect-ratio: auto;
+      }
+    }
+
+    /* ========== Responsive (small screens) ========== */
+    @media (max-width: 900px) {
       .canvas {
         aspect-ratio: auto;
-        max-width: 100%;
+        width: 100%;
+        max-height: none;
       }
-      .zones { grid-template-columns: 1fr; }
-      .zone {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
+      .canvas-wrap { min-height: 0; }
+      .zones {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "z1" "z2" "z3" "z4" "zbot";
       }
-      .zone:last-child { border-bottom: none; }
+      .zone-bottom { grid-template-columns: 1fr; }
+      .zone { border-right: none !important; border-bottom: 2px solid var(--ink) !important; }
+      .zone.z6 { border-bottom: none !important; }
     }
   </style>
 </head>
-<body>
+<body class="tw-color tw-no-badges">
 
-  <div class="canvas-actions">
-    <span class="title">Canvas A3 — Workshop 3 Rollen in adviestrajecten</span>
+  <div class="actions">
+    <span class="title">Canvas A3 · Rollen in adviestrajecten</span>
     <div class="btns">
       <a href="../" class="back-link">← Workshop 3</a>
       <a href="../werkblad/">Werkblad (A4)</a>
+      <button onclick="window.print()" title="Print op A3 liggend">Print · A3 liggend</button>
     </div>
   </div>
 
   <div class="canvas-wrap">
-    <div class="canvas">
+    <div class="canvas" id="canvas">
 
-      <!-- ===== HEADER ===== -->
+      <!-- ============ HEADER ============ -->
       <header class="canvas-header">
-        <h1>Werkblad Canvas — Rollen in adviestrajecten</h1>
-        <p>Workshop 3 &middot; Veranderkunde &middot; PROMEF-criteria 1 en 4</p>
+        <div>
+          <h1>Rollen in adviestrajecten</h1>
+          <p>Workshop 3 · Veranderkunde · PROMEF-criteria 1 en 4</p>
+        </div>
+        <div class="meta">
+          Designed by ______________<br>
+          Date __________ · Iteration __
+        </div>
       </header>
 
-      <!-- ===== ZONES ===== -->
+      <!-- ============ ZONES ============ -->
       <div class="zones">
 
-        <!-- Zone 1 — Positie op het schema -->
-        <section class="zone">
+        <!-- ZONE 1 — POSITIE OP HET SCHEMA (tall left) -->
+        <section class="zone z1">
           <div class="zone-head">
             <span class="zone-num">1</span>
             <span class="zone-title">Positie op het schema</span>
-            <span class="zone-badge">PROMEF-1</span>
+            <span class="zone-badge">PROMEF · 1</span>
           </div>
+          <div class="zone-prompts">
+            <ul>
+              <li>Welke fase zit je adviestraject in?</li>
+              <li>Welke rol neem je nú in?</li>
+              <li>Welke rol hiervóór?</li>
+            </ul>
+          </div>
+          <div class="positie">
+            <div class="fase-row">
+              <span class="label">Fase (gedeeld):</span>
+              <span class="line"></span>
+            </div>
 
-          <div class="field">
-            <span class="field-label">Fase (gedeeld)</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
+            <div class="positie-student">
+              <span class="tag">Student 1</span>
+              <span class="f-label">Naam</span><span class="f-line"></span>
+              <span class="f-label">Rol nu</span><span class="f-line"></span>
+              <span class="f-label">Rol hiervoor</span><span class="f-line"></span>
+            </div>
 
-          <div class="sub-head">Student 1</div>
-          <div class="field">
-            <span class="field-label">Naam</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
-          <div class="field">
-            <span class="field-label">Rol die ik nu inneem</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
-          <div class="field">
-            <span class="field-label">Rol die ik hiervoor innam</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
-
-          <div class="sub-head">Student 2</div>
-          <div class="field">
-            <span class="field-label">Naam</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
-          <div class="field">
-            <span class="field-label">Rol die ik nu inneem</span>
-            <div class="field-line" data-h="sm"></div>
-          </div>
-          <div class="field">
-            <span class="field-label">Rol die ik hiervoor innam</span>
-            <div class="field-line" data-h="sm"></div>
+            <div class="positie-student">
+              <span class="tag">Student 2</span>
+              <span class="f-label">Naam</span><span class="f-line"></span>
+              <span class="f-label">Rol nu</span><span class="f-line"></span>
+              <span class="f-label">Rol hiervoor</span><span class="f-line"></span>
+            </div>
           </div>
         </section>
 
-        <!-- Zone 2 — Framework-analyse -->
-        <section class="zone">
+        <!-- ZONE 2 — FRAMEWORK-ANALYSE (tall middle) -->
+        <section class="zone z2">
           <div class="zone-head">
             <span class="zone-num">2</span>
             <span class="zone-title">Framework-analyse</span>
-            <span class="zone-badge">PROMEF-1</span>
+            <span class="zone-badge">PROMEF · 1</span>
           </div>
-
-          <div class="field">
-            <span class="field-label">Gekozen framework of lens</span>
-            <div class="field-line" data-h="sm"></div>
+          <div class="zone-prompts">
+            <ul>
+              <li>Welk framework of welke lens gebruik je?</li>
+              <li>Welke concrete beslissing of actie analyseer je?</li>
+              <li>Wat zie je via deze lens — dat je zonder niet zou zien?</li>
+            </ul>
           </div>
-
-          <div class="field">
-            <span class="field-label">Concrete beslissing of actie</span>
-            <div class="field-line" data-h="lg"></div>
-          </div>
-
-          <div class="field">
-            <span class="field-label">Wat zien we via dit framework?</span>
-            <div class="field-line" data-h="xl"></div>
+          <div class="postits" data-cols="2" style="grid-template-rows: auto 1fr 1.4fr;">
+            <div class="postit wide" style="grid-column: 1 / 3; min-height: 1.6rem;">
+              <span class="postit-label">Framework / lens</span>
+            </div>
+            <div class="postit">
+              <span class="postit-label">Beslissing</span>
+            </div>
+            <div class="postit alt">
+              <span class="postit-label">Actie</span>
+            </div>
+            <div class="postit wide alt2" style="grid-column: 1 / 3;">
+              <span class="postit-label">Wat we zien</span>
+            </div>
           </div>
         </section>
 
-        <!-- Zone 3 — Peer-spiegel (Red Team) -->
-        <section class="zone">
+        <!-- ZONE 3 — PEER-SPIEGEL (top right) -->
+        <section class="zone z3">
           <div class="zone-head">
             <span class="zone-num">3</span>
-            <span class="zone-title">Peer-spiegel (Red Team)</span>
-            <span class="zone-badge">PROMEF-4</span>
+            <span class="zone-title">Peer-spiegel · Red Team</span>
+            <span class="zone-badge">PROMEF · 4</span>
           </div>
-
-          <div class="field">
-            <span class="field-label">Peer-duo (namen)</span>
-            <div class="field-line" data-h="sm"></div>
+          <div class="zone-prompts">
+            <ul>
+              <li>Peer-duo: wie?</li>
+              <li>Welke groei zien zij bij ons?</li>
+            </ul>
           </div>
-
-          <div class="field">
-            <span class="field-label">Groei die zij bij ons zien</span>
-            <div class="field-line" data-h="lg"></div>
-          </div>
-
-          <div class="field">
-            <span class="field-label">Rol die wij systematisch vermijden</span>
-            <div class="field-line" data-h="md"></div>
-          </div>
-
-          <div class="field">
-            <span class="field-label">Fase die wij overslaan</span>
-            <div class="field-line" data-h="md"></div>
+          <div class="postits" data-cols="2" style="grid-template-rows: auto 1fr;">
+            <div class="postit wide" style="grid-column: 1 / 3; min-height: 1.4rem;">
+              <span class="postit-label">Peer-duo (namen)</span>
+            </div>
+            <div class="postit">
+              <span class="postit-label">Groei 1</span>
+            </div>
+            <div class="postit alt">
+              <span class="postit-label">Groei 2</span>
+            </div>
           </div>
         </section>
 
-        <!-- Zone 4 — PROMEF-zinnen -->
-        <section class="zone">
+        <!-- ZONE 4 — BLIND SPOTS (bottom right, upper half) -->
+        <section class="zone z4">
           <div class="zone-head">
             <span class="zone-num">4</span>
-            <span class="zone-title">PROMEF-zinnen</span>
-            <span class="zone-badge">PROMEF-1 &middot; 4</span>
+            <span class="zone-title">Blind spots</span>
+            <span class="zone-badge">PROMEF · 4</span>
           </div>
-
-          <div class="sub-head">Student 1</div>
-          <div class="promef-box">
-            <div class="promef-crit">Crit. 1 — theoretisch concept</div>
-            <div class="promef-stem">"Het schema helpt mij om ___ uit te leggen."</div>
-            <div class="field-line" data-h="md"></div>
+          <div class="zone-prompts">
+            <ul>
+              <li>Welke rol vermijden we systematisch?</li>
+              <li>Welke fase slaan we over?</li>
+            </ul>
           </div>
-          <div class="promef-box">
-            <div class="promef-crit">Crit. 4 — groei</div>
-            <div class="promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
-            <div class="field-line" data-h="md"></div>
-          </div>
-
-          <div class="sub-head">Student 2</div>
-          <div class="promef-box">
-            <div class="promef-crit">Crit. 1 — theoretisch concept</div>
-            <div class="promef-stem">"Het schema helpt mij om ___ uit te leggen."</div>
-            <div class="field-line" data-h="md"></div>
-          </div>
-          <div class="promef-box">
-            <div class="promef-crit">Crit. 4 — groei</div>
-            <div class="promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
-            <div class="field-line" data-h="md"></div>
+          <div class="postits" data-cols="2" style="grid-template-rows: 1fr;">
+            <div class="postit">
+              <span class="postit-label">Vermeden rol</span>
+            </div>
+            <div class="postit alt">
+              <span class="postit-label">Overgeslagen fase</span>
+            </div>
           </div>
         </section>
+
+        <!-- Bottom row: zones 5 + 6 split 50/50 via nested grid -->
+        <div class="zone-bottom">
+
+          <!-- ZONE 5 — PROMEF-ZIN · CRIT. 1 -->
+          <section class="zone z5">
+            <div class="zone-head">
+              <span class="zone-num">5</span>
+              <span class="zone-title">PROMEF-zin · Crit. 1 — Theoretisch concept</span>
+              <span class="zone-badge">PROMEF · 1</span>
+            </div>
+            <div class="promef-stem">"Het schema helpt mij om ______ uit te leggen, omdat ______."</div>
+            <div class="promef-students">
+              <div class="promef-student s1">
+                <span class="name-line">Student 1</span>
+                <div class="sticker"><span class="sticker-label">Mijn zin · post-it</span></div>
+              </div>
+              <div class="promef-student s2">
+                <span class="name-line">Student 2</span>
+                <div class="sticker"><span class="sticker-label">Mijn zin · post-it</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ZONE 6 — PROMEF-ZIN · CRIT. 4 -->
+          <section class="zone z6">
+            <div class="zone-head">
+              <span class="zone-num">6</span>
+              <span class="zone-title">PROMEF-zin · Crit. 4 — Groei</span>
+              <span class="zone-badge">PROMEF · 4</span>
+            </div>
+            <div class="promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ______, zichtbaar in ______."</div>
+            <div class="promef-students">
+              <div class="promef-student s1">
+                <span class="name-line">Student 1</span>
+                <div class="sticker"><span class="sticker-label">Mijn zin · post-it</span></div>
+              </div>
+              <div class="promef-student s2">
+                <span class="name-line">Student 2</span>
+                <div class="sticker"><span class="sticker-label">Mijn zin · post-it</span></div>
+              </div>
+            </div>
+          </section>
+
+        </div>
 
       </div>
 
+      <span class="canvas-footer">HAN Bedrijfskunde · Workshop 3 · A3 liggend</span>
     </div>
   </div>
 
