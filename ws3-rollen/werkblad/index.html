@@ -29,8 +29,9 @@
       z-index: 100;
     }
     .werkblad-actions .title { font-weight: 600; font-size: 1rem; }
-    .werkblad-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .werkblad-actions button {
+    .werkblad-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .werkblad-actions button,
+    .werkblad-actions a.btn-link {
       background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.3);
       color: #fff;
@@ -41,8 +42,10 @@
       font-weight: 500;
       font-family: 'Inter', inherit;
       transition: background 150ms;
+      text-decoration: none;
     }
-    .werkblad-actions button:hover { background: rgba(255,255,255,0.25); }
+    .werkblad-actions button:hover,
+    .werkblad-actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
     .werkblad-actions .back-link {
       color: rgba(255,255,255,0.85);
       font-size: 0.85rem;
@@ -329,6 +332,7 @@
     <span class="title">Werkblad — Workshop 3 Rollen in adviestrajecten</span>
     <div class="btns">
       <a href="../" class="back-link">← Workshop 3</a>
+      <a href="../werkblad-canvas/" class="btn-link" title="A3-liggend canvas voor scherm of print">Canvas (A3)</a>
       <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF</button>
       <button onclick="resetWerkblad()" title="Wis alle velden">&#x21BB; Wis</button>
     </div>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas A3 — Workshop 3 Rollen in adviestrajecten | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body {
+      background: #e2e8f0;
+      padding-bottom: 2rem;
+    }
+
+    /* ===== Sticky action bar ===== */
+    .canvas-actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .canvas-actions .title { font-weight: 600; font-size: 1rem; }
+    .canvas-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .canvas-actions a, .canvas-actions button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      transition: background 150ms;
+      text-decoration: none;
+    }
+    .canvas-actions a:hover, .canvas-actions button:hover {
+      background: rgba(255,255,255,0.25);
+    }
+    .canvas-actions .back-link {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.85);
+      padding: 0.4rem 0.3rem;
+    }
+    .canvas-actions .back-link:hover {
+      background: transparent;
+      color: #fff;
+    }
+
+    /* ===== Canvas — A3 landscape (420 × 297 mm → 1.414 : 1) ===== */
+    .canvas-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .canvas {
+      width: 100%;
+      max-width: 1600px;
+      aspect-ratio: 420 / 297;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      color: var(--text-primary);
+    }
+
+    /* ===== Canvas header — compact title only ===== */
+    .canvas-header {
+      border-bottom: 2px solid var(--primary);
+      padding: 0.9rem 1.4rem;
+    }
+    .canvas-header h1 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.15rem;
+    }
+    .canvas-header p {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      margin: 0;
+    }
+
+    /* ===== Zones grid (4 columns) ===== */
+    .zones {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0;
+      min-height: 0;
+    }
+    .zone {
+      padding: 1rem 1.1rem 1.1rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .zone:last-child { border-right: none; }
+
+    .zone-head {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+    .zone-num {
+      background: var(--primary);
+      color: #fff;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .zone-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+      flex: 1;
+      line-height: 1.2;
+    }
+    .zone-badge {
+      background: var(--primary-100);
+      color: var(--primary);
+      padding: 0.12rem 0.5rem;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ===== Field — label + open writing space ===== */
+    .field {
+      margin-bottom: 0.8rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .field:last-child { margin-bottom: 0; }
+    .field-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.1rem;
+      letter-spacing: 0.01em;
+    }
+    .field-line {
+      border-bottom: 1px solid #cbd5e1;
+      min-height: 1.8rem;
+    }
+    .field-line[data-h="sm"] { min-height: 1.4rem; }
+    .field-line[data-h="md"] { min-height: 2.6rem; }
+    .field-line[data-h="lg"] { min-height: 4rem; }
+    .field-line[data-h="xl"] { min-height: 5.5rem; }
+
+    /* ===== Sub-header voor studenten / groepen binnen een zone ===== */
+    .sub-head {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-bottom: 0.3rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.55rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .sub-head:first-child { margin-top: 0; }
+
+    /* ===== PROMEF-zin box — minimaal ===== */
+    .promef-box {
+      margin-bottom: 0.7rem;
+    }
+    .promef-box:last-child { margin-bottom: 0; }
+    .promef-crit {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.15rem;
+    }
+    .promef-stem {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      line-height: 1.45;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ===== Screen viewport scaling ===== */
+    @media (max-width: 1100px) {
+      .canvas-wrap { padding: 0.75rem; }
+      .canvas-header { padding: 0.7rem 1rem; }
+      .zone { padding: 0.7rem 0.85rem 0.85rem; }
+    }
+    @media (max-width: 700px) {
+      .canvas-actions { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
+      .canvas {
+        aspect-ratio: auto;
+        max-width: 100%;
+      }
+      .zones { grid-template-columns: 1fr; }
+      .zone {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .zone:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="canvas-actions">
+    <span class="title">Canvas A3 — Workshop 3 Rollen in adviestrajecten</span>
+    <div class="btns">
+      <a href="../" class="back-link">← Workshop 3</a>
+      <a href="../werkblad/">Werkblad (A4)</a>
+    </div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas">
+
+      <!-- ===== HEADER ===== -->
+      <header class="canvas-header">
+        <h1>Werkblad Canvas — Rollen in adviestrajecten</h1>
+        <p>Workshop 3 &middot; Veranderkunde &middot; PROMEF-criteria 1 en 4</p>
+      </header>
+
+      <!-- ===== ZONES ===== -->
+      <div class="zones">
+
+        <!-- Zone 1 — Positie op het schema -->
+        <section class="zone">
+          <div class="zone-head">
+            <span class="zone-num">1</span>
+            <span class="zone-title">Positie op het schema</span>
+            <span class="zone-badge">PROMEF-1</span>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Fase (gedeeld)</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+
+          <div class="sub-head">Student 1</div>
+          <div class="field">
+            <span class="field-label">Naam</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+          <div class="field">
+            <span class="field-label">Rol die ik nu inneem</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+          <div class="field">
+            <span class="field-label">Rol die ik hiervoor innam</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+
+          <div class="sub-head">Student 2</div>
+          <div class="field">
+            <span class="field-label">Naam</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+          <div class="field">
+            <span class="field-label">Rol die ik nu inneem</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+          <div class="field">
+            <span class="field-label">Rol die ik hiervoor innam</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+        </section>
+
+        <!-- Zone 2 — Framework-analyse -->
+        <section class="zone">
+          <div class="zone-head">
+            <span class="zone-num">2</span>
+            <span class="zone-title">Framework-analyse</span>
+            <span class="zone-badge">PROMEF-1</span>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Gekozen framework of lens</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Concrete beslissing of actie</span>
+            <div class="field-line" data-h="lg"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Wat zien we via dit framework?</span>
+            <div class="field-line" data-h="xl"></div>
+          </div>
+        </section>
+
+        <!-- Zone 3 — Peer-spiegel (Red Team) -->
+        <section class="zone">
+          <div class="zone-head">
+            <span class="zone-num">3</span>
+            <span class="zone-title">Peer-spiegel (Red Team)</span>
+            <span class="zone-badge">PROMEF-4</span>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Peer-duo (namen)</span>
+            <div class="field-line" data-h="sm"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Groei die zij bij ons zien</span>
+            <div class="field-line" data-h="lg"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Rol die wij systematisch vermijden</span>
+            <div class="field-line" data-h="md"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Fase die wij overslaan</span>
+            <div class="field-line" data-h="md"></div>
+          </div>
+        </section>
+
+        <!-- Zone 4 — PROMEF-zinnen -->
+        <section class="zone">
+          <div class="zone-head">
+            <span class="zone-num">4</span>
+            <span class="zone-title">PROMEF-zinnen</span>
+            <span class="zone-badge">PROMEF-1 &middot; 4</span>
+          </div>
+
+          <div class="sub-head">Student 1</div>
+          <div class="promef-box">
+            <div class="promef-crit">Crit. 1 — theoretisch concept</div>
+            <div class="promef-stem">"Het schema helpt mij om ___ uit te leggen."</div>
+            <div class="field-line" data-h="md"></div>
+          </div>
+          <div class="promef-box">
+            <div class="promef-crit">Crit. 4 — groei</div>
+            <div class="promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
+            <div class="field-line" data-h="md"></div>
+          </div>
+
+          <div class="sub-head">Student 2</div>
+          <div class="promef-box">
+            <div class="promef-crit">Crit. 1 — theoretisch concept</div>
+            <div class="promef-stem">"Het schema helpt mij om ___ uit te leggen."</div>
+            <div class="field-line" data-h="md"></div>
+          </div>
+          <div class="promef-box">
+            <div class="promef-crit">Crit. 4 — groei</div>
+            <div class="promef-stem">"Sinds mijn PvA ben ik gegroeid in de rol ___, zichtbaar in ___."</div>
+            <div class="field-line" data-h="md"></div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
