@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voor jou — WS4 Aannames-killer | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    .leerdoel-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .leerdoel-card {
+      display: flex;
+      gap: 1rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      align-items: flex-start;
+    }
+    .leerdoel-nummer {
+      background: var(--primary-100);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.78rem;
+      min-width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .leerdoel-info { flex: 1; }
+    .leerdoel-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: var(--text-dark);
+    }
+    .leerdoel-info p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .pre-work-step {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .pre-work-step .stepnum {
+      display: inline-block;
+      background: var(--warning);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    .pre-work-step h4 {
+      display: inline-block;
+      font-size: 0.95rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin: 0;
+    }
+    .pre-work-step p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0.5rem 0 0 2rem;
+    }
+
+    .meenemen-list {
+      list-style: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .meenemen-list li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .meenemen-list li::before {
+      content: '☐';
+      color: var(--primary);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html" class="nav-link">← Alle workshops</a></li>
+      <li><a href="../" class="nav-link">WS4 overzicht</a></li>
+      <li><a href="../materialen/promef-werkblad/" class="nav-link">PROMEF-werkblad</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>WS4 voor jou — wat ga je doen?</h1>
+    <p>Aannames-killer: AI als Red Team | 90 minuten · duo's · jouw lopende PvA als materiaal</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Doel -->
+    <div class="card mb-4" style="border-left: 4px solid var(--danger); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat is het doel?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Sinds WS2 gebruik je AI vooral om <strong>iets op te halen</strong> — een samenvatting, een uitleg. Vandaag draaien we dat om: je gaat AI inzetten als <strong>kritische tegenspeler</strong>. Dezelfde chatbot die jou normaal naar de mond praat, kan ook drie verschillende rollen spelen die je top-3 aannames uit WS2 onderuit halen. Aan het einde heb je vier dingen: een sterker beeld van wat zwakker is in je redenering, een toetsbare hypothese-lijst voor je veldonderzoek, een bijgewerkt A3, en een PROMEF-zin in je eigen woorden.
+      </p>
+    </div>
+
+    <!-- Wat ga je leren -->
+    <h2 class="text-center mb-1">Wat ga je leren?</h2>
+    <p class="text-center text-muted mb-3">Vijf dingen die je morgen al kunt — én die in elk toekomstig AI-tool werken</p>
+
+    <div class="leerdoel-list mb-4">
+
+      <div class="leerdoel-card">
+        <div class="leerdoel-nummer">L1</div>
+        <div class="leerdoel-info">
+          <h3>Je herkent wanneer een chatbot je naar de mond praat</h3>
+          <p>Twee woorden die je vandaag ophaalt: <strong>bias-amplificatie</strong> (de chatbot volgt het frame van je vraag) en <strong>automation bias</strong> (we geloven het scherm vooral als het er strak en gestructureerd uitziet). Live demo in blok 1 maakt dit zichtbaar.</p>
+        </div>
+      </div>
+
+      <div class="leerdoel-card">
+        <div class="leerdoel-nummer">L2</div>
+        <div class="leerdoel-info">
+          <h3>Je gebruikt drie verschillende rolprompts om kritiek te organiseren</h3>
+          <p>Drie kant-en-klare prompts die je een chatbot in een specifieke rol zetten: <strong>skeptische peer</strong>, <strong>domein-expert</strong>, <strong>ethicus</strong>. Je runt ze op je eigen top-3 aannames uit WS2 — negen chats in twintig minuten.</p>
+        </div>
+      </div>
+
+      <div class="leerdoel-card">
+        <div class="leerdoel-nummer">L3</div>
+        <div class="leerdoel-info">
+          <h3>Je laat twee AI-personas debatteren en haalt er een toetsbare hypothese uit</h3>
+          <p>Eén chat, vijftien rondes, twee personas die elkaar tegenspreken. Aan het eind dwingt de prompt een synthese af: <em>"wat zou er moeten gelden om de TEGEN-persona te overtuigen?"</em> — dat is je hypothese-lijst voor het veld.</p>
+        </div>
+      </div>
+
+      <div class="leerdoel-card">
+        <div class="leerdoel-nummer">L4</div>
+        <div class="leerdoel-info">
+          <h3>Je werkt je top-3 aannames uit WS2 bij — wat is zwakker, sterker, écht te toetsen</h3>
+          <p>Met drie kleuren post-its (🔻 zwakste, 🔺 sterkste, ❗ urgent) update je je WS2-A3. Geen nieuwe top-3, wél een <em>scherper</em> beeld. Confronterende docent-vraag tijdens de rondgang: <em>"welke rolprompt heb je niet gegeven omdat het antwoord je niet uitkwam?"</em></p>
+        </div>
+      </div>
+
+      <div class="leerdoel-card">
+        <div class="leerdoel-nummer">L5</div>
+        <div class="leerdoel-info">
+          <h3>Je schrijft een PROMEF-zin en een transfer-zin in eigen woorden</h3>
+          <p>Twee zinnen op een werkblad. De PROMEF-zin laat zien <strong>welk concreet gedrag</strong> je vandaag hebt vertoond ("ik heb aanname X laten vallen omdat..."). De transfer-zin noemt het <strong>principe</strong> dat je meeneemt naar elke toekomstige AI-tool — niet de tool zelf.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pre-work -->
+    <h2 class="text-center mb-1" style="margin-top: 3rem;">Voorbereiden — 15 minuten, vóór je naar de zaal komt</h2>
+    <p class="text-center text-muted mb-3">Zonder deze voorbereiding is blok 2a niet uitvoerbaar — je hebt dan geen aannames om de rolprompts op toe te passen.</p>
+
+    <div style="max-width: 800px; margin: 0 auto;" class="mb-4">
+
+      <div class="pre-work-step">
+        <span class="stepnum">1</span>
+        <h4>Markeer je top-3 aannames</h4>
+        <p>Open je WS2-flip-over of foto. Markeer met dikke stift je <strong>top-3 aannames</strong> in de kolom <em>"Dit denk ik / heb ik gehoord"</em>. Als je deze al gemarkeerd had, herzie of het nog steeds dezelfde drie zijn.</p>
+      </div>
+
+      <div class="pre-work-step">
+        <span class="stepnum">2</span>
+        <h4>Bedenk een concrete situatie uit je gastorganisatie</h4>
+        <p>In 1–2 zinnen: een situatie waar één van die aannames een rol speelde. Wie was erbij, wat werd gezegd, wat ging je doen.</p>
+      </div>
+
+      <div class="pre-work-step">
+        <span class="stepnum">3</span>
+        <h4>Test je laptop of telefoon</h4>
+        <p>Log in op gratis ChatGPT (chat.openai.com). Werkt dat niet? Probeer claude.ai (gratis) of gemini.google.com (gratis) als backup. <strong>Kom NIET zonder werkende toegang</strong> — anders kun je de kern van de workshop niet meedoen.</p>
+      </div>
+
+      <div class="pre-work-step">
+        <span class="stepnum">4</span>
+        <h4>Pak alvast in wat je meeneemt</h4>
+        <p>Zie de checklijst hieronder.</p>
+      </div>
+
+    </div>
+
+    <!-- Wat neem je mee -->
+    <h2 class="text-center mb-1" style="margin-top: 2.5rem;">Wat neem je mee naar de zaal?</h2>
+
+    <ul class="meenemen-list mb-4">
+      <li><strong>WS2 A3-werkblad</strong> — top-3 aannames gemarkeerd in de kolom <em>"Dit denk ik / heb ik gehoord"</em></li>
+      <li><strong>WS2 flip-over of foto</strong> — met de kolommen <em>"Dit weet ik zeker"</em> en <em>"Dit denk ik / heb ik gehoord"</em></li>
+      <li><strong>Onderzoeksvraag uit WS1</strong> — de afgeronde versie</li>
+      <li><strong>Eén concrete situatie uit je gastorganisatie</strong> waar één van die top-3 aannames een rol speelde (vooraf bedacht, 1–2 zinnen)</li>
+      <li><strong>Laptop of telefoon</strong> met werkende gratis-ChatGPT-account (vooraf inloggen testen)</li>
+    </ul>
+
+    <!-- Wat leg je vast -->
+    <div class="card mb-4" style="border-left: 4px solid var(--success); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat leg je vast?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Aan het einde van de zaal vul je individueel een <a href="../materialen/promef-werkblad/">PROMEF-zin werkblad</a> in: twee zinnen, op één A4. Bewaar je werkblad goed — het is je bouwsteen voor PROMEF-criterium 4 in je assessmentgesprek straks.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.5rem;">
+        Daarnaast levert de workshop input voor je <strong>PvA Hoofdstuk 4 (Projectontwerp)</strong>: de toetsbare hypothese-lijst uit blok 2b vertaalt naar je interview-vragen, observatie-criteria of enquête-items. De bijgewerkte top-3 aannames op je A3 scherpt je probleemstelling aan.
+      </p>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="../" class="btn btn-secondary">← WS4 overzicht</a>
+      <a href="../materialen/promef-werkblad/" class="btn btn-primary">Bekijk het PROMEF-werkblad &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Vragen? Bespreek met je docent of medestudenten in WS4.
+  </footer>
+
+</body>
+</html>
+</content>
+</invoke>

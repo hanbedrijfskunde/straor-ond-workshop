@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop 4 — Aannames-killer: AI als Red Team | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .blok-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .blok-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: box-shadow 150ms, transform 150ms;
+    }
+    .blok-card:hover {
+      box-shadow: 0 4px 12px rgba(30,58,95,0.10);
+      transform: translateY(-1px);
+    }
+    .blok-nummer {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .blok-info { flex: 1; }
+    .blok-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .blok-info p { font-size: 0.875rem; color: var(--text-secondary); margin: 0; }
+    .blok-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .blok-tijd {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .blok-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      margin-top: 0.35rem;
+    }
+    .blok-badge-bloom {
+      background: var(--primary-100);
+      color: var(--primary);
+    }
+    @media (max-width: 600px) {
+      .blok-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .blok-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../index.html" class="nav-link">← Alle workshops</a></li>
+      <li><a href="draaiboek/" class="nav-link">Draaiboek</a></li>
+      <li><a href="materialen/rolprompt-kaarten/" class="nav-link">Materialen</a></li>
+      <li><a href="student/" class="nav-link">Voor studenten</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Workshop 4 — Aannames-killer: AI als Red Team</h1>
+    <p>De chatbot als kritische tegenspeler | 5 blokken &middot; 90 min | Onderzoekend Vermogen (STRA0R23-OND)</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card-grid mt-3 mb-4">
+
+      <div class="card" style="border-left: 4px solid var(--danger);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🤖</div>
+        <h3 class="mb-1" style="color: var(--primary);">Waarom</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          Studenten gebruiken AI sinds WS2 vooral <strong>consumptief</strong>: samenvattingen ophalen, één-shot scan-prompts. De chatbot wordt een <strong>ja-knikker</strong> — vraag om bevestiging, krijg bevestiging. Drie patronen breken we vandaag: chatbot-als-ja-knikker, automation bias ("we geloven het scherm"), en het misverstand dat kritisch denken AI-vermijden vereist.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--warning);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔄</div>
+        <h3 class="mb-1" style="color: var(--primary);">Hoe</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          Een live <strong>echo-kamer-demo</strong> toont dat dezelfde chatbot tegengestelde antwoorden geeft op hetzelfde frame. Vervolgens runnen duo's <strong>vier rolprompt-kaarten</strong> (skeptische peer, domein-expert, ethicus, twee-agent debat) op hun eigen top-3 aannames uit WS2. Schermtijd: ~25 min op 90 min — de rest is flip-over en A3-update.
+        </p>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--success);">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">📋</div>
+        <h3 class="mb-1" style="color: var(--primary);">Wat</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          90 minuten, duo's met hun lopende PvA. Je verlaat de zaal met een <strong>3×3 stemmen-matrix</strong>, een <strong>toetsbare hypothese-lijst</strong>, een <strong>bijgewerkt A3</strong> (uit WS2) en een individuele <strong>PROMEF-zin</strong> als bewijslast voor criterium 4 in het assessment.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Pre-work -->
+    <div class="card mb-4" style="border-left: 4px solid var(--warning); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Vooraf voor de docent (45 min, dag vooraf)</h3>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.5rem;">
+        De live demo in blok 1 vraagt om een vooraf geteste aanname. Loop het pre-test-protocol door:
+      </p>
+      <ol style="color: var(--text-secondary); line-height: 1.9; margin: 0.25rem 0 0.75rem 1.5rem;">
+        <li>Test prompt-A en prompt-B uit het <a href="materialen/echo-kamer-script/">echo-kamer demo-script</a> op drie aannames uit de <a href="materialen/test-aannames/">test-aannames-set</a></li>
+        <li>Test alle vier rolprompt-kaarten op één aanname — <a href="materialen/rolprompt-kaarten/">open de kaarten</a></li>
+        <li>Test backup-tooling (claude.ai en gemini.google.com) voor het geval ChatGPT in de zaal rate-limit hit</li>
+        <li>Loop blok 1 mentaal door met een stopwatch — live demo's lopen typisch 3–5 minuten uit</li>
+      </ol>
+      <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.9rem; margin: 0;">
+        De student-pre-work staat op de <a href="student/">student-pagina</a> — verstuur die uiterlijk 48 uur vooraf via het LMS.
+      </p>
+    </div>
+
+    <h2 class="text-center mb-1">Workshopflow</h2>
+    <p class="text-center text-muted mb-3">5 blokken, 90 minuten — primair gericht op PROMEF-criterium 4</p>
+
+    <div class="blok-list mb-4">
+
+      <div class="blok-card">
+        <div class="blok-nummer">1</div>
+        <div class="blok-info">
+          <h3>Echo-kamer demo</h3>
+          <p>Docent toont live op de projector twee tegengestelde prompts (bevestigen vs. weerleggen) op dezelfde aanname. Plenaire benoeming bias-amplificatie + automation bias. Studenten krijgen twee woorden gekoppeld aan een visueel geheugen. <a href="materialen/echo-kamer-script/">Demo-script &rarr;</a></p>
+          <span class="blok-badge blok-badge-bloom">PROMEF-voorwaarde · Understand</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">15 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2a</div>
+        <div class="blok-info">
+          <h3>Drie rolprompts × top-3 aannames (divergent)</h3>
+          <p>Duo's runnen kaart 1 (skeptische peer), 2 (domein-expert) en 3 (ethicus) op hun top-3 aannames uit WS2 — 9 chats. Output op flip-over als 3×3 matrix. Markeer met ✱ de cel waar de tegenspraak het sterkst was. <a href="materialen/rolprompt-kaarten/">Rolprompt-kaarten &rarr;</a></p>
+          <span class="blok-badge blok-badge-bloom">PROMEF-4 · Apply</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">20 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">2b</div>
+        <div class="blok-info">
+          <h3>Twee-agent debat (convergent)</h3>
+          <p>Duo's kiezen de meest-contested aanname uit 2a en runnen kaart 4: twee personas debatteren in één chat (15 rondes), eindigend in een toetsbare hypothese-lijst. <a href="materialen/flipover-templates/">Flip-over template &rarr;</a></p>
+          <span class="blok-badge blok-badge-bloom">PROMEF-4 · Analyze</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">15 min</span></div>
+      </div>
+
+      <div class="blok-card">
+        <div class="blok-nummer">3</div>
+        <div class="blok-info">
+          <h3>Wat heb ik gemist? — A3 updaten</h3>
+          <p>Duo's plakken 🔻 (zwakste), 🔺 (sterkste), ❗ (urgent te toetsen) post-its op hun WS2-A3. Confronterende docent-rondgang: <em>"welke rolprompt heb je niet gegeven omdat het antwoord je niet uitkwam?"</em> Plenaire oogst van inzichten.</p>
+          <span class="blok-badge blok-badge-bloom">PROMEF-4 · Evaluate</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">25 min</span></div>
+      </div>
+
+      <div class="blok-card" style="border-left: 3px solid var(--success);">
+        <div class="blok-nummer" style="background: var(--success);">✓</div>
+        <div class="blok-info">
+          <h3>PROMEF-zin + transfer-zin</h3>
+          <p>Individueel werkblad: één PROMEF-criterium-4-zin (groei zichtbaar in concreet gedrag) + één transfer-zin (LD-2: principe boven tool). Plenaire ronde — één zin per duo. <a href="materialen/promef-werkblad/">PROMEF-werkblad &rarr;</a></p>
+          <span class="blok-badge blok-badge-bloom">PROMEF-4 + LD-2 · Create</span>
+        </div>
+        <div class="blok-meta"><span class="blok-tijd">15 min</span></div>
+      </div>
+
+    </div>
+
+    <!-- CTAs naar hoofdsecties -->
+    <h2 class="text-center mb-1">Materiaal</h2>
+    <p class="text-center text-muted mb-3">Alles online te lezen, alles via browser-print als PDF op te slaan</p>
+
+    <div class="card-grid mb-4">
+
+      <div class="card" style="border-left: 4px solid var(--primary); text-align: center;">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">📖</div>
+        <h3 class="mb-1" style="color: var(--primary);">Het draaiboek</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Fijnmazig docent-draaiboek met klokmomenten per blok, Socratische vragen, verwachte pijnpunten, en wiki-ankers. Sticky timeline-navigatie voor in de zaal.
+        </p>
+        <a href="draaiboek/" class="btn btn-primary">Open het draaiboek &rarr;</a>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--warning); text-align: center;">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🃏</div>
+        <h3 class="mb-1" style="color: var(--primary);">Hulpmiddelen</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Vier rolprompt-kaarten (A6, 4-op-A4) · echo-kamer-script met kopieerbare prompts · flip-over-templates (A4 liggend) · PROMEF-werkblad (A4 staand) · test-aannames voor pre-test.
+        </p>
+        <a href="materialen/rolprompt-kaarten/" class="btn btn-primary">Naar de kaarten &rarr;</a>
+      </div>
+
+      <div class="card" style="border-left: 4px solid var(--success); text-align: center;">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🎓</div>
+        <h3 class="mb-1" style="color: var(--primary);">Voor studenten</h3>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Aparte pagina met doel, leerdoelen in eigen taal, pre-work (15 min, vóór de zaal), en wat mee te brengen. Stuur deze link uiterlijk 48 uur vooraf via het LMS.
+        </p>
+        <a href="student/" class="btn btn-primary">Student-pagina &rarr;</a>
+      </div>
+
+    </div>
+
+    <!-- Materialen overview -->
+    <div class="card mb-4" style="border-left: 4px solid var(--primary); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Alle materialen op een rij</h3>
+      <ul style="color: var(--text-secondary); line-height: 2; margin: 0.5rem 0 0 1.5rem;">
+        <li><a href="materialen/echo-kamer-script/"><strong>Echo-kamer demo-script</strong></a> — Blok 1 docent-script met kopieerbare prompts (A &amp; B + reserve)</li>
+        <li><a href="materialen/rolprompt-kaarten/"><strong>Rolprompt-kaarten</strong></a> — 4 kaarten A6, 4-op-A4 print, voor blok 2a en 2b</li>
+        <li><a href="materialen/flipover-templates/"><strong>Flip-over-templates</strong></a> — 3×3 matrix + hypothese-lijst, A4 liggend per template</li>
+        <li><a href="materialen/promef-werkblad/"><strong>PROMEF-zin werkblad</strong></a> — A4 staand per student, voor blok 4</li>
+        <li><a href="materialen/test-aannames/"><strong>Test-aannames</strong></a> — 5 hoofd + 2 reserves voor docent-pre-test (NIET voor studenten)</li>
+      </ul>
+    </div>
+
+    <!-- Producten -->
+    <div class="card mb-4" style="border-left: 4px solid var(--success); max-width: 800px; margin-left: auto; margin-right: auto;">
+      <h3 class="mb-1" style="color: var(--primary);">Wat lever je op? (voor PvA H4 en het PROMEF-gesprek)</h3>
+      <ul style="color: var(--text-secondary); line-height: 1.9; margin: 0.5rem 0 0 1.5rem;">
+        <li><strong>3×3 stemmen-matrix op flip-over</strong> — drie rolprompts × drie aannames, met ✱ bij de cel waar tegenspraak het sterkst was</li>
+        <li><strong>Toetsbare hypothese-lijst</strong> — uit het twee-agent debat in blok 2b, klaar voor PvA H4 (interview-vragen, observatie-criteria, enquête-items)</li>
+        <li><strong>Bijgewerkt WS2-A3</strong> — top-3 aannames met 🔻🔺❗ post-its</li>
+        <li><strong>PROMEF-zin + transfer-zin op werkblad</strong> — bouwsteen voor PROMEF-criterium 4 in het assessmentgesprek</li>
+      </ul>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 0.75rem; font-size: 0.9rem;">
+        <strong>Tip:</strong> elk materiaal heeft bovenaan een <em>Print / PDF</em>-knop — gebruik de browser-print om als PDF op te slaan voor uitdelen of archiveren.
+      </p>
+    </div>
+
+    <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="../index.html" class="btn btn-secondary">← Workshops</a>
+      <a href="student/" class="btn btn-secondary">Student-pagina</a>
+      <a href="draaiboek/" class="btn btn-primary">Open het draaiboek &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops
+  </footer>
+
+</body>
+</html>
+</content>
+</invoke>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draaiboek — WS4 Aannames-killer | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body { background: var(--surface); }
+
+    .draaiboek-actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .draaiboek-actions .title { font-weight: 600; font-size: 1rem; }
+    .draaiboek-actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .draaiboek-actions button,
+    .draaiboek-actions a.btn-link {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      transition: background 150ms;
+      text-decoration: none;
+    }
+    .draaiboek-actions button:hover,
+    .draaiboek-actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Sticky sidebar */
+    .sidebar {
+      position: sticky;
+      top: 4rem;
+      align-self: start;
+      max-height: calc(100vh - 5rem);
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .sidebar h3 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin: 0.5rem 0.75rem 0.5rem 0.75rem;
+    }
+    .sidebar ul { list-style: none; padding: 0; margin: 0 0 0.75rem 0; }
+    .sidebar li { margin: 0.15rem 0; }
+    .sidebar a {
+      display: block;
+      padding: 0.45rem 0.75rem;
+      color: var(--text-dark);
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: background 120ms, color 120ms;
+      border-left: 3px solid transparent;
+    }
+    .sidebar a:hover {
+      background: var(--primary-50);
+      color: var(--primary);
+    }
+    .sidebar a .nr {
+      display: inline-block;
+      min-width: 2.4rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      font-size: 0.78rem;
+    }
+    .sidebar a .tijd {
+      display: inline-block;
+      float: right;
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .blok {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      scroll-margin-top: 4.5rem;
+    }
+    .blok-kop {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .blok-kop .nr {
+      background: var(--primary);
+      color: #fff;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .blok-kop h2 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+    }
+    .blok-kop .tijd {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+    .blok-kop .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: var(--primary-100);
+      color: var(--primary);
+    }
+
+    .doel {
+      background: var(--primary-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+    }
+    .doel strong { color: var(--primary); }
+
+    .materialen-rij {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--surface);
+      border-radius: 6px;
+    }
+    .materialen-rij strong { color: var(--text-dark); }
+
+    h3.sub {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 1.4rem 0 0.6rem 0;
+    }
+
+    table.klok {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+    }
+    table.klok th {
+      background: var(--primary-50);
+      color: var(--primary);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary-100);
+    }
+    table.klok td {
+      padding: 0.6rem 0.7rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.55;
+    }
+    table.klok td:first-child {
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+      width: 70px;
+    }
+    table.klok td:nth-child(2) {
+      width: 130px;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+    }
+    table.klok tr:last-child td { border-bottom: none; }
+
+    table.pijn {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      margin-bottom: 0.5rem;
+    }
+    table.pijn th {
+      background: var(--warning-light);
+      color: var(--warning);
+      text-align: left;
+      padding: 0.5rem 0.7rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--warning);
+    }
+    table.pijn td {
+      padding: 0.55rem 0.7rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.55;
+    }
+
+    ol.socratisch {
+      margin: 0.4rem 0 0 1.3rem;
+      padding: 0;
+    }
+    ol.socratisch li {
+      margin-bottom: 0.5rem;
+      line-height: 1.55;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+    ol.socratisch em {
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    details.wiki {
+      margin-top: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+    }
+    details.wiki summary {
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    details.wiki summary:hover { color: var(--primary); }
+    details.wiki[open] { padding-bottom: 0.85rem; }
+    details.wiki .body {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      margin-top: 0.6rem;
+    }
+
+    .cue-list {
+      background: var(--warning-light);
+      border-left: 3px solid var(--warning);
+      padding: 0.6rem 0.9rem;
+      margin: 0.5rem 0;
+      font-size: 0.86rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .cue-list strong { color: var(--warning); }
+    .cue-list ul { margin: 0.3rem 0 0 1.2rem; }
+    .cue-list li { margin-bottom: 0.25rem; }
+
+    a.matlink {
+      color: var(--primary-light);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+    }
+
+    /* Print: hide sidebar + nav, single-column layout */
+    @media print {
+      body { background: #fff; }
+      .navbar, .draaiboek-actions, .sidebar { display: none !important; }
+      .layout {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        gap: 0;
+      }
+      .blok {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0.5cm 0;
+        margin-bottom: 0.6cm;
+        page-break-inside: avoid;
+      }
+      .blok-kop { padding-bottom: 0.4rem; margin-bottom: 0.6rem; }
+      .blok-kop h2 { font-size: 14pt; }
+      .blok-kop .tijd, .blok-kop .badge { font-size: 9pt; }
+      table.klok, table.pijn { font-size: 9.5pt; }
+      table.klok th, table.pijn th { font-size: 8pt; }
+      h3.sub { font-size: 10pt; margin-top: 0.8rem; }
+      .doel, .materialen-rij { font-size: 9.5pt; padding: 0.4rem 0.6rem; }
+      ol.socratisch li { font-size: 9.5pt; }
+      details.wiki { display: none; } /* docent-achtergrond skippen bij print */
+      @page { size: A4; margin: 1.2cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html" class="nav-link">← Alle workshops</a></li>
+      <li><a href="../" class="nav-link">WS4 overzicht</a></li>
+      <li><a href="../materialen/rolprompt-kaarten/" class="nav-link">Materialen</a></li>
+      <li><a href="../student/" class="nav-link">Voor studenten</a></li>
+    </ul>
+  </nav>
+
+  <div class="draaiboek-actions">
+    <span class="title">Draaiboek WS4 — Aannames-killer (90 min)</span>
+    <div class="btns">
+      <a href="../" class="btn-link">← Terug naar overzicht</a>
+      <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF</button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <h3>Voorbereiden</h3>
+      <ul>
+        <li><a href="#voorbereiden"><span class="nr">§9</span>Pre-test (45')</a></li>
+      </ul>
+      <h3>De workshop</h3>
+      <ul>
+        <li><a href="#blok-1"><span class="nr">B1</span>Echo-kamer<span class="tijd">15'</span></a></li>
+        <li><a href="#blok-2a"><span class="nr">B2a</span>3 rolprompts<span class="tijd">20'</span></a></li>
+        <li><a href="#blok-2b"><span class="nr">B2b</span>Twee-agent<span class="tijd">15'</span></a></li>
+        <li><a href="#blok-3"><span class="nr">B3</span>Update A3<span class="tijd">25'</span></a></li>
+        <li><a href="#blok-4"><span class="nr">B4</span>PROMEF-zin<span class="tijd">15'</span></a></li>
+      </ul>
+      <h3>Na afloop</h3>
+      <ul>
+        <li><a href="#evaluatie"><span class="nr">§11</span>Evaluatie</a></li>
+        <li><a href="#verificatie"><span class="nr">§12</span>Verificatie</a></li>
+      </ul>
+    </aside>
+
+    <main class="content">
+
+      <!-- Voorbereiden -->
+      <section class="blok" id="voorbereiden">
+        <div class="blok-kop">
+          <span class="nr">§9</span>
+          <h2>Voorbereiden — pre-test (45 min, dag vooraf)</h2>
+        </div>
+        <div class="doel">
+          <strong>Waarom:</strong> een werkcollege dat live op de projector een demo doet kan flopppen. Dit pre-test-protocol verlaagt dat risico tot bijna nul.
+        </div>
+
+        <h3 class="sub">Pre-test 1 — Echo-kamer-demo (10 min)</h3>
+        <p style="font-size: 0.92rem; line-height: 1.6;">
+          Test prompt-A en prompt-B uit het <a class="matlink" href="../materialen/echo-kamer-script/">echo-kamer demo-script</a> op <strong>drie verschillende test-aannames</strong>. Aanbevolen set: aannames 1 (HR), 2 (klant), 3 (proces) uit de <a class="matlink" href="../materialen/test-aannames/">test-aannames-set</a>.
+        </p>
+        <div class="cue-list">
+          <strong>Slagingscriteria voor het frame-effect:</strong>
+          <ul>
+            <li>Prompt-A levert minimaal drie inhoudelijk verschillende argumenten waarom de aanname klopt</li>
+            <li>Prompt-B levert minimaal drie inhoudelijk verschillende argumenten waarom hij niet klopt</li>
+            <li>De twee outputs zijn <strong>zichtbaar tegengesteld</strong> (niet "het hangt ervan af" beide kanten op)</li>
+          </ul>
+        </div>
+
+        <h3 class="sub">Pre-test 2 — Vier rolprompt-kaarten (20 min)</h3>
+        <p style="font-size: 0.92rem; line-height: 1.6;">
+          Test alle vier <a class="matlink" href="../materialen/rolprompt-kaarten/">rolprompt-kaarten</a> op één testaanname. Slagingscriteria: kaart 1, 2, 3 leveren elk een <em>inhoudelijk ander</em> perspectief op (geen drie keer hetzelfde antwoord met andere woorden); kaart 4 (debat) draait minimaal 12 rondes door zonder herhaling, en de slotsynthese levert een toetsbare hypothese-lijst.
+        </p>
+
+        <h3 class="sub">Pre-test 3 — Backup-tooling (10 min)</h3>
+        <p style="font-size: 0.92rem; line-height: 1.6;">
+          Test alle vier kaarten + echo-kamer-demo op <strong>claude.ai</strong> (gratis) en <strong>gemini.google.com</strong> (gratis). Documenteer per kaart per platform of het werkt. Als gratis ChatGPT in de zaal rate-limited is, kun je gericht switchen.
+        </p>
+
+        <h3 class="sub">Pre-test 4 — Eigen tijdsbewaking (5 min)</h3>
+        <p style="font-size: 0.92rem; line-height: 1.6;">
+          Loop het draaiboek van blok 1 mentaal door met een stopwatch (T+0–2, T+2–4, T+4–8, T+8–12, T+12–14, T+14–15). Live demo's hebben de neiging uit te lopen — repeteren scheelt 3–5 minuten in de zaal.
+        </p>
+      </section>
+
+      <!-- Blok 1 -->
+      <section class="blok" id="blok-1">
+        <div class="blok-kop">
+          <span class="nr">1</span>
+          <h2>De echo-kamer demo</h2>
+          <span class="badge">Understand · L1</span>
+          <span class="tijd">15 min · plenair</span>
+        </div>
+        <div class="doel">
+          <strong>Doel:</strong> studenten zien live dat dezelfde chatbot twee tegengestelde antwoorden produceert op dezelfde aanname, afhankelijk van het frame. Ze verlaten het blok met de woorden <em>bias-amplificatie</em> en <em>automation bias</em> in hun vocabulaire en gekoppeld aan een visueel geheugen.
+        </div>
+        <div class="materialen-rij">
+          <strong>Materialen:</strong> <a class="matlink" href="../materialen/echo-kamer-script/">echo-kamer demo-script</a> · projector + laptop docent met geopend gratis-ChatGPT-account · twee reserve-aannames (vooraf getest) · flip-over om aanname op te schrijven
+        </div>
+
+        <h3 class="sub">Klokmomenten</h3>
+        <table class="klok">
+          <thead><tr><th>T+</th><th>Wie</th><th>Wat</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>0–2</td><td>Docent (plenair)</td>
+              <td>Opent de sessie. <em>"Vandaag onderzoeken we niet AI — we onderzoeken jullie eigen aannames met AI als gereedschap. Eerst een live experiment."</em> Geen slides over LLM-werking.</td>
+            </tr>
+            <tr>
+              <td>2–4</td><td>Docent (plenair)</td>
+              <td>Vraagt één student een aanname uit zijn/haar WS2-flip-over te noemen. Selecteert er één die zich leent voor frame-omkering. Schrijft de aanname op flip-over zichtbaar voor de zaal.</td>
+            </tr>
+            <tr>
+              <td>4–8</td><td>Docent (live demo)</td>
+              <td>Opent <strong>chat 1</strong> (gratis ChatGPT). Plakt <strong>prompt-A</strong> (bevestigingsframe). Stopt na ~30 seconden. Vraagt zaal: <em>"klinkt dit overtuigend?"</em> (verwacht: ja).</td>
+            </tr>
+            <tr>
+              <td>8–12</td><td>Docent (live demo)</td>
+              <td>Opent <strong>chat 2</strong> (NIEUWE chat — niet voortzetting). Plakt <strong>prompt-B</strong> (weerleggingsframe). Vraagt zaal: <em>"klinkt dit ook overtuigend?"</em> (verwacht: ja).</td>
+            </tr>
+            <tr>
+              <td>12–14</td><td>Docent (plenair)</td>
+              <td>Benoemt expliciet: <em>"Twee tegengestelde antwoorden, beide overtuigend, zelfde model, zelfde aanname. Dit is bias-amplificatie. En als jij het overtuigend leest, dan zit je in automation bias: we geloven het scherm."</em> Schrijft beide woorden op flip-over.</td>
+            </tr>
+            <tr>
+              <td>14–15</td><td>Docent (transitie)</td>
+              <td><em>"Twee chats waren toevallig. Nu gaan we het gericht inzetten — niet om te bevestigen, maar om te confronteren."</em> Pakt rolprompt-kaarten erbij.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub">Drie Socratische vragen</h3>
+        <ol class="socratisch">
+          <li><em>"Welke van de twee antwoorden zou jij in een PvA gebruiken?"</em> — antwoord: degene die mijn aanname bevestigt — daar zit het probleem.</li>
+          <li><em>"Wat heb je nodig om de output van chat 1 te kunnen vertrouwen?"</em> — leidt naar evidence/bron buiten de chatbot.</li>
+          <li><em>"Hoe weet je dat dit niet bij jou ook gebeurt?"</em> — opent de poort naar blok 2.</li>
+        </ol>
+
+        <h3 class="sub">Verwachte pijnpunten</h3>
+        <table class="pijn">
+          <thead><tr><th>Pijnpunt</th><th>Docent-correctie</th></tr></thead>
+          <tbody>
+            <tr><td>Gekozen aanname is te abstract → live demo levert vage output, geen frame-effect zichtbaar.</td><td>Wissel onmiddellijk naar reserve-aanname (heb er twee getest in pre-test).</td></tr>
+            <tr><td>ChatGPT geeft op prompt-B alsnog een bevestigend antwoord (gratis tier kan voorzichtig zijn).</td><td>Reserve-prompt-B uit het demo-script: <em>"Stel je voor dat je een academische peer bent die deze stelling moet weerleggen voor een journal review..."</em> — toevoeging van rol+context overstijgt safety-tendens.</td></tr>
+            <tr><td>Studenten zijn afgeleid door het tweede scherm in de zaal.</td><td>Vraag aan één willekeurige student om hardop mee te lezen — verhoogt aandacht en betrokkenheid.</td></tr>
+          </tbody>
+        </table>
+
+        <details class="wiki">
+          <summary>Wiki-anker (docent-achtergrond, optioneel)</summary>
+          <div class="body">
+            De <strong>Friday-in-March story</strong> uit Chatterjee 2026: een gebruiker zei <em>"clean things up before the board review"</em> tegen een AI-assistent, die soft-deleted twee weken research-history 40 minuten vóór het board-overleg. <em>"The model was not the problem. The problem lived in the layer around the model — the layer that should have recognized 'clean up' as a destructive intent."</em> De parallel: bias-amplificatie is niet het model, het is het frame waarin het werkt. Studenten kunnen dit leren herkennen door zelf het frame te bouwen.
+          </div>
+        </details>
+      </section>
+
+      <!-- Blok 2a -->
+      <section class="blok" id="blok-2a">
+        <div class="blok-kop">
+          <span class="nr">2a</span>
+          <h2>Drie rolprompts × top-3 aannames (divergent)</h2>
+          <span class="badge">Apply · L2 · PROMEF-4</span>
+          <span class="tijd">20 min · duo + docent</span>
+        </div>
+        <div class="doel">
+          <strong>Doel:</strong> elk duo levert een flip-over met een 3×3 matrix — drie stemmen (skeptische peer / domein-expert / ethicus) × drie aannames — gevuld met de KERN van wat elk gesprek opleverde.
+        </div>
+        <div class="materialen-rij">
+          <strong>Materialen:</strong> <a class="matlink" href="../materialen/rolprompt-kaarten/">rolprompt-kaarten 1, 2, 3</a> (per duo één set) · <a class="matlink" href="../materialen/flipover-templates/">flip-over template 1</a> · stiften · WS2-flip-over met top-3 aannames meegenomen door studenten
+        </div>
+
+        <h3 class="sub">Klokmomenten</h3>
+        <table class="klok">
+          <thead><tr><th>T+</th><th>Wie</th><th>Wat</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>0–2</td><td>Docent (plenair)</td>
+              <td>Deelt rolprompt-kaarten 1+2+3 uit (per duo één set). Korte instructie: <em>"Per aanname drie verschillende chats: één per rol. Open dus negen chats totaal. Plak de rolprompt + één aanname; lees het antwoord; schrijf de KERN op flip-over. Niet kopiëren-plakken — de KERN."</em> Toont blanco template (3 kolommen × 3 rijen).</td>
+            </tr>
+            <tr>
+              <td>2–17</td><td>Duo's (digitaal)</td>
+              <td>Runnen kaart 1, 2, 3 op aanname 1, dan op aanname 2, dan op aanname 3. ~1.5 min per chat. Docent loopt rond.</td>
+            </tr>
+            <tr>
+              <td>17–20</td><td>Duo's (analoog)</td>
+              <td>Laptops dicht. Op flip-over: 3×3 matrix invullen — KERN per cel in 1–2 zinnen. Markeer met ✱ de cel waar tegenspraak het sterkst was.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cue-list">
+          <strong>Cue-momenten voor docent:</strong>
+          <ul>
+            <li><strong>T+8:</strong> alle duo's moeten kaart 1 hebben gerund op aanname 1. Bij twijfel: <em>"jullie zitten waar?"</em> — als achter, vraag focus op aanname 1+2 (laat aanname 3 vallen indien nodig).</li>
+            <li><strong>T+15:</strong> laatste 2 minuten chats; afronden, flip-over open zetten.</li>
+          </ul>
+        </div>
+
+        <h3 class="sub">Drie Socratische vragen</h3>
+        <ol class="socratisch">
+          <li><em>"Welke rol gaf jou nieuwe informatie? Welke gaf alleen herhaling?"</em> — leidt tot inzicht dat één chatbot geen echte expert kan vervangen, alleen een rol-perspectief faken.</li>
+          <li><em>"Welke chat overtuigde je het meest? Waarom?"</em> — triggert herkennen van eigen automation bias.</li>
+          <li><em>"Wat schrijf je op de flip-over en wat niet?"</em> — dwingt tot interpretatie i.p.v. transcriptie.</li>
+        </ol>
+
+        <h3 class="sub">Verwachte pijnpunten</h3>
+        <table class="pijn">
+          <thead><tr><th>Pijnpunt</th><th>Docent-correctie</th></tr></thead>
+          <tbody>
+            <tr><td>Studenten kopiëren AI-output letterlijk op flip-over.</td><td><em>"Wat is de KERN in jullie eigen woorden? Wat zou jullie peer hieruit halen in 30 seconden?"</em> — dwing reductie.</td></tr>
+            <tr><td>Oppervlakkige rolprompt-output — LLM blijft generiek.</td><td><em>"Voeg één concreet detail toe vanuit je eigen gastorganisatie en run opnieuw."</em> — bv. "specifiek voor [naam organisatie] in [type sector]".</td></tr>
+            <tr><td>Rate-limit op gratis ChatGPT (komt voor bij meer dan 4–5 simultane chats per account).</td><td>Backup vooraf afgesproken: claude.ai gratis of Gemini gratis. Noteer welke duo's switchen.</td></tr>
+            <tr><td>Drie aannames × drie rollen = negen chats — sommige duo's komen niet rond.</td><td>Acceptabel — kwaliteit boven kwantiteit. Cue: minimaal aanname 1 + aanname 2 volledig. Aanname 3 mag onvolledig.</td></tr>
+            <tr><td>Rolprompt-kaart 3 (ethicus) levert moralistische generieke uitspraken.</td><td><em>"Vraag concreet: welke stakeholder verzwijgt iets in jullie casus? Welk belang? Geef NAMEN of FUNCTIES."</em></td></tr>
+          </tbody>
+        </table>
+
+        <details class="wiki">
+          <summary>Wiki-anker (docent-achtergrond)</summary>
+          <div class="body">
+            De rolprompt-techniek is empirisch ondersteund: <strong>Boussioux et al. (Organization Science 2024)</strong>, peer-reviewed, n=300 evaluators × 3,900 evaluator-solution pairs, toonden dat <em>single-instance HAI met iteratieve rol-instructies</em> (waar onze drie kaarten een variant van zijn) significant betere kwaliteit (+0.159, p&lt;0.001) en strategische haalbaarheid (+0.133, p&lt;0.01) produceert dan multi-instance independent HAI. Cost-realisme: hun setup kostte $27 vs $2,555 voor menselijke crowd — direct reproduceerbaar op gratis ChatGPT.
+          </div>
+        </details>
+      </section>
+
+      <!-- Blok 2b -->
+      <section class="blok" id="blok-2b">
+        <div class="blok-kop">
+          <span class="nr">2b</span>
+          <h2>Twee-agent debat (convergent)</h2>
+          <span class="badge">Analyze · L3 · PROMEF-4</span>
+          <span class="tijd">15 min · duo</span>
+        </div>
+        <div class="doel">
+          <strong>Doel:</strong> uit één aanname een toetsbare hypothese-lijst destilleren via een 15-rondes debat tussen twee tegengestelde personas in één chat.
+        </div>
+        <div class="materialen-rij">
+          <strong>Materialen:</strong> <a class="matlink" href="../materialen/rolprompt-kaarten/">rolprompt-kaart 4</a> (debat-prompt) · <a class="matlink" href="../materialen/flipover-templates/">flip-over template 2</a> (hypothese-lijst) · stiften
+        </div>
+
+        <h3 class="sub">Klokmomenten</h3>
+        <table class="klok">
+          <thead><tr><th>T+</th><th>Wie</th><th>Wat</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>0–2</td><td>Docent (plenair)</td>
+              <td><em>"Eén aanname uit jullie 3×3-matrix waar het meeste tegenspraak op kwam (de ✱-cel). Daar gaan we nu dieper op. Kaart 4 — twee personas, één chat, 15 rondes geforceerd debat. Aan het eind vraagt de prompt: wat zou er moeten gelden om de TEGEN-persona te overtuigen?"</em></td>
+            </tr>
+            <tr>
+              <td>2–4</td><td>Duo's</td>
+              <td>Kiezen meest-contested aanname uit blok 2a. Maakt expliciet welke.</td>
+            </tr>
+            <tr>
+              <td>4–12</td><td>Duo's (digitaal)</td>
+              <td>Plakken kaart 4 + de gekozen aanname in NIEUWE chat. Lezen het debat. Als debat na 5 rondes inhoudelijk verzwakt: vervolgprompt <em>"ga door, maak per ronde minstens één concreet nieuw argument"</em>.</td>
+            </tr>
+            <tr>
+              <td>12–15</td><td>Duo's (analoog)</td>
+              <td>Op flip-over: noteren de <strong>synthese-uitkomst</strong> als toetsbare hypothese-lijst — <em>"om mijn aanname overeind te houden in het veld moet gelden dat..."</em>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub">Drie Socratische vragen</h3>
+        <ol class="socratisch">
+          <li><em>"Welke ronde leverde het meest verrassende argument?"</em> — train herkennen van interestingly wrong output.</li>
+          <li><em>"Wat staat in jullie hypothese-lijst dat je pas weet door dit debat?"</em> — maakt nieuwe kennis expliciet.</li>
+          <li><em>"Welke hypothese kun je het snelst toetsen in je gastorganisatie?"</em> — bridge naar blok 3.</li>
+        </ol>
+
+        <h3 class="sub">Verwachte pijnpunten</h3>
+        <table class="pijn">
+          <thead><tr><th>Pijnpunt</th><th>Docent-correctie</th></tr></thead>
+          <tbody>
+            <tr><td>Debat valt na 5 rondes stil ("we agree to disagree").</td><td>Vervolgprompt aanreiken: <em>"Ga door. Maak per ronde minstens één concreet nieuw argument. Verbied algemeenheden."</em></td></tr>
+            <tr><td>Synthese-uitkomst is een lijst vage features ("meer transparantie", "beter draagvlak").</td><td><em>"Specificeer voor JULLIE gastorganisatie. Wat zou er CONCREET moeten gelden — welk gedrag, welke meting, welk besluit?"</em></td></tr>
+            <tr><td>Duo kopieert de hele eindlijst zonder bewerking.</td><td><em>"Welke punt is het meest urgent te toetsen? Wat is jullie beste kandidaat-onderzoeksmethode?"</em> — koppeling naar A3-update in blok 3.</td></tr>
+          </tbody>
+        </table>
+
+        <details class="wiki">
+          <summary>Wiki-anker (docent-achtergrond)</summary>
+          <div class="body">
+            De twee-agent-debat-techniek is afgeleid van <strong>Marily Nika</strong> (AI Product Lead, Google) in de <em>How I AI</em>-podcast. Zie <code>SKETCHES.md</code> anker B6 voor de letterlijke prompt en het commentaar van Clarvo over de bias-correctie-werking.
+          </div>
+        </details>
+      </section>
+
+      <!-- Blok 3 -->
+      <section class="blok" id="blok-3">
+        <div class="blok-kop">
+          <span class="nr">3</span>
+          <h2>Wat heb ik gemist? — A3 updaten</h2>
+          <span class="badge">Evaluate · L4 · PROMEF-4</span>
+          <span class="tijd">25 min · duo + docent + plenair</span>
+        </div>
+        <div class="doel">
+          <strong>Doel:</strong> elk duo levert een <strong>bijgewerkt A3</strong> (uit WS2) met drie nieuwe markers: 🔻 zwakste aanname (laat vallen of herformuleren), 🔺 sterkste aanname (heeft nu inhoudelijke steun), ❗ urgent te toetsen aanname.
+        </div>
+        <div class="materialen-rij">
+          <strong>Materialen:</strong> WS2-A3 (meegenomen door studenten) · drie post-it-kleuren (rood/groen/geel) · stiften · flip-overs uit blok 2a en 2b open op tafel
+        </div>
+
+        <h3 class="sub">Klokmomenten</h3>
+        <table class="klok">
+          <thead><tr><th>T+</th><th>Wie</th><th>Wat</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>0–3</td><td>Docent (plenair)</td>
+              <td><em>"Open jullie WS2-A3. Met je flip-overs uit blok 2 erbij. Drie vragen vandaag: welke aanname is na blok 2 zwakker geworden? Welke is sterker geworden? Welke moet je écht in het veld toetsen?"</em> Toont op flip-over hoe de drie post-its op het A3 te plaatsen.</td>
+            </tr>
+            <tr>
+              <td>3–18</td><td>Duo's (analoog)</td>
+              <td>Update A3. Plakken 🔻🔺❗ post-its bij de relevante aannames met een korte motivering ernaast. Docent loopt rond Socratisch.</td>
+            </tr>
+            <tr>
+              <td>18–22</td><td>Docent (rondgang)</td>
+              <td>Stelt de <strong>confronterende</strong> vraag aan elk duo: <em>"welke rolprompt heb je niet gegeven omdat het antwoord je niet uitkwam?"</em> — dit is bias-amplificatie in actie, herkennen helpt.</td>
+            </tr>
+            <tr>
+              <td>22–25</td><td>Plenair</td>
+              <td>Eén duo per twee tafels deelt: <em>"onze sterkste aanname werd ons zwakste"</em> of <em>"we hadden zorg X niet zien aankomen"</em>. Geen discussie — alleen oogst.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cue-list">
+          <strong>Cue-momenten voor docent:</strong>
+          <ul>
+            <li><strong>T+10:</strong> elk duo moet minstens één post-it geplakt hebben. Bij stilstand: <em>"begin met de zwakste — welke chat haalde een been onder een aanname uit?"</em></li>
+            <li><strong>T+20:</strong> rondgang afronden, plenair starten.</li>
+          </ul>
+        </div>
+
+        <h3 class="sub">Drie Socratische vragen</h3>
+        <ol class="socratisch">
+          <li><em>"Welke aanname overleeft het Red Team niet — en waarom kostte dat moeite om te accepteren?"</em> — bevestigt eigenaarschap van het inzicht.</li>
+          <li><em>"Welke hypothese uit blok 2b past bij welk veld-instrument? (interview, observatie, document-analyse, enquête)"</em> — bridge naar PvA H4.</li>
+          <li><em>"Wie in jullie projectgroep gaat dit als eerste toetsen, hoe, wanneer?"</em> — concreetheid afdwingen.</li>
+        </ol>
+
+        <h3 class="sub">Verwachte pijnpunten</h3>
+        <table class="pijn">
+          <thead><tr><th>Pijnpunt</th><th>Docent-correctie</th></tr></thead>
+          <tbody>
+            <tr><td>Studenten houden vast aan oorspronkelijke top-3, willen niets laten vallen.</td><td><em>"Schrijf op WAAROM je deze aanname per se vasthoudt. Wie zegt dit? Welk belang heeft die persoon? Mag jullie peer dit lezen?"</em></td></tr>
+            <tr><td>"Alle aannames zijn nu zwakker" — geen onderscheid.</td><td>Forceer rangschikking: <em>"plak één rode post-it, één groene, één gele. Geen vier rode."</em></td></tr>
+            <tr><td>Studenten praten over wat AI zei in plaats van eigen oordeel.</td><td><em>"Wat denk jij — niet wat de chatbot zei. Sluit je laptop. Welke aanname overleeft jouw eigen blik?"</em></td></tr>
+            <tr><td>Duo kan de "rolprompt-die-je-niet-stelde"-vraag niet beantwoorden.</td><td>Reformuleer: <em>"als je nu eerlijk reflecteert: welke rol zou jullie aanname hebben gesloopt? Hebben jullie die rol bewust vermeden?"</em></td></tr>
+          </tbody>
+        </table>
+
+        <details class="wiki">
+          <summary>Wiki-anker (docent-achtergrond)</summary>
+          <div class="body">
+            De drie evaluatievragen <em>"wat werkte? wat faalde? wat was interessant fout?"</em> (<strong>Kiron &amp; Schrage 2026</strong>, MIT Sloan Management Review) zijn een mogelijke verdiepingsvraag bij het rondlopen — vooral de derde: een output die fout is op een manier die je niet had benoemd, is nieuwe organisatie-kennis. <em>"That's where hidden value lives."</em>
+          </div>
+        </details>
+      </section>
+
+      <!-- Blok 4 -->
+      <section class="blok" id="blok-4">
+        <div class="blok-kop">
+          <span class="nr">4</span>
+          <h2>PROMEF-zin + transfer-zin</h2>
+          <span class="badge">Create · L5 · PROMEF-4 + LD-2</span>
+          <span class="tijd">15 min · individueel + plenair</span>
+        </div>
+        <div class="doel">
+          <strong>Doel:</strong> elke individuele student levert twee zinnen op het werkblad: één PROMEF-criterium-4-zin (groei zichtbaar in concreet gedrag) en één transfer-zin (LD-2 AI-native werkhouding).
+        </div>
+        <div class="materialen-rij">
+          <strong>Materialen:</strong> <a class="matlink" href="../materialen/promef-werkblad/">PROMEF-zin werkblad</a> per student · pen · flip-overs en A3 zichtbaar op tafel
+        </div>
+
+        <h3 class="sub">Klokmomenten</h3>
+        <table class="klok">
+          <thead><tr><th>T+</th><th>Wie</th><th>Wat</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>0–3</td><td>Docent (plenair)</td>
+              <td><em>"Twee zinnen, individueel. Eén PROMEF-zin: 'Ik gebruik AI als Red Team door [concreet voorbeeld], zichtbaar in [aanname die ik heb laten vallen]'. Eén transfer-zin: 'In een toekomstige werksetting zet ik dezelfde drie rollen in op [welke beslissing]'."</em> Toont het werkblad. Benoemt twee voorbeelden — één goed, één te abstract.</td>
+            </tr>
+            <tr>
+              <td>3–10</td><td>Studenten (individueel)</td>
+              <td>Schrijven beide zinnen op het werkblad.</td>
+            </tr>
+            <tr>
+              <td>10–14</td><td>Plenair</td>
+              <td>Eén student per duo deelt <strong>één van de twee</strong> zinnen hardop. Korte plenaire ronde. Docent reageert met één van: <em>"helder"</em> / <em>"concreter — wat is het GEDRAG?"</em></td>
+            </tr>
+            <tr>
+              <td>14–15</td><td>Docent (afsluiting)</td>
+              <td><em>"Je zin van vandaag is een bouwsteen voor je criterium-4-uitspraak in het PROMEF-gesprek straks. Bewaar je werkblad goed."</em></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub">Drie Socratische vragen</h3>
+        <ol class="socratisch">
+          <li><em>"Wat staat er in jouw zin dat een ander niet zou kunnen schrijven?"</em> — eigenheid afdwingen.</li>
+          <li><em>"Als ik je zin lees over een half jaar — kan ik dan reconstrueren WAT je deed?"</em> — concreetheid-test.</li>
+          <li><em>"Welke tool noemt jouw transfer-zin? En welk principe?"</em> — toetst LD-2 (principe boven tool).</li>
+        </ol>
+
+        <h3 class="sub">Verwachte pijnpunten</h3>
+        <table class="pijn">
+          <thead><tr><th>Pijnpunt</th><th>Docent-correctie</th></tr></thead>
+          <tbody>
+            <tr><td>PROMEF-zin blijft abstract: <em>"ik ben kritischer geworden"</em>.</td><td><em>"Vervang 'kritischer' door een gedrag van vandaag. WELKE aanname heb je laten vallen, en HOE wist je dat het tijd was?"</em></td></tr>
+            <tr><td>Transfer-zin noemt een tool, geen principe: <em>"ik gebruik altijd ChatGPT om..."</em>.</td><td><em>"De tool wisselt over twee jaar. Wat is het PRINCIPE — wat is voor jou de kern, los van de tool?"</em></td></tr>
+            <tr><td>Student noemt geen specifieke toekomstige situatie: <em>"in mijn werk ga ik..."</em>.</td><td><em>"Welke beslissing? In welke functie? Bij wat voor gesprek?"</em> — afdwingen van concreetheid.</td></tr>
+            <tr><td>Twee zinnen klinken hetzelfde.</td><td><em>"De PROMEF-zin gaat over GISTEREN-VANDAAG. De transfer-zin gaat over MORGEN-OVERMORGEN. Maak dat verschil zichtbaar."</em></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Evaluatie -->
+      <section class="blok" id="evaluatie">
+        <div class="blok-kop">
+          <span class="nr">§11</span>
+          <h2>Formatieve evaluatie</h2>
+        </div>
+        <div class="doel">
+          Geen cijfer. Docent observeert per duo op drie indicatoren tijdens blok 3 (rondgang) en blok 4 (plenaire ronde).
+        </div>
+        <table class="klok">
+          <thead><tr><th>Indicator</th><th>Koppelt aan</th><th>Wat zoekt de docent?</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Aannames-bewustzijn</td><td>L1 + L4</td>
+              <td>Kan duo expliciet benoemen WELKE aanname zwakker werd, GEBASEERD op concrete chatbot-tegenspraak (geen "we vonden alles minder overtuigend")?</td>
+            </tr>
+            <tr>
+              <td>Rolbewust AI-gebruik</td><td>L2 + L3 + LD-2</td>
+              <td>Kunnen studenten benoemen welke rol welke output gaf, EN waarom rolverschil verschil maakt (geen "ja drie chats hebben we gedaan")?</td>
+            </tr>
+            <tr>
+              <td>Groei-concreetheid</td><td>L5 + PROMEF-4</td>
+              <td>Bevat de PROMEF-zin een zichtbaar gedragsvoorbeeld ("zichtbaar in <em>X</em>"), of blijft het abstract ("ik ben kritischer geworden")?</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.9rem; line-height: 1.6; margin-top: 0.75rem;">
+          Docent geeft <strong>mondeling signaal</strong> in blok 4 plenair bij elk duo (kort: <em>"helder"</em> / <em>"concreter — wat is het GEDRAG?"</em> / <em>"die zin staat"</em>).
+        </p>
+      </section>
+
+      <!-- Verificatie -->
+      <section class="blok" id="verificatie">
+        <div class="blok-kop">
+          <span class="nr">§12</span>
+          <h2>Verificatie — hoe weet je dat de workshop werkt?</h2>
+        </div>
+
+        <h3 class="sub">1. In-workshop check (eind blok 4)</h3>
+        <p style="font-size: 0.9rem; line-height: 1.6;">
+          Bij één random gekozen student, vraag de PROMEF-zin hardop te zeggen ZONDER het werkblad voor zich. <strong>Slagingscriterium:</strong> zin bevat (a) concreet gedrag uit deze sessie, (b) een aanname die is bijgesteld, (c) géén abstracties als <em>"kritischer"</em> zonder voorbeeld.
+        </p>
+
+        <h3 class="sub">2. Werkblad-check (zelfde dag)</h3>
+        <p style="font-size: 0.9rem; line-height: 1.6;">
+          Docent loopt door alle PROMEF-zinnen op de werkbladen (tijdens plenair of na afloop). <strong>Slagingscriterium:</strong> ≥80% van de studenten heeft een zin met (a)+(b) en zonder (c).
+        </p>
+
+        <h3 class="sub">3. Handin-check (+2 weken)</h3>
+        <p style="font-size: 0.9rem; line-height: 1.6;">
+          Docent leest reflecties van studenten. <strong>Slagingscriterium voor transfer:</strong> komt het concept <em>"AI als Red Team"</em> of <em>"rolprompt"</em> terug in de reflectie? Is de PROMEF-zin verfijnd t.o.v. de werkblad-versie? Wordt de bijgewerkte top-3 aannames verbonden aan H4-onderzoeksmethoden?
+        </p>
+
+        <p style="font-size: 0.9rem; line-height: 1.6; margin-top: 0.75rem; font-weight: 600; color: var(--primary);">
+          Als alle drie ja → de workshop heeft transfer opgeleverd richting PROMEF.
+        </p>
+      </section>
+
+      <div class="text-center mt-4 mb-4" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="../" class="btn btn-secondary">← WS4 overzicht</a>
+        <a href="../materialen/rolprompt-kaarten/" class="btn btn-secondary">Rolprompt-kaarten</a>
+        <a href="../student/" class="btn btn-primary">Student-pagina &rarr;</a>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Bron: <code>ws4-ai-agents/LRD-Workshop-4-Red-Team.md</code>
+  </footer>
+
+</body>
+</html>
+</content>
+</invoke>

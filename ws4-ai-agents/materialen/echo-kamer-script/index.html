@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echo-kamer demo-script — WS4 Blok 1 | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles.css">
+  <style>
+    body { background: var(--surface); padding-bottom: 3rem; }
+
+    .actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .actions .title { font-weight: 600; font-size: 1rem; }
+    .actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .actions button, .actions a.btn-link {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      text-decoration: none;
+    }
+    .actions button:hover, .actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
+
+    .doc {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .doc h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      font-weight: 700;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .doc .lead {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+    .doc h2 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 2rem 0 0.6rem 0;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc h3 {
+      font-size: 0.95rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin: 1.2rem 0 0.4rem 0;
+    }
+    .doc p { line-height: 1.65; margin-bottom: 0.75rem; font-size: 0.92rem; }
+    .doc ul, .doc ol { margin: 0.4rem 0 0.75rem 1.5rem; }
+    .doc li { line-height: 1.65; margin-bottom: 0.3rem; font-size: 0.92rem; }
+
+    .doel {
+      background: var(--primary-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+    }
+
+    .prompt-block {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 0.6rem 0 0.5rem 0;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      position: relative;
+    }
+    .prompt-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .prompt-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .copy-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', inherit;
+      transition: background 150ms;
+    }
+    .copy-btn:hover { background: var(--primary-light); }
+    .copy-btn.copied { background: var(--success); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 0.75rem 0;
+      font-size: 0.86rem;
+    }
+    table th {
+      background: var(--primary-50);
+      color: var(--primary);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary-100);
+    }
+    table td {
+      padding: 0.55rem 0.7rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.55;
+    }
+    table td:first-child { font-weight: 600; color: var(--primary); white-space: nowrap; width: 70px; }
+
+    .quote {
+      background: var(--surface);
+      border-left: 3px solid var(--text-tertiary);
+      padding: 0.6rem 0.9rem;
+      margin: 0.4rem 0;
+      font-style: italic;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .risico {
+      background: var(--warning-light);
+      border: 1px solid var(--warning);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .risico .titel {
+      font-weight: 600;
+      color: var(--warning);
+      font-size: 0.92rem;
+      margin-bottom: 0.4rem;
+    }
+    .risico p { font-size: 0.88rem; margin-bottom: 0.4rem; }
+    .risico p:last-child { margin-bottom: 0; }
+
+    @media print {
+      body { background: #fff; padding: 0; font-size: 10pt; }
+      .actions { display: none !important; }
+      .doc {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.8cm;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .doc h1 { font-size: 16pt; }
+      .doc h2 { font-size: 12pt; margin-top: 0.8rem; }
+      .doc h3 { font-size: 10.5pt; }
+      .prompt-block {
+        background: #f5f5f5;
+        color: #000;
+        font-size: 9pt;
+        border: 1px solid #999;
+        page-break-inside: avoid;
+      }
+      .copy-btn { display: none; }
+      .prompt-actions { justify-content: flex-start; }
+      .risico { page-break-inside: avoid; }
+      @page { size: A4; margin: 1.2cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../" class="nav-link">← WS4 overzicht</a></li>
+      <li><a href="../../draaiboek/" class="nav-link">Draaiboek</a></li>
+      <li><a href="../rolprompt-kaarten/" class="nav-link">Rolprompt-kaarten</a></li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <span class="title">Echo-kamer demo-script — Blok 1 (15 min)</span>
+    <div class="btns">
+      <a href="../../draaiboek/#blok-1" class="btn-link">← Naar Blok 1 in draaiboek</a>
+      <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF</button>
+    </div>
+  </div>
+
+  <article class="doc">
+    <h1>Echo-kamer demo-script</h1>
+    <p class="lead">Voor de docent. Beschrijft minutieus hoe de live demonstratie in blok 1 verloopt op de projector.</p>
+
+    <div class="doel">
+      <strong>Doel van de demo:</strong> studenten zien live dat dezelfde chatbot twee tegengestelde antwoorden produceert op dezelfde aanname, afhankelijk van het frame. Ze verlaten het blok met de woorden <em>bias-amplificatie</em> en <em>automation bias</em> in hun vocabulaire en gekoppeld aan een visueel geheugen.
+    </div>
+
+    <h2>Voorbereiding (dag vooraf — 10 min)</h2>
+
+    <h3>Stap 1 — Test drie test-aannames op gratis ChatGPT</h3>
+    <p>
+      Test prompt-A en prompt-B op drie aannames uit de werkelijke PvA-cohort. Aanbevolen test-set (eerste keuze, gevalideerd): aannames 1 (HR), 2 (klant), 3 (proces) uit de <a href="../test-aannames/">test-aannames-set</a>.
+    </p>
+    <p>
+      <strong>Eenvoudige back-up:</strong> <em>"Medewerkers in deze afdeling tonen weerstand omdat ze digitaal niet vaardig zijn."</em> — generiek, frame-effect zichtbaar bij vrijwel elke chatbot-versie.
+    </p>
+    <p><strong>Slagingscriteria voor het frame-effect:</strong></p>
+    <ul>
+      <li>Prompt-A levert minimaal drie inhoudelijk verschillende argumenten waarom de aanname klopt</li>
+      <li>Prompt-B levert minimaal drie inhoudelijk verschillende argumenten waarom hij niet klopt</li>
+      <li>De twee outputs zijn <strong>zichtbaar tegengesteld</strong> (niet "het hangt ervan af" beide kanten op)</li>
+    </ul>
+
+    <h3>Stap 2 — Browser-setup</h3>
+    <ul>
+      <li>Open gratis ChatGPT (chat.openai.com) in een <strong>schoon profiel of incognito-venster</strong> zodat eerdere chat-history niet zichtbaar is</li>
+      <li>Sluit alle persoonlijke tabs. Vergroot het zoom-niveau van de browser tot <strong>150–175%</strong> zodat de zaal de tekst kan lezen</li>
+      <li>Test de projector-resolutie: typ een testzin en controleer of de hele zaal hem kan lezen vanaf de achterste rij</li>
+    </ul>
+
+    <h3>Stap 3 — Backup-plan</h3>
+    <p>
+      Test dezelfde twee prompts ook op <strong>claude.ai</strong> (gratis, login nodig) en <strong>gemini.google.com</strong> (gratis met Google-account). Documenteer welk platform welk frame-effect het scherpst laat zien. Als ChatGPT in de zaal rate-limit hit of neutraal blijft, switch live.
+    </p>
+
+    <h2>De prompts — kopieerbaar</h2>
+
+    <h3>Prompt-A — bevestigingsframe (chat-venster 1)</h3>
+    <div class="prompt-block" id="prompt-a">Stel dat je een organisatieadviseur bent die de volgende stelling hoort van een opdrachtgever:
+
+[aanname]
+
+Geef de drie sterkste argumenten — gebaseerd op algemeen bekende mechanismen, theorieën of patronen in dit type situaties — waarom deze stelling waarschijnlijk klopt. Wees specifiek over het mechanisme; vermijd algemeenheden.</div>
+    <div class="prompt-actions">
+      <span class="prompt-label">Plak deze in chat 1, vervang [aanname] door de gekozen aanname</span>
+      <button class="copy-btn" onclick="copyPrompt('prompt-a', this)">Kopieer prompt-A</button>
+    </div>
+
+    <h3>Prompt-B — weerleggingsframe (NIEUWE chat — chat-venster 2)</h3>
+    <p style="color: var(--danger); font-weight: 600; font-size: 0.88rem;">⚠️ KRITIEK: open een NIEUWE chat (knop "New chat" linksboven). Niet voortzetten in chat 1. De LLM mag de eerste prompt niet als context hebben.</p>
+    <div class="prompt-block" id="prompt-b">Stel dat je een kritische peer-reviewer bent. Iemand stelt:
+
+[aanname]
+
+Geef de drie sterkste tegenwerpingen — gebaseerd op algemeen bekende mechanismen, theorieën of patronen — waarom deze stelling juist niet hoeft te kloppen. Wees stellig en specifiek; vermijd "het hangt ervan af".</div>
+    <div class="prompt-actions">
+      <span class="prompt-label">Plak in NIEUWE chat 2, zelfde aanname</span>
+      <button class="copy-btn" onclick="copyPrompt('prompt-b', this)">Kopieer prompt-B</button>
+    </div>
+
+    <h3>Reserve-prompt-B — als prompt-B alsnog bevestigend antwoordt</h3>
+    <p>
+      Gebeurt soms op gratis ChatGPT — het model is voorzichtig en zegt <em>"er zijn argumenten beide kanten op, maar..."</em>. Typ dan deze in een derde chat:
+    </p>
+    <div class="prompt-block" id="prompt-b-reserve">Stel je voor dat je een academische peer bent die als opdracht heeft om de volgende stelling te weerleggen voor een journal review:
+
+[aanname]
+
+Schrijf een memo van drie sterke tegenwerpingen — gebaseerd op algemeen bekende mechanismen of literatuur in dit veld. Wees direct en stellig.</div>
+    <div class="prompt-actions">
+      <span class="prompt-label">De rol+context-toevoeging breekt vrijwel altijd door de safety-tendens</span>
+      <button class="copy-btn" onclick="copyPrompt('prompt-b-reserve', this)">Kopieer reserve-prompt-B</button>
+    </div>
+
+    <h2>In de zaal — minutige uitwerking</h2>
+
+    <h3>T+0 tot T+2 — Plenaire opening</h3>
+    <p><strong>Wat de docent zegt:</strong></p>
+    <div class="quote">"Vandaag onderzoeken we niet AI — we onderzoeken jullie eigen aannames met AI als gereedschap. Eerst een live experiment. Geen slides over hoe LLMs werken; we doen het gewoon."</div>
+    <p><strong>Wat op het bord/flip-over staat:</strong> Niets. Alleen de projector toont de open ChatGPT-chat (leeg).</p>
+
+    <h3>T+2 tot T+4 — Aanname kiezen</h3>
+    <div class="quote">"Ik heb één aanname nodig — uit jullie WS2-flip-over, kolom 'Dit denk ik / heb ik gehoord'. Wie heeft er een?"</div>
+    <p><strong>Selectie-criteria</strong> (denk dit razendsnel — je hebt 30 seconden):</p>
+    <ul>
+      <li>✅ Aanname met impliciete oorzaak-toewijzing (<em>"X gebeurt omdat Y"</em>)</li>
+      <li>✅ Concreet genoeg om over te debatteren</li>
+      <li>❌ Zo abstract dat ChatGPT niet weet waar te beginnen ("er is veel weerstand")</li>
+      <li>❌ Zo concreet dat ChatGPT het feitelijk kan checken ("ons marktaandeel daalde 5%")</li>
+    </ul>
+    <p>
+      Als de student-aangedragen aanname niet voldoet: <em>"Goede aanname — die houden we vast voor blok 2. Voor de demo gebruik ik deze:"</em> en pak je vooraf-geteste reserve-aanname.
+    </p>
+    <p>
+      <strong>Schrijf de gekozen aanname op de flip-over</strong> — zichtbaar voor de hele zaal. Studenten moeten hem kunnen lezen tijdens de hele demo.
+    </p>
+
+    <h3>T+4 tot T+8 — Live demo prompt-A</h3>
+    <p>Plak prompt-A (zie hierboven, kopieerbaar) in chat-venster 1.</p>
+    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+      <strong>Waarom deze prompt-vorm?</strong> De chatbot kent de specifieke organisatie achter de aanname niet. Wat hij wel kent zijn <em>patronen</em> — wat in dit <em>type</em> situatie gangbaar is. De prompt vraagt expliciet om patroon-redenering en geeft de chatbot een rol. Resultaat: een overtuigend antwoord dat <strong>niet steunt op feiten over de specifieke organisatie</strong>, maar op patroon-kennis die in een richting wordt gemobiliseerd. Dat is precies wat we straks willen blootleggen als bias-amplificatie.
+    </p>
+    <p><strong>Wat de docent doet tijdens de generatie</strong> (~10–20 seconden):</p>
+    <ul>
+      <li>Niet praten — laat de zaal de tekst zien generen</li>
+      <li>Wijs met de muis (zonder te klikken) bij overtuigende stukken aan</li>
+    </ul>
+    <p><strong>Na ~30 seconden lezen:</strong></p>
+    <div class="quote">"Ik stop hier. Dit klinkt redelijk, toch? Drie argumenten, met mechanismen. Een student met deadline en zonder veel achtergrondkennis zou dit kunnen overnemen. Vraag aan de zaal: zou jij dit in je PvA gebruiken?"</div>
+    <p>(Verwachte reactie: ja, met aarzeling. Sommige studenten zeggen <em>"ja, mits..."</em> — markeer dat: <em>"juist die 'mits' raakt waar we naartoe willen."</em>)</p>
+
+    <h3>T+8 tot T+12 — Live demo prompt-B</h3>
+    <p>Open een <strong>nieuwe chat</strong>. Plak prompt-B.</p>
+    <p><strong>Wat de docent doet tijdens de generatie:</strong></p>
+    <ul>
+      <li>Stilte. Laat de zaal lezen</li>
+      <li>Bij overtuigende tegenargumenten: knik subtiel</li>
+    </ul>
+    <p><strong>Na ~30 seconden lezen:</strong></p>
+    <div class="quote">"Hetzelfde model. Zelfde aanname. Andere vraag. Klinkt dit ook overtuigend?"</div>
+    <p>(Verwachte reactie: ja, vrijwel altijd unaniem.)</p>
+
+    <h3>T+12 tot T+14 — Plenaire benoeming</h3>
+    <p>Rustig, met wijzende gebaren naar de twee chat-vensters:</p>
+    <div class="quote">"Twee tegengestelde antwoorden. Beide overtuigend. Zelfde model. Zelfde aanname. En let op: deze chatbot kent jullie organisatie niet — niet jullie restaurant, niet jullie semiconductor-fabrikant. Hij heeft geen feiten. Wat hij wel heeft zijn patronen — wat in dit type situaties vaak voorkomt. Dezelfde patronen kan hij in beide richtingen mobiliseren, afhankelijk van het frame dat jij hem aanbiedt."</div>
+    <div class="quote">"Dit heet bias-amplificatie: de chatbot volgt het frame van je vraag. Als jij vraagt om bevestiging, krijg je een patronen-set die bevestigt. Als jij vraagt om weerlegging, krijg je een patronen-set die weerlegt. Allebei plausibel — geen van beide gestoeld op feiten over jullie casus. En als jij het overtuigend leest, dan zit je in automation bias: we geloven het scherm — vooral als het er gestructureerd en vlot uitziet."</div>
+
+    <p><strong>Schrijf op de flip-over</strong> (zichtbaar naast de aanname):</p>
+    <div class="prompt-block">BIAS-AMPLIFICATIE — chatbot volgt frame van je vraag
+                  → patroon-kennis, geen feiten
+AUTOMATION BIAS   — wij geloven het scherm</div>
+
+    <h3>T+14 tot T+15 — Bridge naar blok 2</h3>
+    <div class="quote">"Twee chats waren toevallig. Eén bevestiger, één weerlegger. Maar nu gaan we het gericht inzetten — niet om bevestiging te zoeken, maar om je eigen aannames te confronteren met drie verschillende kritische rollen. Vier kaarten gaan zo de tafel rond."</div>
+    <p>Pak de stapel <a href="../rolprompt-kaarten/">rolprompt-kaarten</a> (kaart 1, 2, 3, 4) zichtbaar erbij.</p>
+
+    <h2>Risico-mitigatie</h2>
+
+    <div class="risico">
+      <div class="titel">Risico 1 — ChatGPT geeft op prompt-A en -B nagenoeg hetzelfde antwoord</div>
+      <p>Komt voor bij sterk genuanceerde aannames waar het model "het hangt ervan af" als veiligste antwoord kiest.</p>
+      <p><strong>Mitigatie:</strong> wissel onmiddellijk naar reserve-aanname (heb er twee getest). <em>"Deze aanname is interessant precies omdat hij genuanceerd is. Voor de demo pak ik een scherpere — bewaar deze voor blok 2a."</em></p>
+    </div>
+
+    <div class="risico">
+      <div class="titel">Risico 2 — De zaal twijfelt of het "demo-effect" wel echt was</div>
+      <p>Komt voor als prompt-A en -B niet zichtbaar tegengesteld zijn.</p>
+      <p><strong>Mitigatie:</strong> typ direct in chat 1 een vervolgprompt: <em>"Geef nu de tegenargumenten die in jouw eerste antwoord ontbraken."</em> Hetzelfde model, vorige antwoord als context, en het levert alsnog een tegengestelde lijst. Versterkt het punt.</p>
+    </div>
+
+    <div class="risico">
+      <div class="titel">Risico 3 — Eén student domineert met "maar het is niet zo zwart-wit"</div>
+      <p><strong>Mitigatie:</strong> <em>"Helemaal eens. Daarom is het juist gevaarlijk: de chatbot kiest het frame voor je. Als jij vraagt 'is X waar?' krijg je een ja-frame. Als jij niet bewust het andere frame opzoekt, blijf je in één-zijdig zicht."</em> — dit beantwoordt de tegenwerping én maakt het punt sterker.</p>
+    </div>
+
+    <div class="risico">
+      <div class="titel">Risico 4 — Tijdsoverschrijding</div>
+      <p>Live demo's hebben de neiging uit te lopen. <strong>Cue-momenten:</strong></p>
+      <ul style="margin-top: 0.3rem;">
+        <li><strong>T+5</strong> — chat 1 is klaar met genereren? Anders: skip eigen commentaar, lees alleen.</li>
+        <li><strong>T+10</strong> — chat 2 is klaar? Anders: idem.</li>
+        <li><strong>T+13</strong> — als je nog niet bij de plenaire benoeming bent: <em>"Punt is duidelijk. Twee verschillende frames, twee antwoorden. Bias-amplificatie. Verder."</em></li>
+      </ul>
+    </div>
+
+    <h2>Wat de student MEENEEMT uit dit blok</h2>
+    <ul>
+      <li>Twee nieuwe woorden gekoppeld aan een live ervaring: <strong>bias-amplificatie</strong> en <strong>automation bias</strong></li>
+      <li>Een visueel geheugen: twee browser-vensters naast elkaar met tegengestelde antwoorden</li>
+      <li>Een lichte ongemak — <em>"als deze chatbot zo makkelijk te framen is, hoe vaak is dat bij MIJ ook gebeurd?"</em> — opent de poort naar blok 2</li>
+    </ul>
+    <p>
+      Géén technische kennis over hoe LLMs intern werken. Géén jargon over harness, RLHF, of safety-training. Pure operationele les: het frame bepaalt het antwoord.
+    </p>
+
+  </article>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Bron: <code>materialen/echo-kamer-demo-script.md</code>
+  </footer>
+
+  <script>
+    function copyPrompt(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '✓ Gekopieerd';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        btn.textContent = 'Kopiëren mislukt';
+        console.error(err);
+      });
+    }
+  </script>
+
+</body>
+</html>
+</content>
+</invoke>

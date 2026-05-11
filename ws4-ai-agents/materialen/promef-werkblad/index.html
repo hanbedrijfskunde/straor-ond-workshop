@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROMEF-zin werkblad — WS4 Blok 4 | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles.css">
+  <style>
+    body { background: var(--surface); padding-bottom: 3rem; }
+
+    .actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .actions .title { font-weight: 600; font-size: 1rem; }
+    .actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .actions button, .actions a.btn-link {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      text-decoration: none;
+    }
+    .actions button:hover, .actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
+
+    .werkblad {
+      max-width: 800px;
+      margin: 1.5rem auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .wb-header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .wb-header h1 {
+      font-size: 1.4rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .wb-header p { color: var(--text-secondary); font-size: 0.85rem; }
+
+    .id-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .id-veld { display: flex; flex-direction: column; }
+    .id-veld .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .id-veld .lijn {
+      border-bottom: 1.5px solid var(--text-tertiary);
+      min-height: 1.5rem;
+    }
+
+    .zin-section {
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .zin-section:last-child { border-bottom: none; }
+    .zin-kop {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .zin-kop .nr {
+      background: var(--primary);
+      color: #fff;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .zin-kop h2 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0;
+    }
+    .zin-kop .crit {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .zin-uitleg {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 0.8rem;
+    }
+    .zin-uitleg em { color: var(--primary); font-style: italic; }
+
+    .sjabloon {
+      background: var(--primary-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.65rem 0.9rem;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.88rem;
+      margin-bottom: 0.8rem;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+    .sjabloon strong { color: var(--primary); font-style: normal; }
+
+    .schrijf-veld {
+      background: var(--surface);
+      border: 1.5px solid var(--text-tertiary);
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+    }
+    .schrijf-veld .stem {
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .schrijf-veld .lijn {
+      border-bottom: 1.5px solid var(--text-tertiary);
+      min-height: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .schrijf-veld .stem-2 {
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-top: 0.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .quality-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.6rem 0;
+      font-size: 0.83rem;
+    }
+    .quality-table th {
+      background: var(--primary-50);
+      color: var(--primary);
+      text-align: left;
+      padding: 0.4rem 0.65rem;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary-100);
+    }
+    .quality-table th:first-child { color: var(--success); }
+    .quality-table th:last-child { color: var(--danger); }
+    .quality-table td {
+      padding: 0.45rem 0.65rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.55;
+      width: 50%;
+    }
+
+    .voorbeeld {
+      border-radius: 6px;
+      padding: 0.7rem 0.9rem;
+      margin: 0.4rem 0;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .voorbeeld.goed { background: #ecfdf5; border-left: 3px solid var(--success); }
+    .voorbeeld.fout { background: #fef2f2; border-left: 3px solid var(--danger); }
+    .voorbeeld .label {
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .voorbeeld.goed .label { color: var(--success); }
+    .voorbeeld.fout .label { color: var(--danger); }
+    .voorbeeld em { color: var(--text-dark); font-style: italic; }
+
+    .checklist {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem 1.1rem;
+    }
+    .checklist h3 {
+      font-size: 0.92rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .checklist ul { list-style: none; padding: 0; }
+    .checklist li {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    h3.sub {
+      font-size: 0.92rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 1.2rem 0 0.4rem 0;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; font-size: 10pt; }
+      .actions { display: none !important; }
+      .werkblad {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.7cm;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .wb-header h1 { font-size: 14pt; }
+      .wb-header p { font-size: 9pt; }
+      .id-veld .lijn { min-height: 1.7rem; }
+      .zin-kop h2 { font-size: 11pt; }
+      .zin-uitleg { font-size: 9pt; }
+      .sjabloon { font-size: 9.5pt; }
+      .schrijf-veld { padding: 0.6rem 0.8rem; }
+      .schrijf-veld .lijn {
+        min-height: 22pt;
+        margin-bottom: 8pt;
+      }
+      .schrijf-veld .stem, .schrijf-veld .stem-2 { font-size: 10pt; }
+      .quality-table { font-size: 8.5pt; }
+      .voorbeeld { font-size: 8.5pt; padding: 0.4rem 0.6rem; }
+      .checklist li { font-size: 9pt; }
+      h3.sub { font-size: 10pt; margin-top: 0.6rem; }
+      .zin-section { margin-bottom: 1rem; padding-bottom: 1rem; }
+      .footer-note { font-size: 7.5pt; margin-top: 0.5rem; padding-top: 0.4rem; }
+      @page { size: A4; margin: 1.2cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../" class="nav-link">← WS4 overzicht</a></li>
+      <li><a href="../../draaiboek/" class="nav-link">Draaiboek</a></li>
+      <li><a href="../../student/" class="nav-link">Voor studenten</a></li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <span class="title">PROMEF-zin werkblad — Blok 4 (15 min)</span>
+    <div class="btns">
+      <a href="../../draaiboek/#blok-4" class="btn-link">← Blok 4 in draaiboek</a>
+      <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF (A4 staand)</button>
+    </div>
+  </div>
+
+  <article class="werkblad">
+
+    <div class="wb-header">
+      <h1>PROMEF-zin werkblad — WS4 Aannames-killer</h1>
+      <p>A4 per student · Twee zinnen, één werkblad · 7 min schrijven + 4 min plenair</p>
+    </div>
+
+    <div class="id-grid">
+      <div class="id-veld">
+        <span class="label">Naam</span>
+        <div class="lijn"></div>
+      </div>
+      <div class="id-veld">
+        <span class="label">Datum</span>
+        <div class="lijn"></div>
+      </div>
+      <div class="id-veld">
+        <span class="label">Mijn casus / gastorganisatie</span>
+        <div class="lijn"></div>
+      </div>
+      <div class="id-veld">
+        <span class="label">Mijn lopende onderzoeksvraag</span>
+        <div class="lijn"></div>
+      </div>
+    </div>
+
+    <!-- Zin 1 -->
+    <section class="zin-section">
+      <div class="zin-kop">
+        <span class="nr">1</span>
+        <h2>PROMEF-criterium 4 — groei zichtbaar in concreet gedrag</h2>
+        <span class="crit">Crit. 4</span>
+      </div>
+      <p class="zin-uitleg">
+        PROMEF-criterium 4 vraagt: <em>"heeft blijkens diens concrete gedrag tijdens de assessments aangetoond hoe te zijn gegroeid als professional."</em> Geen abstracties, geen <em>"ik ben kritischer geworden"</em> — wél concreet gedrag, met een aanwijsbaar voorbeeld.
+      </p>
+
+      <div class="sjabloon">
+        <strong>Sjabloon:</strong> Ik gebruik AI als Red Team door <strong>[concreet gedrag uit deze sessie]</strong>, zichtbaar in dat ik <strong>[aanname die ik heb laten vallen of bijgesteld]</strong>.
+      </div>
+
+      <div class="schrijf-veld">
+        <div class="stem">Ik gebruik AI als Red Team door</div>
+        <div class="lijn"></div>
+        <div class="lijn"></div>
+        <div class="stem-2">zichtbaar in dat ik</div>
+        <div class="lijn"></div>
+        <div class="lijn"></div>
+      </div>
+    </section>
+
+    <!-- Zin 2 -->
+    <section class="zin-section">
+      <div class="zin-kop">
+        <span class="nr">2</span>
+        <h2>Transfer-zin — AI-native werkhouding</h2>
+        <span class="crit">LD-2</span>
+      </div>
+      <p class="zin-uitleg">
+        LD-2 vraagt: kun je het PRINCIPE benoemen dat los staat van de tool van vandaag (gratis ChatGPT) en dat ook in een toekomstige AI-tool werkt?
+      </p>
+
+      <div class="sjabloon">
+        <strong>Sjabloon:</strong> In een toekomstige werksetting zet ik <strong>[principe — niet een tool]</strong> in op <strong>[concrete beslissing of situatie]</strong>.
+      </div>
+
+      <div class="schrijf-veld">
+        <div class="stem">In een toekomstige werksetting zet ik</div>
+        <div class="lijn"></div>
+        <div class="lijn"></div>
+        <div class="stem-2">in op</div>
+        <div class="lijn"></div>
+        <div class="lijn"></div>
+      </div>
+    </section>
+
+    <!-- Kwaliteitscriteria -->
+    <h3 class="sub">Kwaliteitscriteria — vóór je inlevert, check zelf</h3>
+
+    <p style="font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.3rem;">Voor zin 1 (PROMEF-criterium 4)</p>
+    <table class="quality-table">
+      <thead>
+        <tr><th>✓ Goed</th><th>✗ Niet goed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Beschrijft een <strong>specifiek gedrag</strong> uit déze sessie ("rolprompt 'skeptische peer' gegeven op aanname X").</td><td>Beschrijft een houding ("ik ben kritischer geworden", "ik denk diepgaander").</td></tr>
+        <tr><td>Noemt een <strong>specifieke aanname</strong> die is bijgesteld/laten vallen.</td><td>Spreekt over "aannames" in het algemeen.</td></tr>
+        <tr><td>Beschrijft een <strong>observeerbare gedragsverandering</strong> (iets wat een buitenstaander zou zien).</td><td>Beschrijft alleen een innerlijke verandering.</td></tr>
+        <tr><td><strong>One-take leesbaar</strong> — een PROMEF-assessor begrijpt in één keer wat je deed.</td><td>Vereist uitleg of context buiten de zin.</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 0.85rem; font-weight: 600; color: var(--primary); margin: 0.6rem 0 0.3rem 0;">Voor zin 2 (transfer)</p>
+    <table class="quality-table">
+      <thead>
+        <tr><th>✓ Goed</th><th>✗ Niet goed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Noemt een <strong>principe</strong> (rolprompt, geforceerde tegenspraak, debat-prompt, frame-bewustzijn).</td><td>Noemt alleen een <strong>tool</strong> ("ik gebruik altijd ChatGPT").</td></tr>
+        <tr><td>Noemt een <strong>concrete toekomstige situatie</strong> (welke beslissing, welk gesprek, welke functie).</td><td>Generieke toekomst-framing ("in mijn werk ga ik...").</td></tr>
+        <tr><td>Maakt zichtbaar dat de techniek tool-onafhankelijk is.</td><td>Bindt aan de specifieke tool van vandaag.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Voorbeelden -->
+    <h3 class="sub">Voorbeeld-zinnen</h3>
+
+    <div class="voorbeeld goed">
+      <span class="label">✓ Goed voorbeeld zin 1</span>
+      <em>"Ik gebruik AI als Red Team door drie tegengestelde rolprompts (skeptische peer, domein-expert, ethicus) op mijn top-3 aannames te runnen, zichtbaar in dat ik de aanname 'medewerkers in afdeling X tonen weerstand omdat ze digitaal niet vaardig zijn' heb laten vallen — Caluwé's kleur-denken liet zien dat het bezwaar in autonomie/zingeving zit, niet in vaardigheid."</em>
+    </div>
+
+    <div class="voorbeeld fout">
+      <span class="label">✗ Te abstract zin 1</span>
+      <em>"Ik ben kritischer geworden over AI-output en kijk er nu met een onderzoekende blik naar."</em>
+    </div>
+
+    <div class="voorbeeld goed">
+      <span class="label">✓ Goed voorbeeld zin 2</span>
+      <em>"In een toekomstige werksetting zet ik het principe van geforceerde tegenspraak via tegengestelde rolprompts in bij elke strategische aanbeveling die ik aan een opdrachtgever voorleg, ongeacht welke AI-tool we dan gebruiken."</em>
+    </div>
+
+    <div class="voorbeeld fout">
+      <span class="label">✗ Te tool-gebonden zin 2</span>
+      <em>"In de toekomst zal ik altijd ChatGPT gebruiken om mijn aannames te checken."</em>
+    </div>
+
+    <!-- Self-check -->
+    <h3 class="sub" style="margin-top: 1.2rem;">Self-check vóór je inlevert</h3>
+    <div class="checklist">
+      <ul>
+        <li>Mijn zin 1 noemt een <strong>specifiek gedrag</strong> uit de sessie van vandaag.</li>
+        <li>Mijn zin 1 noemt een <strong>specifieke aanname</strong> die is bijgesteld of laten vallen.</li>
+        <li>Mijn zin 2 noemt een <strong>principe</strong>, niet alleen een tool.</li>
+        <li>Mijn zin 2 noemt een <strong>concrete toekomstige situatie</strong>.</li>
+        <li>Beide zinnen zijn leesbaar zonder dat ik erbij hoef uit te leggen wat ik bedoel.</li>
+      </ul>
+    </div>
+
+    <p class="footer-note">
+      Bouwsteen voor PROMEF-criterium 4 in het assessmentgesprek.
+    </p>
+
+  </article>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Bron: <code>materialen/promef-zin-werkblad.md</code>
+  </footer>
+
+</body>
+</html>
+</content>
+</invoke>

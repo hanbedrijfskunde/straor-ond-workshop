@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test-aannames — WS4 docent-pre-test | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles.css">
+  <style>
+    body { background: var(--surface); padding-bottom: 3rem; }
+
+    .actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .actions .title { font-weight: 600; font-size: 1rem; }
+    .actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .actions button, .actions a.btn-link {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      text-decoration: none;
+    }
+    .actions button:hover, .actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
+
+    .doc {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .doc h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      font-weight: 700;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .doc .lead { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1.5rem; }
+    .doc h2 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 1.75rem 0 0.6rem 0;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc h3 { font-size: 0.95rem; color: var(--primary); font-weight: 600; margin: 1rem 0 0.4rem 0; }
+    .doc p { line-height: 1.65; margin-bottom: 0.75rem; font-size: 0.92rem; }
+    .doc ul, .doc ol { margin: 0.4rem 0 0.75rem 1.5rem; }
+    .doc li { line-height: 1.65; margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+    .warning-box {
+      background: var(--danger-light);
+      border-left: 4px solid var(--danger);
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+    }
+    .warning-box strong { color: var(--danger); }
+
+    .info-box {
+      background: var(--primary-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .aanname-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      background: #fff;
+    }
+    .aanname-card.reserve { border-color: var(--warning); border-style: dashed; }
+    .aanname-card .kop {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .aanname-card .nr {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.2rem 0.55rem;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .aanname-card.reserve .nr { background: var(--warning); }
+    .aanname-card h3 {
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+    }
+    .aanname-card .frame-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .aanname-card .frame-zeer-hoog { background: #dcfce7; color: var(--success); }
+    .aanname-card .frame-hoog { background: var(--success-light); color: var(--success); }
+    .aanname-card .frame-middel-hoog { background: var(--warning-light); color: var(--warning); }
+    .aanname-card .frame-middel { background: var(--warning-light); color: var(--warning); }
+    .aanname-card .quote {
+      background: var(--surface);
+      border-left: 3px solid var(--primary);
+      padding: 0.7rem 0.95rem;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      margin: 0.4rem 0 0.7rem 0;
+      line-height: 1.55;
+    }
+    .aanname-card .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.85rem;
+    }
+    .aanname-card .meta-grid .meta { color: var(--text-secondary); }
+    .aanname-card .meta-grid .meta strong { color: var(--text-dark); }
+    .aanname-card .parafrase {
+      background: var(--surface);
+      border-radius: 4px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      margin: 0.4rem 0;
+      color: var(--text-dark);
+    }
+    .aanname-card .parafrase strong { color: var(--primary); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 0.2rem; }
+    .aanname-card .rolprompt-richting {
+      margin-top: 0.6rem;
+    }
+    .aanname-card .rolprompt-richting strong {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+    }
+    .aanname-card .rolprompt-richting ul { margin-left: 1.3rem; }
+    .aanname-card .rolprompt-richting li { font-size: 0.85rem; }
+    .aanname-card .rolprompt-richting li strong { display: inline; text-transform: none; letter-spacing: 0; color: var(--primary-light); font-size: inherit; }
+
+    table.spreiding {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 0.85rem;
+    }
+    table.spreiding th {
+      background: var(--primary-50);
+      color: var(--primary);
+      text-align: left;
+      padding: 0.5rem 0.6rem;
+      font-weight: 600;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary-100);
+    }
+    table.spreiding td {
+      padding: 0.45rem 0.6rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .risico {
+      background: var(--warning-light);
+      border-left: 3px solid var(--warning);
+      padding: 0.7rem 0.95rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 0.6rem;
+      font-size: 0.88rem;
+    }
+    .risico strong.titel { color: var(--warning); display: block; margin-bottom: 0.25rem; }
+
+    @media print {
+      body { background: #fff; padding: 0; font-size: 9.5pt; }
+      .actions { display: none !important; }
+      .doc {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.8cm;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .doc h1 { font-size: 14pt; }
+      .doc h2 { font-size: 11pt; margin-top: 0.7rem; }
+      .doc h3 { font-size: 10pt; }
+      .aanname-card { padding: 0.5rem 0.7rem; margin-bottom: 0.6rem; page-break-inside: avoid; }
+      .aanname-card .quote { font-size: 9pt; padding: 0.4rem 0.6rem; }
+      .aanname-card .meta-grid { font-size: 8.5pt; }
+      .aanname-card .parafrase { font-size: 8.5pt; }
+      .aanname-card .rolprompt-richting li { font-size: 8.5pt; }
+      table.spreiding { font-size: 8.5pt; }
+      .risico { font-size: 8.5pt; padding: 0.4rem 0.6rem; }
+      @page { size: A4; margin: 1.2cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../" class="nav-link">← WS4 overzicht</a></li>
+      <li><a href="../../draaiboek/" class="nav-link">Draaiboek</a></li>
+      <li><a href="../echo-kamer-script/" class="nav-link">Echo-kamer script</a></li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <span class="title">Test-aannames — docent-pre-test</span>
+    <div class="btns">
+      <a href="../../draaiboek/#voorbereiden" class="btn-link">← Pre-test in draaiboek</a>
+      <button onclick="window.print()" title="Print of sla op als PDF">Print / PDF</button>
+    </div>
+  </div>
+
+  <article class="doc">
+    <h1>Test-aannames uit student-PvAs</h1>
+    <p class="lead">Vijf realistische aannames + twee reserves, geanonimiseerd uit de PvA-cohort 2026.</p>
+
+    <div class="warning-box">
+      <p><strong>NIET voor studenten:</strong> dit bestand is uitsluitend voor docent-pre-test (LRD §9) en als reserve in de zaal als de student-aangedragen aanname in blok 1 niet bruikbaar blijkt voor de live demo. Studenten gebruiken hun eigen WS2-aannames.</p>
+    </div>
+
+    <h2>Hoe te gebruiken</h2>
+    <ol>
+      <li><strong>Vóór de zaal:</strong> kies drie van de vijf hoofdaannames die het dichtst bij de sector van de huidige cohort liggen. Test prompt-A en prompt-B uit het <a href="../echo-kamer-script/">echo-kamer demo-script</a> op elk. Markeer welke het frame-effect zichtbaar laten zien.</li>
+      <li><strong>In de zaal blok 1:</strong> als de student-aanname te abstract is, val terug op de best-getest hoofdaanname. Reserve-aannames (R1, R2) zijn vangnet als pre-test op meerdere kandidaten faalt.</li>
+      <li><strong>In de zaal blok 2a:</strong> mocht een duo geen drie aannames kunnen formuleren uit hun WS2-flip-over (komt voor bij studenten met dunne probleemstelling), bied dan één van deze aannames aan als oefen-aanname.</li>
+    </ol>
+
+    <h2>Belangrijk: de chatbot kent de specifieke organisatie NIET</h2>
+    <p>
+      De aannames bevatten een sector-tag (<em>"een internationale semiconductor-fabrikant"</em>) maar geen organisatienaam. <strong>Dat is bewust</strong> — én relevant voor hoe je de prompts inricht.
+    </p>
+    <p>
+      De chatbot heeft geen feiten over de specifieke organisatie achter de aanname. Wat hij wel heeft zijn <strong>patronen</strong>: wat in dit <em>type</em> situatie vaak voorkomt volgens openbare bronnen, theorieën, en case studies. De prompts in het echo-kamer-script en de rolprompt-kaarten zijn daarom expliciet patroon-georiënteerd geformuleerd:
+    </p>
+    <ul>
+      <li><strong>❌ NIET:</strong> <em>"Is het waar dat...?"</em> — vraagt om feit-controle waar de chatbot moet fabriceren.</li>
+      <li><strong>✅ WEL:</strong> <em>"Op basis van algemeen bekende mechanismen in dit type situaties, geef de drie sterkste argumenten waarom..."</em> — vraagt om patroon-mobilisering waar de chatbot daadwerkelijk iets kan.</li>
+    </ul>
+    <div class="info-box">
+      <strong>Pedagogisch is dit een feature, geen bug.</strong> Juist omdat de chatbot dezelfde patroon-set in twee richtingen kan mobiliseren (bevestigen + weerleggen) wordt zichtbaar dat zijn output <strong>geen waarheid</strong> is over de organisatie, maar <em>patronen-passend-bij-frame</em>. Dat is exact wat bias-amplificatie ís — en wat blok 1 demonstreert.
+    </div>
+
+    <h2>De 5 hoofdaannames</h2>
+
+    <!-- Aanname 1 -->
+    <div class="aanname-card">
+      <div class="kop">
+        <span class="nr">Aanname 1</span>
+        <h3>HR / medewerker-retentie · internationale techsector</h3>
+        <span class="frame-tag frame-zeer-hoog">Frame-effect: Zeer hoog</span>
+      </div>
+      <div class="quote">"Bij een internationale semiconductor-fabrikant in Zuid-Nederland verlaten internationale medewerkers vroegtijdig de organisatie omdat de onboarding onvoldoende specifiek is ingericht op hun behoeften."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>PvA-context:</strong> onboarding-onderzoek voor internationale medewerkers in Eindhoven</div>
+        <div class="meta"><strong>Type:</strong> Medewerker / weerstand / cultuur</div>
+      </div>
+      <div class="parafrase">
+        <strong>Parafrase-alternatief (compacter)</strong>
+        Internationale medewerkers bij [internationale semiconductor-fabrikant] verlaten het bedrijf vroegtijdig omdat de onboarding niet aansluit op hun specifieke behoeften.
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> alternatieve oorzaken — woonsituatie/expat-gezin, salarisbench­markt, woningmarktdruk, taalbarrière buiten werk.</li>
+          <li><strong>Domein-expert:</strong> HR-theorie (Bauer's Four C's, Saks &amp; Gruman's Socialization Resources Theory) wijst op meerdere factoren naast onboarding; literatuur kent ook <em>"realistic job preview"</em>-effecten.</li>
+          <li><strong>Ethicus:</strong> stakeholder-vraag — in hoeverre is "onboarding" het bedrijf z'n verantwoordelijkheid vs. integratie in de bredere Nederlandse samenleving (overheidstaak)?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Aanname 2 -->
+    <div class="aanname-card">
+      <div class="kop">
+        <span class="nr">Aanname 2</span>
+        <h3>Klant / vindbaarheid · MKB-horeca</h3>
+        <span class="frame-tag frame-hoog">Frame-effect: Hoog</span>
+      </div>
+      <div class="quote">"De website van een MKB-restaurant in een middelgrote Nederlandse stad is onvoldoende SEO-geoptimaliseerd, waardoor potentiële klanten het restaurant niet via online zoekopdrachten vinden."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>PvA-context:</strong> "discrepantie tussen online zichtbaarheid en bedrijfskundige waarde" bij lokaal restaurant</div>
+        <div class="meta"><strong>Type:</strong> Klant / markt / vraag</div>
+      </div>
+      <div class="parafrase">
+        <strong>Parafrase-alternatief</strong>
+        Het MKB-restaurant [naam] verliest klanten aan concurrenten omdat de website onvoldoende SEO-geoptimaliseerd is.
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> klanten ontdekken horeca tegenwoordig via Instagram / Google Maps / mond-tot-mond, niet via traditionele zoekopdrachten op website-keywords.</li>
+          <li><strong>Domein-expert:</strong> customer journey-literatuur (Kannan &amp; Li 2017, Lemon &amp; Verhoef 2016) toont dat 'vindbaarheid' meervoudig is; SEO is één touchpoint van vele.</li>
+          <li><strong>Ethicus:</strong> stakeholder-vraag — wie zegt dat <em>meer</em> klanten gewenst is? Wat over de huidige stamgasten en authenticiteit van een buurtrestaurant?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Aanname 3 -->
+    <div class="aanname-card">
+      <div class="kop">
+        <span class="nr">Aanname 3</span>
+        <h3>Proces / systeemadoptie · zuivel-export</h3>
+        <span class="frame-tag frame-hoog">Frame-effect: Hoog</span>
+      </div>
+      <div class="quote">"Bij een internationaal Nederlands zuivel-handelshuis worden de geïmplementeerde IT-systemen (ERP, CRM, BI) onvoldoende benut omdat medewerkers vasthouden aan handmatige Excel-lijsten en analoge werkwijzen."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>PvA-context:</strong> "ondanks nieuwe systemen" voortdurende inconsistentie en fouten in exportdocumentatie</div>
+        <div class="meta"><strong>Type:</strong> Proces / operationele efficiëntie</div>
+      </div>
+      <div class="parafrase">
+        <strong>Parafrase-alternatief</strong>
+        De export-afdeling van [zuivel-handelshuis] gebruikt nieuwe IT-systemen niet structureel omdat medewerkers nog vasthouden aan oude werkwijzen.
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> misschien is het systeem zelf slecht ontworpen (UX-probleem) of dekt het niet alle export-cases af — <em>"vasthouden aan Excel"</em> kan een rationele compensatie zijn voor systeemtekortkomingen.</li>
+          <li><strong>Domein-expert:</strong> change-management-literatuur (Kotter, Caluwé kleurendenken) wijst op meerdere oorzaken: gebrekkige sense-of-urgency, machts/belangenstructuren, training, leiderschap.</li>
+          <li><strong>Ethicus:</strong> medewerkers-perspectief — wie heeft besloten welke systemen worden geïmplementeerd? Zijn de eindgebruikers in design betrokken?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Aanname 4 -->
+    <div class="aanname-card">
+      <div class="kop">
+        <span class="nr">Aanname 4</span>
+        <h3>Strategie / transitie · industriële machine-fabrikant</h3>
+        <span class="frame-tag frame-middel-hoog">Frame-effect: Middel-hoog</span>
+      </div>
+      <div class="quote">"Bij een Nederlandse fabrikant van industriële printing-machines stagneert de transitie naar voorspellend onderhoud (predictive maintenance) omdat de Technical Support-afdeling reactief en proactief is ingericht."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>PvA-context:</strong> onderzoek naar organisatorische transitie naar data-gedreven onderhoudsmodellen</div>
+        <div class="meta"><strong>Type:</strong> Strategie / positionering / capability-bouw</div>
+      </div>
+      <div class="parafrase">
+        <strong>Parafrase-alternatief</strong>
+        De service-afdeling van [industriële machine-fabrikant] kan niet doorgroeien naar predictive maintenance omdat de huidige inrichting reactief is.
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> de oorzaak kan ook liggen in datakwaliteit, ontbrekende ML-skills, klant-bereidheid om data te delen — <em>niet</em> in de inrichting van de afdeling.</li>
+          <li><strong>Domein-expert:</strong> predictive-maintenance-volwassenheid-modellen (Industrie 4.0-frameworks) tonen meerdere parallelle assen — organisatie is één van vier of vijf factoren.</li>
+          <li><strong>Ethicus:</strong> klantperspectief — accepteren klanten in SSA-contracten een verschuiving van <em>"we komen als er iets stuk is"</em> naar <em>"we voorspellen wanneer iets stuk gaat"</em>?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Aanname 5 -->
+    <div class="aanname-card">
+      <div class="kop">
+        <span class="nr">Aanname 5</span>
+        <h3>Technologie-adoptie / gedrag · medical devices</h3>
+        <span class="frame-tag frame-hoog">Frame-effect: Hoog</span>
+      </div>
+      <div class="quote">"Bij een internationale fabrikant van orthopedische hulpmiddelen en sportprotheses gebruiken medewerkers Salesforce niet structureel omdat ze nog niet de gewoonte hebben gevormd om er duurzaam mee te werken."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>PvA-context:</strong> "duurzame gedragsverandering" als hoofdinterventie tegen versnipperde klantdata in CRM</div>
+        <div class="meta"><strong>Type:</strong> Technologie / systeem / data</div>
+      </div>
+      <div class="parafrase">
+        <strong>Parafrase-alternatief</strong>
+        Salesforce wordt bij [medical-devices-fabrikant] niet structureel gebruikt omdat het gedrag van medewerkers nog niet is veranderd.
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> misschien is <em>"gewoonte vormen"</em> het verkeerde frame — wellicht ervaren medewerkers Salesforce als bureaucratie boven hun reële werkstroom (klantgesprek, deal closen).</li>
+          <li><strong>Domein-expert:</strong> technology-acceptance-modellen (TAM, UTAUT) wijzen op <em>perceived usefulness</em> en <em>perceived ease of use</em> — niet alleen gedragsverandering.</li>
+          <li><strong>Ethicus:</strong> management-stakeholder-vraag — wordt CRM-gebruik gemeten en beloond? Geen incentive = geen "duurzame gedragsverandering".</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>De 2 reserve-aannames</h2>
+
+    <!-- R1 -->
+    <div class="aanname-card reserve">
+      <div class="kop">
+        <span class="nr">R1</span>
+        <h3>Onderwijs-context · middelbare school</h3>
+        <span class="frame-tag frame-hoog">Frame-effect: Hoog</span>
+      </div>
+      <div class="quote">"Het min-advies bij de profielvakkeuze heeft een demotiverend effect op leerlingen op een Nederlandse middelbare school met havo/vwo-stroom."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>Wanneer inzetten:</strong> non-corporate context voor variatie, of als cohort PvAs uit publieke/onderwijsdomein bevat</div>
+        <div class="meta"><strong>Type:</strong> Medewerker (leerling) / cultuur</div>
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> demotiverend voor <em>welke</em> leerlingen? Misschien voor sommigen juist activerend (uitdaging om te bewijzen dat je het wél kan).</li>
+          <li><strong>Domein-expert:</strong> motivatietheorie (Deci &amp; Ryan SDT) — autonomie/competentie/verbondenheid; min-advies kan competentie-gevoel raken maar niet noodzakelijk autonomie.</li>
+          <li><strong>Ethicus:</strong> rol van de docent — moet feedback altijd motiverend zijn, of is realistische diagnose ook een morele plicht?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="aanname-card reserve">
+      <div class="kop">
+        <span class="nr">R2</span>
+        <h3>Industriële service / klantbeleving</h3>
+        <span class="frame-tag frame-middel">Frame-effect: Middel</span>
+      </div>
+      <div class="quote">"Klanten van een Nederlandse vestiging van een internationale industriële service-organisatie ervaren onvoldoende toegevoegde waarde uit het serviceproces omdat de rapportage te weinig inzicht biedt in uitgevoerde werkzaamheden."</div>
+      <div class="meta-grid">
+        <div class="meta"><strong>Wanneer inzetten:</strong> alternatief klant/markt-type, in industriële (B2B) i.p.v. retail/horeca-context</div>
+        <div class="meta"><strong>Type:</strong> Klant / B2B / markt</div>
+      </div>
+      <div class="rolprompt-richting">
+        <strong>Verwachte richting van de drie rolprompts</strong>
+        <ul>
+          <li><strong>Skeptische peer:</strong> misschien lezen klanten de rapportage simpelweg niet — frequentie, formaat, en <em>moment</em> van levering kunnen de oorzaak zijn, niet de inhoud.</li>
+          <li><strong>Domein-expert:</strong> service-dominant-logic (Vargo &amp; Lusch) en customer-experience-literatuur wijzen op meervoudige value-touchpoints; rapportage is er één.</li>
+          <li><strong>Ethicus:</strong> wat verwachten klanten echt — gedetailleerd inzicht of vertrouwen dat het probleem opgelost is?</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Verwachte spreiding zichtbaar gemaakt</h2>
+    <table class="spreiding">
+      <thead><tr><th>#</th><th>Type</th><th>Sector</th><th>Org-grootte</th><th>Frame-effect</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Medewerker/HR</td><td>Tech (semiconductors)</td><td>Internationaal/groot</td><td>Zeer hoog</td></tr>
+        <tr><td>2</td><td>Klant/markt</td><td>Horeca/MKB</td><td>Klein</td><td>Hoog</td></tr>
+        <tr><td>3</td><td>Proces/efficiëntie</td><td>Zuivel/exportlogistiek</td><td>Internationaal/middel</td><td>Hoog</td></tr>
+        <tr><td>4</td><td>Strategie/transitie</td><td>Industriële machinebouw</td><td>Middel</td><td>Middel-hoog</td></tr>
+        <tr><td>5</td><td>Technologie/gedrag</td><td>Medical devices</td><td>Internationaal/groot</td><td>Hoog</td></tr>
+        <tr><td>R1</td><td>Medewerker (leerling)</td><td>Onderwijs (vmbo/havo/vwo)</td><td>Middel</td><td>Hoog</td></tr>
+        <tr><td>R2</td><td>Klant/B2B-service</td><td>Industriële service</td><td>Internationaal</td><td>Middel</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Risico's en mitigaties</h2>
+
+    <div class="risico">
+      <strong class="titel">Risico 1 — Aanname 4 (predictive maintenance) is te technisch</strong>
+      Predictive maintenance kennis is niet algemeen; rolprompt 2 (domein-expert) kan ChatGPT laten haperen. <strong>Mitigatie:</strong> als pre-test laat zien dat de domein-expert generieke output geeft, val terug op R2 of een van de andere vier.
+    </div>
+
+    <div class="risico">
+      <strong class="titel">Risico 2 — De rolprompt-respons is op gratis ChatGPT te voorzichtig</strong>
+      <em>"er zijn meerdere kanten..."</em> zonder duidelijk bevestigen of weerleggen. <strong>Mitigatie:</strong> voeg in vervolgprompt een rol-versterker toe: <em>"Wees stelliger. Schrijf alsof je deze peer-review aan een tijdschrift instuurt — geen 'hangt ervan af'-formuleringen."</em>
+    </div>
+
+    <div class="risico">
+      <strong class="titel">Risico 3 — Studenten herkennen "hun" PvA in een geanonimiseerde aanname</strong>
+      Dit kan stiltes of ongemak veroorzaken. <strong>Mitigatie:</strong> kies voor de live-demo in blok 1 een aanname uit een sector die <em>niet</em> in het huidige cohort vertegenwoordigd is.
+    </div>
+
+    <div class="risico">
+      <strong class="titel">Risico 4 — De huidige cohort heeft heel andere sectoren</strong>
+      Geanonimiseerde aanname klinkt vreemd. <strong>Mitigatie:</strong> docent kan met dezelfde structuur (impliciete causaal-aanname <em>"X omdat Y"</em>) een eigen sector-passende aanname formuleren. Dit bestand toont alleen het type en de kwaliteit die nodig zijn.
+    </div>
+
+    <h2>Volgende stap: pre-test op gratis ChatGPT</h2>
+    <p>Voer per gekozen aanname uit (drie kandidaten, conform LRD §9):</p>
+    <ol>
+      <li><strong>Echo-kamer-test (blok 1):</strong> prompt-A en prompt-B uit het <a href="../echo-kamer-script/">echo-kamer-script</a> — verifieer dat het frame-effect zichtbaar is.</li>
+      <li><strong>Rolprompt-kaarten test (blok 2):</strong> kaart 1 + 2 + 3 uit de <a href="../rolprompt-kaarten/">rolprompt-kaarten</a> — verifieer dat de drie rollen <em>inhoudelijk verschillende</em> perspectieven leveren.</li>
+      <li><strong>Debat-prompt test (blok 2b):</strong> kaart 4 — verifieer dat het debat minimaal 12 rondes doorloopt zonder herhaling, en dat de slotsynthese een toetsbare hypothese-lijst oplevert.</li>
+    </ol>
+    <p>Documenteer welke aanname op welke kaart het sterkst frame-effect oproept. Dat is je shortlist voor de zaal.</p>
+
+  </article>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Bron: <code>materialen/test-aannames-uit-pvas.md</code>
+  </footer>
+
+</body>
+</html>
+</content>
+</invoke>

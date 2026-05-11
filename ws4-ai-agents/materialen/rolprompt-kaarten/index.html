@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rolprompt-kaarten — WS4 | HAN Bedrijfskunde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles.css">
+  <style>
+    body { background: var(--surface); padding-bottom: 3rem; }
+
+    .actions {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .actions .title { font-weight: 600; font-size: 1rem; }
+    .actions .btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .actions button, .actions a.btn-link {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: 'Inter', inherit;
+      text-decoration: none;
+    }
+    .actions button:hover, .actions a.btn-link:hover { background: rgba(255,255,255,0.25); }
+
+    .intro {
+      max-width: 860px;
+      margin: 1.5rem auto 1rem;
+      padding: 0 1.5rem;
+    }
+    .intro h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .intro p { color: var(--text-secondary); line-height: 1.65; font-size: 0.92rem; }
+
+    .gebruiks-info {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      max-width: 860px;
+      margin: 0 auto 1.5rem;
+    }
+    .gebruiks-info h3 {
+      font-size: 0.95rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .gebruiks-info ol { margin: 0 0 0 1.5rem; }
+    .gebruiks-info li { font-size: 0.88rem; line-height: 1.6; margin-bottom: 0.4rem; color: var(--text-dark); }
+
+    /* The print sheet — 2x2 grid of A6 cards */
+    .sheet {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .kaarten-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .kaart {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .kaart .kaart-kop {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    .kaart .kaart-num {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kaart h2 {
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+    }
+    .kaart .blok-tag {
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kaart .prompt-text {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.7rem 0.85rem;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.74rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      color: var(--text-dark);
+    }
+    .kaart .achterkant {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-style: italic;
+    }
+    .kaart .copy-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .kaart .copy-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: 5px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', inherit;
+    }
+    .kaart .copy-btn.copied { background: var(--success); }
+
+    /* Kaart 4 = bigger (debat) */
+    .kaart.kaart-4 {
+      grid-column: 1 / 3;
+      border-color: var(--warning);
+    }
+    .kaart.kaart-4 .kaart-num { background: var(--warning); }
+    .kaart.kaart-4 h2 { color: var(--warning); }
+
+    /* Voorbeeld-respons sectie (apart, niet op de kaarten — voor docent) */
+    .voorbeelden {
+      max-width: 860px;
+      margin: 2rem auto 0;
+      padding: 0 1.5rem;
+    }
+    .voorbeelden h2 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+    .voorbeelden .vb-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .voorbeelden .vb-card h3 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+    .voorbeelden .vb-card p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.5rem; }
+    .voorbeelden .vb-card ul { margin: 0.4rem 0 0.5rem 1.4rem; }
+    .voorbeelden .vb-card li { font-size: 0.86rem; line-height: 1.6; margin-bottom: 0.4rem; }
+    .voorbeelden .vb-card .faalpatroon {
+      background: var(--warning-light);
+      border-left: 3px solid var(--warning);
+      padding: 0.55rem 0.8rem;
+      border-radius: 0 4px 4px 0;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+    }
+
+    /* Print: precies 4-op-A4 staand */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .actions, .intro, .gebruiks-info, .voorbeelden, footer { display: none !important; }
+      .sheet { max-width: 100%; margin: 0; padding: 0; }
+      .kaarten-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 0;
+        margin: 0;
+        height: 100vh;
+        page-break-after: always;
+      }
+      .kaart {
+        border: 1px dashed #888;
+        border-radius: 0;
+        padding: 0.4cm 0.5cm;
+        box-shadow: none;
+        margin: 0;
+        gap: 0.3rem;
+        overflow: hidden;
+      }
+      .kaart h2 { font-size: 11pt; }
+      .kaart .kaart-num { width: 1.5rem; height: 1.5rem; font-size: 0.75rem; }
+      .kaart .blok-tag { font-size: 7.5pt; }
+      .kaart .prompt-text {
+        font-size: 7.5pt;
+        line-height: 1.45;
+        padding: 0.4rem 0.5rem;
+        background: #fafafa;
+        border: 1px solid #ddd;
+      }
+      .kaart .achterkant { font-size: 7.5pt; }
+      .kaart .copy-row { display: none; }
+      /* Kaart 4 op tweede pagina (te lang voor 1/4 A4) */
+      .kaart.kaart-4 {
+        page-break-before: always;
+        grid-column: auto;
+        height: 100vh;
+        border: none;
+        padding: 0.8cm;
+      }
+      .kaart.kaart-4 .prompt-text { font-size: 8.5pt; }
+      @page { size: A4; margin: 0.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="../../../index.html" class="navbar-brand">Workshops — HAN Bedrijfskunde</a>
+    <ul class="navbar-links">
+      <li><a href="../../" class="nav-link">← WS4 overzicht</a></li>
+      <li><a href="../../draaiboek/" class="nav-link">Draaiboek</a></li>
+      <li><a href="../echo-kamer-script/" class="nav-link">Echo-kamer script</a></li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <span class="title">Rolprompt-kaarten — WS4 Blok 2a + 2b</span>
+    <div class="btns">
+      <a href="../../draaiboek/#blok-2a" class="btn-link">← Blok 2a in draaiboek</a>
+      <button onclick="window.print()" title="Print 4 kaarten op 1 A4 + kaart 4 op een 2e A4">Print / PDF</button>
+    </div>
+  </div>
+
+  <div class="intro">
+    <h1>Rolprompt-kaarten</h1>
+    <p>
+      Vier kaarten voor blok 2a (drie divergente Red Team rollen) en blok 2b (één convergente debat-prompt). Print stuurt kaart 1–3 als 2×2 grid op A4 staand; kaart 4 (debat-prompt is langer) komt op een tweede A4. Knip langs de stippellijn — je hebt dan vier A6-kaarten per duo.
+    </p>
+  </div>
+
+  <div class="gebruiks-info">
+    <h3>Algemene gebruiksinstructie voor de student</h3>
+    <ol>
+      <li>Open een <strong>nieuwe chat</strong> in gratis ChatGPT (knop "New chat" linksboven). Niet voortzetten in een lopende chat — telkens schoon beginnen.</li>
+      <li><strong>Plak de hele rolprompt-tekst</strong> als eerste bericht. Voeg daarna in hetzelfde bericht jouw aanname toe op de aangegeven plek (<code>[plak hier je aanname]</code>).</li>
+      <li><strong>Lees het antwoord kritisch.</strong> Schrijf de KERN in eigen woorden op de flip-over. Niet kopiëren-plakken.</li>
+      <li>Bij oppervlakkig antwoord: voeg een concreet detail over jouw gastorganisatie toe en vraag opnieuw (bv. <em>"specifiek voor [naam organisatie] in [sector]"</em>).</li>
+      <li><strong>Belangrijk:</strong> de chatbot kent jouw organisatie niet. Hij redeneert op basis van patronen die hij heeft gezien in dit <em>type</em> situaties — niet op basis van feiten over jouw specifieke gastorganisatie.</li>
+    </ol>
+  </div>
+
+  <div class="sheet">
+    <div class="kaarten-grid">
+
+      <div class="kaart kaart-1">
+        <div class="kaart-kop">
+          <span class="kaart-num">1</span>
+          <h2>Skeptische peer</h2>
+        </div>
+        <span class="blok-tag">Blok 2a · divergent</span>
+        <div class="prompt-text" id="prompt-1">Je bent een collega-onderzoeker (HBO-niveau, vierdejaars Bedrijfskunde) die kritisch is op niet-getoetste aannames. Lees de volgende aanname zorgvuldig en geef — op basis van algemeen bekende mechanismen in dit type situaties — in heldere taal de drie zwakste plekken in de redenering. Wees specifiek; vermijd algemeenheden zoals "het hangt ervan af" of "er zijn meerdere kanten". Voor elke zwakke plek geef je: (1) wat de aanname impliciet veronderstelt, (2) waarom die veronderstelling kan falen, (3) welke ene observatie of vraag in het veld de zwakte zou blootleggen.
+
+De aanname:
+[plak hier je aanname]</div>
+        <div class="achterkant">Open een nieuwe chat. Plak de hele tekst. Voeg jouw aanname toe op de aangegeven plek. Schrijf de KERN op de flip-over, niet de output zelf.</div>
+        <div class="copy-row">
+          <button class="copy-btn" onclick="copyPrompt('prompt-1', this)">Kopieer</button>
+        </div>
+      </div>
+
+      <div class="kaart kaart-2">
+        <div class="kaart-kop">
+          <span class="kaart-num">2</span>
+          <h2>Domein-expert</h2>
+        </div>
+        <span class="blok-tag">Blok 2a · divergent</span>
+        <div class="prompt-text" id="prompt-2">Je bent een expert in veranderkunde en organisatieadvies, met academische achtergrond én praktische ervaring bij MKB- en non-profit-organisaties. Lees de volgende aanname uit een lopend bedrijfskundig adviestraject. Geef drie evidence-based weerleggingen, gebaseerd op gangbare wetenschappelijke literatuur of bekende praktijkvoorbeelden. Voor elke weerlegging:
+(1) noem het concept of model dat de aanname tegenspreekt
+    (bv. Caluwé, Kotter, Lewin, JTBD, motivation theory),
+(2) beschrijf in 2 zinnen het mechanisme,
+(3) verwijs naar een concrete bron, auteur of casus die jij kent
+    (als je een bron noemt, wees eerlijk over zekerheid: "ik geloof dat
+    Kotter (1996) dit beschrijft" is acceptabel; verzin geen titels).
+
+De aanname:
+[plak hier je aanname]</div>
+        <div class="achterkant">Let op: LLM verzint soms boektitels. Check minimaal één genoemde bron na het gesprek.</div>
+        <div class="copy-row">
+          <button class="copy-btn" onclick="copyPrompt('prompt-2', this)">Kopieer</button>
+        </div>
+      </div>
+
+      <div class="kaart kaart-3">
+        <div class="kaart-kop">
+          <span class="kaart-num">3</span>
+          <h2>Ethicus / Stakeholder</h2>
+        </div>
+        <span class="blok-tag">Blok 2a · divergent</span>
+        <div class="prompt-text" id="prompt-3">Je bent een onderzoeksethicus met focus op organisatie-ethiek en stakeholder-belangen. Lees de volgende aanname uit een lopend bedrijfskundig adviestraject. Identificeer — op basis van algemeen bekende stakeholder-patronen in dit type situaties:
+(1) Welke stakeholder-groepen (specifiek, niet "de medewerkers" maar
+    "de uitvoerend medewerkers in functie X" of "de inkomende klanten
+    via kanaal Y") een belang hebben dat in deze aanname niet
+    zichtbaar is,
+(2) Welke onbedoelde gevolgen of bijwerkingen de aanname kan hebben
+    als hij als waarheid wordt aangenomen en daarop wordt gehandeld,
+(3) Welke ene morele kwestie expliciet besproken zou moeten worden in
+    de volgende projectvergadering — formuleer de vraag concreet.
+
+Vermijd algemene formuleringen ("er moet draagvlak zijn"). Wees specifiek over wie, welk belang, welk gedrag.
+
+De aanname:
+[plak hier je aanname]</div>
+        <div class="achterkant">Bij abstracte output: vervolgprompt <em>"benoem concrete functies of subgroepen, geen 'medewerkers' in het algemeen"</em>.</div>
+        <div class="copy-row">
+          <button class="copy-btn" onclick="copyPrompt('prompt-3', this)">Kopieer</button>
+        </div>
+      </div>
+
+      <div class="kaart kaart-4">
+        <div class="kaart-kop">
+          <span class="kaart-num">4</span>
+          <h2>Twee-agent debat</h2>
+        </div>
+        <span class="blok-tag">Blok 2b · convergent · in NIEUWE chat</span>
+        <div class="prompt-text" id="prompt-4">Maak twee personas. Eén PRO de aanname dat [plak hier je aanname], en één STERK TEGEN deze aanname. Geef beide personas een concrete achtergrond (bv. PRO = "manager die deze aanname vorig jaar zelf hardgemaakt heeft", TEGEN = "ervaren externe adviseur die dit type aanname vaker heeft zien sneuvelen"). Laat ze redeneren op basis van algemeen bekende mechanismen en patronen in dit type situaties — niet op basis van feiten over één specifieke organisatie.
+
+Laat ze minimaal 10 ronden met elkaar debatteren — meer mag, maar stop als je in herhaling valt. Per ronde: één argument PRO, één argument TEGEN — geen lange monologen. Verbod op algemeenheden; elke ronde moet één UNIEK concreet nieuw argument bevatten of de stelling concretiseren. Als je geen nieuw argument meer kunt vinden, sluit het debat af.
+
+Geef daarna in een gestructureerde slotsynthese:
+
+1. Symmetrische conditie-lijst — beide kanten op:
+   (a) Wat zou er moeten gelden om de TEGEN-persona te overtuigen dat
+       de aanname WEL klopt? Lijst van minimaal vijf concrete,
+       observeerbare, meetbare of in het veld toetsbare condities.
+   (b) Wat zou er moeten gelden om de PRO-persona te overtuigen dat
+       de aanname juist NIET klopt? Lijst van minimaal vijf
+       vergelijkbaar concrete condities.
+
+2. Crucial test: welke ENE concrete observatie of meting zou het
+   debat onmiddellijk beslissen — ten gunste van TEGEN of ten gunste
+   van PRO? Formuleer als één expliciete uitspraak die in het veld
+   waar of onwaar kan worden gemaakt.
+
+3. Veld-methodes: welke informatie/data heb ik nog uit de praktijk
+   nodig om elk van die condities (én de crucial test) te
+   onderbouwen? Per conditie: één of twee concrete methodes
+   (interview-vraag, observatie, document-bron, enquête-item).
+
+Begin met ronde 1.</div>
+        <div class="achterkant">Als debat na 5 rondes stilvalt: vervolgprompt <em>"ga door, maak per ronde minstens één concreet nieuw argument"</em>.</div>
+        <div class="copy-row">
+          <button class="copy-btn" onclick="copyPrompt('prompt-4', this)">Kopieer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Voorbeeld-responsen voor docent (worden NIET geprint, niet op de student-kaart) -->
+  <div class="voorbeelden">
+    <h2 style="color: var(--primary);">Voorbeeld-responsen — voor docent (niet op de student-kaarten)</h2>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+      Test-aanname die hieronder wordt gebruikt: <em>"medewerkers in deze afdeling tonen weerstand omdat ze digitaal niet vaardig zijn"</em>. Wat zou de chatbot moeten produceren? Gebruik dit om in pre-test te checken of je kaart "geslaagd" is.
+    </p>
+
+    <div class="vb-card">
+      <h3>Kaart 1 — Skeptische peer (verwachte structuur)</h3>
+      <ul>
+        <li><strong>Zwakke plek 1:</strong> veronderstelt dat weerstand een tekort-aan-vaardigheid-probleem is, niet een autonomie-/zingevingsprobleem. Veld-toets: één-op-één gesprek <em>"wat zou jou doen meedoen met deze verandering?"</em></li>
+        <li><strong>Zwakke plek 2:</strong> veronderstelt dat "de afdeling" homogeen reageert. Faalt bij subgroepen. Veld-toets: enquête-segmentatie of teamleider-interviews.</li>
+        <li><strong>Zwakke plek 3:</strong> veronderstelt dat <em>vaardigheid</em> los staat van werksetting. Faalt als digitale tools slecht ontworpen zijn. Veld-toets: usability-test op de tools zelf.</li>
+      </ul>
+      <p style="font-size: 0.86rem;">
+        Geslaagd als hij minstens <strong>drie inhoudelijk verschillende</strong> zwakke plekken benoemt met <strong>specifieke veld-toetsen</strong>. Bij generieke output: concretiseer met organisatie-naam in vervolgprompt.
+      </p>
+    </div>
+
+    <div class="vb-card">
+      <h3>Kaart 2 — Domein-expert (verwachte structuur)</h3>
+      <ul>
+        <li><strong>Weerlegging 1:</strong> Kleur-denken (Caluwé). De aanname zit in "blauw"-modus (causaal). Caluwé wijst op meerdere modi; "geel" of "rood" kunnen weerstand verklaren los van vaardigheid.</li>
+        <li><strong>Weerlegging 2:</strong> Self-determination theory (Deci &amp; Ryan). Weerstand correleert sterker met <em>autonomie-bedreiging</em> dan met vaardigheidsgebrek.</li>
+        <li><strong>Weerlegging 3:</strong> Kotter's <em>sense of urgency</em> — als de waarom-laag van de verandering niet helder gecommuniceerd is, ontstaat weerstand die er als "vaardigheidsbezwaar" uitziet maar in feite een buy-in-bezwaar is.</li>
+      </ul>
+      <div class="faalpatroon">
+        <strong>Bekend faalpatroon:</strong> verzint plausibel-klinkende-maar-onbestaande boektitels. <strong>Pre-test-criterium:</strong> check minimaal één genoemde bron. Bij verzonnen bron: train studenten in <em>"AI noemt soms boeken die niet bestaan; check altijd"</em>.
+      </div>
+    </div>
+
+    <div class="vb-card">
+      <h3>Kaart 3 — Ethicus (verwachte structuur)</h3>
+      <ul>
+        <li><strong>Onzichtbaar belang:</strong> uitvoerend medewerkers ouder dan 50 met lange dienstverbanden hebben mogelijk een <em>expertise-positie</em> die door verdere digitalisering uitgehold wordt.</li>
+        <li><strong>Onbedoeld gevolg:</strong> als het advies wordt <em>"trainen in digitale vaardigheden"</em>, dan wordt de structurele vraag (<em>"is deze rol nog wel onze rol als organisatie?"</em>) gemarginaliseerd.</li>
+        <li><strong>Morele kwestie:</strong> <em>"In hoeverre is het rechtvaardig om de oorzaak van dit probleem bij individuele medewerkers te leggen, voordat we de structurele en organisatorische context (werkdruk, ondersteuning, koers van het bedrijf) hebben onderzocht?"</em></li>
+      </ul>
+      <div class="faalpatroon">
+        <strong>Bekend faalpatroon:</strong> moralistische generieke uitspraken ("transparantie is belangrijk"). <strong>Pre-test-criterium:</strong> kaart 3 levert specifieke namen/functies/scenario's. Bij abstractie: vervolgprompt <em>"benoem concrete functies of subgroepen"</em>.
+      </div>
+    </div>
+
+    <div class="vb-card">
+      <h3>Kaart 4 — Twee-agent debat (verwachte structuur)</h3>
+      <p>
+        Geslaagd als (a) het debat <strong>minimaal 10 rondes</strong> doorloopt zonder herhaling, (b) de slotsynthese <strong>beide</strong> kanten dekt — minstens 5 condities (a) én minstens 3 condities (b), (c) de <strong>crucial test</strong> als één scherpe falsifieerbare uitspraak is geformuleerd, en (d) per conditie een concrete veld-methode is genoemd.
+      </p>
+      <p style="font-size: 0.86rem;">
+        Voorbeeld-conditie: <em>"Minimaal 70% van de uitvoerend medewerkers in deze afdeling kan binnen 4 weken een korte digitale taak uitvoeren zonder hulp."</em> · Veld-methode: <em>"korte praktijktest met 8–10 willekeurig gekozen medewerkers."</em>
+      </p>
+      <p style="font-size: 0.86rem;">
+        Voorbeeld-crucial-test: <em>"Bij een gestructureerd interview met 15 willekeurig gekozen medewerkers in deze afdeling noemt MINDER dan 30% spontaan 'digitale vaardigheid' als hoofdoorzaak van wat anderen 'weerstand' noemen — dan is de aanname op deze populatie gefalsifieerd."</em>
+      </p>
+      <div class="faalpatroon">
+        Bij minder dan 10 rondes of vage condities: vervolgprompt <em>"verdiepen — geef per conditie een specifieker meet-instrument; vermijd 'er moet draagvlak zijn'-formuleringen"</em>.
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-muted mt-4 mb-4" style="font-size: 0.9rem;">
+    HAN Bedrijfskunde — Workshops · Bron: <code>materialen/rolprompt-kaarten.md</code>
+  </footer>
+
+  <script>
+    function copyPrompt(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '✓ Gekopieerd';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        btn.textContent = 'Mislukt';
+      });
+    }
+  </script>
+
+</body>
+</html>
+</content>
+</invoke>
