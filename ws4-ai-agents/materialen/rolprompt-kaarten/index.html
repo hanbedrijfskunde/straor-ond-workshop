@@ -206,10 +206,146 @@
       color: var(--text-dark);
     }
 
+    /* Docent-tool: automatisch testaanname invullen */
+    .aanname-tool {
+      max-width: 860px;
+      margin: 0 auto 1.5rem;
+      background: var(--primary-50);
+      border: 1px solid var(--primary-200);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 1.1rem 1.4rem;
+    }
+    .aanname-tool .tool-kop {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .aanname-tool h3 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin: 0;
+      font-weight: 700;
+    }
+    .aanname-tool .docent-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.18rem 0.55rem;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .aanname-tool .uitleg {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+    .aanname-tool .uitleg code {
+      background: rgba(0,0,0,0.06);
+      padding: 0.05rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.82em;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .tool-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .tool-controls select,
+    .tool-controls textarea {
+      width: 100%;
+      font-family: 'Inter', inherit;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text-dark);
+    }
+    .tool-controls select:focus,
+    .tool-controls textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.12);
+    }
+    .tool-controls textarea {
+      min-height: 60px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .aanname-preview {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      padding: 0.55rem 0.8rem;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--text-dark);
+      line-height: 1.55;
+    }
+    .tool-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.2rem;
+    }
+    .tool-buttons .btn-fill {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'Inter', inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 150ms;
+    }
+    .tool-buttons .btn-fill:hover { background: var(--primary-light); }
+    .tool-buttons .btn-reset {
+      background: #fff;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'Inter', inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 150ms;
+    }
+    .tool-buttons .btn-reset:hover { background: var(--surface); }
+    .tool-status {
+      margin-top: 0.55rem;
+      font-size: 0.85rem;
+      min-height: 1.2rem;
+      padding: 0;
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+    .tool-status:not(:empty) {
+      padding: 0.35rem 0.65rem;
+    }
+    .tool-status.status-success { background: var(--success-light); color: var(--success); }
+    .tool-status.status-warn { background: var(--warning-light); color: var(--warning); }
+    .tool-status.status-neutral { background: var(--surface); color: var(--text-secondary); }
+
+    /* Visuele markering op kaarten met ingevulde aanname */
+    .kaart.is-filled .prompt-text {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
     /* Print: precies 4-op-A4 staand */
     @media print {
       body { background: #fff; padding: 0; }
-      .actions, .intro, .gebruiks-info, .voorbeelden, footer { display: none !important; }
+      .actions, .intro, .gebruiks-info, .aanname-tool, .voorbeelden, footer { display: none !important; }
       .sheet { max-width: 100%; margin: 0; padding: 0; }
       .kaarten-grid {
         display: grid;
@@ -289,6 +425,37 @@
       <li>Bij oppervlakkig antwoord: voeg een concreet detail over jouw gastorganisatie toe en vraag opnieuw (bv. <em>"specifiek voor [naam organisatie] in [sector]"</em>).</li>
       <li><strong>Belangrijk:</strong> de chatbot kent jouw organisatie niet. Hij redeneert op basis van patronen die hij heeft gezien in dit <em>type</em> situaties — niet op basis van feiten over jouw specifieke gastorganisatie.</li>
     </ol>
+  </div>
+
+  <!-- Docent-tool: testaanname auto-invullen -->
+  <div class="aanname-tool">
+    <div class="tool-kop">
+      <h3>🧑‍🏫 Testaanname automatisch invullen</h3>
+      <span class="docent-tag">Voor docent · pre-test</span>
+    </div>
+    <p class="uitleg">
+      Kies een geanonimiseerde aanname uit de <a href="../test-aannames/">PvA-cohort 2026</a> (of vul een eigen testaanname in). De tool vervangt <code>[plak hier je aanname]</code> in alle vier kaarten. Handig om snel een rolprompt te testen tijdens de pre-test, of om in blok 1 een reserve-aanname te gebruiken als de student-aanname te abstract is. Bij print worden de kaarten automatisch teruggezet naar de generieke versie voor studenten.
+    </p>
+    <div class="tool-controls">
+      <select id="aanname-select" onchange="onAannameSelect()">
+        <option value="">— Kies een testaanname —</option>
+        <option value="1">Aanname 1 — HR · semiconductor (Eindhoven)</option>
+        <option value="2">Aanname 2 — Klant · MKB-horeca</option>
+        <option value="3">Aanname 3 — Proces · zuivel-export</option>
+        <option value="4">Aanname 4 — Strategie · machinebouw</option>
+        <option value="5">Aanname 5 — Tech-adoptie · medical devices</option>
+        <option value="R1">Reserve R1 — Onderwijs · middelbare school</option>
+        <option value="R2">Reserve R2 — B2B-service · industrieel</option>
+        <option value="custom">Eigen testaanname invoeren…</option>
+      </select>
+      <textarea id="aanname-custom" placeholder="Plak hier je eigen testaanname (vermijd organisatienamen — gebruik sector-tags zoals 'een internationale semiconductor-fabrikant')." style="display:none"></textarea>
+      <div class="aanname-preview" id="aanname-preview" style="display:none"></div>
+      <div class="tool-buttons">
+        <button type="button" class="btn-fill" onclick="fillAannames()">Vul in alle 4 kaarten</button>
+        <button type="button" class="btn-reset" onclick="resetAannames()">Reset naar placeholder</button>
+      </div>
+      <div class="tool-status" id="tool-status"></div>
+    </div>
   </div>
 
   <div class="sheet">
@@ -463,6 +630,7 @@ Begin met ronde 1.</div>
   </footer>
 
   <script>
+    // ===== Bestaande kopieer-functie =====
     function copyPrompt(id, btn) {
       const text = document.getElementById(id).innerText;
       navigator.clipboard.writeText(text).then(() => {
@@ -477,6 +645,128 @@ Begin met ronde 1.</div>
         btn.textContent = 'Mislukt';
       });
     }
+
+    // ===== Docent-tool: testaanname auto-invullen =====
+    // Bron: ws4-ai-agents/materialen/test-aannames-uit-pvas.md
+    const AANNAMES = {
+      '1':  'Bij een internationale semiconductor-fabrikant in Zuid-Nederland verlaten internationale medewerkers vroegtijdig de organisatie omdat de onboarding onvoldoende specifiek is ingericht op hun behoeften.',
+      '2':  'De website van een MKB-restaurant in een middelgrote Nederlandse stad is onvoldoende SEO-geoptimaliseerd, waardoor potentiële klanten het restaurant niet via online zoekopdrachten vinden.',
+      '3':  'Bij een internationaal Nederlands zuivel-handelshuis worden de geïmplementeerde IT-systemen (ERP, CRM, BI) onvoldoende benut omdat medewerkers vasthouden aan handmatige Excel-lijsten en analoge werkwijzen.',
+      '4':  'Bij een Nederlandse fabrikant van industriële printing-machines stagneert de transitie naar voorspellend onderhoud (predictive maintenance) omdat de Technical Support-afdeling reactief en proactief is ingericht.',
+      '5':  'Bij een internationale fabrikant van orthopedische hulpmiddelen en sportprotheses gebruiken medewerkers Salesforce niet structureel omdat ze nog niet de gewoonte hebben gevormd om er duurzaam mee te werken.',
+      'R1': 'Het min-advies bij de profielvakkeuze heeft een demotiverend effect op leerlingen op een Nederlandse middelbare school met havo/vwo-stroom.',
+      'R2': 'Klanten van een Nederlandse vestiging van een internationale industriële service-organisatie ervaren onvoldoende toegevoegde waarde uit het serviceproces omdat de rapportage te weinig inzicht biedt in uitgevoerde werkzaamheden.'
+    };
+
+    const PROMPT_IDS = ['prompt-1', 'prompt-2', 'prompt-3', 'prompt-4'];
+    const PLACEHOLDER = '[plak hier je aanname]';
+    const originals = {};
+    let printSaved = null; // bewaart staat tijdens print
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Cache originele prompt-tekst zodat .replace() herhaaldelijk werkt
+      PROMPT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) originals[id] = el.textContent;
+      });
+    });
+
+    function onAannameSelect() {
+      const select = document.getElementById('aanname-select');
+      const customEl = document.getElementById('aanname-custom');
+      const previewEl = document.getElementById('aanname-preview');
+      const v = select.value;
+
+      if (v === 'custom') {
+        customEl.style.display = 'block';
+        previewEl.style.display = 'none';
+        customEl.focus();
+      } else if (v && AANNAMES[v]) {
+        customEl.style.display = 'none';
+        previewEl.textContent = '"' + AANNAMES[v] + '"';
+        previewEl.style.display = 'block';
+      } else {
+        customEl.style.display = 'none';
+        previewEl.style.display = 'none';
+      }
+      // Status wissen bij nieuwe selectie
+      setStatus('', null);
+    }
+
+    function fillAannames() {
+      const select = document.getElementById('aanname-select');
+      const customEl = document.getElementById('aanname-custom');
+      let text = '';
+
+      if (select.value === 'custom') {
+        text = customEl.value.trim();
+        if (!text) {
+          setStatus('Voer eerst een eigen testaanname in.', 'warn');
+          customEl.focus();
+          return;
+        }
+      } else if (select.value && AANNAMES[select.value]) {
+        text = AANNAMES[select.value];
+      } else {
+        setStatus('Kies eerst een testaanname uit de lijst.', 'warn');
+        return;
+      }
+
+      PROMPT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = originals[id].replace(PLACEHOLDER, text);
+        // Markeer parent .kaart als ingevuld voor visuele feedback
+        const kaart = el.closest('.kaart');
+        if (kaart) kaart.classList.add('is-filled');
+      });
+      setStatus('✓ Aanname ingevuld in alle 4 kaarten. Klik op "Kopieer" bij de kaart die je wilt gebruiken.', 'success');
+    }
+
+    function resetAannames() {
+      PROMPT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = originals[id];
+        const kaart = el.closest('.kaart');
+        if (kaart) kaart.classList.remove('is-filled');
+      });
+      document.getElementById('aanname-select').value = '';
+      document.getElementById('aanname-custom').value = '';
+      document.getElementById('aanname-custom').style.display = 'none';
+      document.getElementById('aanname-preview').style.display = 'none';
+      setStatus('Kaarten teruggezet naar generieke versie met placeholder.', 'neutral');
+    }
+
+    function setStatus(msg, type) {
+      const el = document.getElementById('tool-status');
+      el.textContent = msg;
+      el.className = type ? 'tool-status status-' + type : 'tool-status';
+    }
+
+    // Print-veiligheid: kaarten zijn voor studenten. Bij print toon altijd
+    // generieke versie met [plak hier je aanname], zelfs als docent
+    // een testaanname heeft ingevuld.
+    window.addEventListener('beforeprint', () => {
+      printSaved = {};
+      PROMPT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.textContent !== originals[id]) {
+          printSaved[id] = el.textContent;
+          el.textContent = originals[id];
+        }
+      });
+    });
+
+    window.addEventListener('afterprint', () => {
+      if (!printSaved) return;
+      Object.keys(printSaved).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = printSaved[id];
+      });
+      printSaved = null;
+    });
   </script>
 
 </body>
